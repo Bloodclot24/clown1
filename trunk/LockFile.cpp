@@ -1,9 +1,11 @@
 #include "LockFile.h"
 
+#include <iostream>
+
 LockFile :: LockFile ( char* nombre ) {
 
 	strcpy ( this->nombre,nombre );
-
+std::cout<<nombre<<std::endl;
 	fl.l_type = F_WRLCK;
 	fl.l_whence = SEEK_SET;
 	fl.l_start = 0;

@@ -45,7 +45,7 @@ int Fifo :: escribir ( int* dato ) {
 		this->fileDes = open ( this->nombre,O_WRONLY );
 
 	// se escriben los datos en el fifo
-	int resultado = write ( this->fileDes,(const void *)dato,2 );
+	int resultado = write ( this->fileDes,(const void *)dato,4 );
 
 	return resultado;
 }
@@ -57,7 +57,7 @@ int Fifo :: leer ( int* dato ) {
 		this->fileDes = open ( this->nombre,O_RDONLY );
 
 	// se leen los datos del fifo
-	int resultado = read ( this->fileDes,(void *)dato,2 );
+	int resultado = read ( this->fileDes,(void *)dato,4 );
 
 	return resultado;
 }

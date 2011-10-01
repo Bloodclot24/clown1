@@ -28,12 +28,14 @@ int GestorDescargas::iniciarRecepcion() {
 	LockFile lockEscritura((char*)pathLockEscritura.c_str());
 
 	int pidDestino;
-	canal.leer(&pidDestino);
+	char id[4];
+	canal.leer(id,4);
+	pidDestino = atoi(id);
 	int bytesLeidos = canal.leer(buffer,BUFFSIZE);
 	buffer[bytesLeidos] = '\0';
 	lockEscritura.liberarLock();
 
-	cout << "Receptor " << pidEnvia << ": lei el dato [" << buffer << "] del pipe" << endl;
+	cout << "Receptor " << pidEnvia << ": lei el dato [" << buffer << "] del pipe" << pidDestino<< endl;
 
 	int pid = fork ();
 	if (pid == 0) {
@@ -51,7 +53,7 @@ int GestorDescargas::iniciarRecepcion() {
 
 int GestorDescargas::enviar(int pidEnvia, int pidDestino, char* buffer) {
 
-	string fifo = intToString(pidEnvia) + "_" + intToString(pidEnvia);
+	string fifo = intToString(pidEnvia) + "_" + intToString(pidDestino);
 	Fifo canal(fifo.c_str());
 
 	string pathLock = fifo + ".lockEscritura";
@@ -61,8 +63,10 @@ int GestorDescargas::enviar(int pidEnvia, int pidDestino, char* buffer) {
 	char linea[BUFFSIZE];
 	while(!archivo.eof()) {
 		archivo.getline(linea,BUFFSIZE);
+		cout << "linea " << linea << endl;
 		lock.tomarLock();
 		canal.escribir(linea,BUFFSIZE);
+		cout << "ya escribi " << linea << endl;
 	}
 	canal.cerrar();
 	return 0;
@@ -76,7 +80,8 @@ int GestorDescargas::descargar(string path,int pidEnvia)
 	Fifo canal((char*)intToString(pidEnvia).c_str());
 
 	lockEscritura.tomarLock();
-	canal.escribir(&pid);
+	string id = intToString(pid);
+	canal.escribir(id.c_str(), id.length());
 	canal.escribir(path.c_str(),path.length());
 
 	string pathFifoDescarga = intToString(pidEnvia) + "_" + intToString(pid);
@@ -84,7 +89,10 @@ int GestorDescargas::descargar(string path,int pidEnvia)
 	LockFile lockDescargaEscritura((char*)pathLockDescargaEscritura.c_str());
 	Fifo canalDescarga((char*)pathFifoDescarga.c_str());
 
-	canalDescarga.leer(&pid); //while!!!!
+	char idDescarga[4];
+	canalDescarga.leer(idDescarga,4);
+	pid = atoi(idDescarga);
+	cout<<"descargandooooooooo" << pid <<endl;
 	lockDescargaEscritura.liberarLock();
 
 	//cerrar!!!
