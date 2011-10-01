@@ -16,7 +16,7 @@ using namespace std;
 void mostrarMenu()
 {
 	cout<<"Bienvenido a ConcuShare!!!"<<endl;
-	cout<<"Elija una opcion:"<<endl<<endl;
+	cout<<"Elija una opcion:"<<endl;
 	cout<<"1. Compartir un archivo."<<endl;
 	cout<<"2. Buscar un archivo."<<endl;
 	cout<<"3. Salir"<<endl;
@@ -25,10 +25,10 @@ void mostrarMenu()
 
 void mostrarMenuCompartir()
 {
-	cout<<"Elija una opcion:"<<endl<<endl;
+	cout<<"Elija una opcion:"<<endl;
 	cout<<"1. Compartir un archivo."<<endl;
 	cout<<"2. Dejar de compartir un archivo."<<endl;
-	cout<<"3. "<<endl;
+	cout<<"3. Volver al menu anterior."<<endl;
 	cout<<"Opcion: ";
 }
 
@@ -60,6 +60,7 @@ int compartirArchivos(GestorUsuarios* gestorUsuarios, string nombre)
 				break;
 
 			case '3':
+				salir = true;
 				break;
 
 			default:
@@ -92,8 +93,9 @@ int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescar
 
 	vector<Usuario> usuarios = gestorUsuarios->buscarArchivos();
 	vector<Usuario>::iterator it;
-	for (it = usuarios.begin(); it != usuarios.end(); it++) {
-		cout << *it << endl;
+	int i = 0;
+	for (it = usuarios.begin(); it != usuarios.end(); it++, i++) {
+		cout << i << " - " << *it << endl;
 	}
 	cout << "Desea seleccinar un archivo para descargar? (s/n)" << endl;
 	bool salir = false;
@@ -105,7 +107,7 @@ int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescar
 		switch (opcion)
 		{
 			case 's':
-				cout << "Ingrese el numero/nombre? del usuario al que pertenece el archivo : " << endl;
+				cout << "Ingrese el numero del usuario al que pertenece el archivo : " << endl;
 				cin >> numero; //control!!
 				if (descargarArchivo(gestorDescargas, usuarios[numero]) == HIJO)
 					return HIJO;

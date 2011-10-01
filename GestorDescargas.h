@@ -15,6 +15,7 @@
 #include <sstream>
 #include "Fifo.h"
 #include "Usuario.h"
+#include "LockFile.h"
 
 #define BUFFSIZE		100
 
@@ -22,7 +23,7 @@ using namespace std;
 
 class GestorDescargas {
 private:
-	int enviar(int pidUsuario, char* buffer);
+	int enviar(int pidUsuario, int pidDestino, char* buffer);
 	string intToString(int entero);
 public:
 	GestorDescargas();

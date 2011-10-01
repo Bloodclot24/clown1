@@ -3,14 +3,13 @@
 
 #include <unistd.h>
 #include <string.h>
+#include <sstream>
 #include <vector>
 #include <sys/stat.h>
 #include <fcntl.h>
 
 #include "Usuario.h"
-#include "LockFile.h"
-
-#define	ARCHIVO_USUARIOS	"/tmp/archivo_usuarios"
+#include "ArchivoUsuarios.h"
 
 using namespace std;
 
@@ -18,7 +17,7 @@ class GestorUsuarios {
 
 	private:
 		vector<Usuario> usuarios; //esto es una lista, hace falta o leo todas las veces?
-		LockFile lockFile;
+		ArchivoUsuarios archivoUsuarios;
 		
 		//Actualiza los datos de la lista de usuarios
 		void actualizarUsuarios();
@@ -34,6 +33,7 @@ class GestorUsuarios {
 		int eliminarArchivo ( string archivo,int pid, string nombre);
 		vector<Usuario> buscarArchivos(); //ojo copia
 		void cerrar ();
+
 };
 
 #endif /* GESTOR_USUARIOS_H_ */

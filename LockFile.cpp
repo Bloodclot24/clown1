@@ -9,7 +9,8 @@ LockFile :: LockFile ( char* nombre ) {
 	fl.l_start = 0;
 	fl.l_len = 0;
 	fl.l_pid = getpid ();
-	fd = open ( this->nombre,O_CREAT|O_WRONLY,0777 );
+	fd = open ( this->nombre,O_CREAT|O_RDWR,0777 );//( this->nombre,O_CREAT|O_WRONLY,0777 );
+	lectura = 0;
 }
 
 int LockFile :: tomarLock () {
@@ -27,6 +28,13 @@ int LockFile :: liberarLock () {
 int LockFile :: escribir ( char* buffer,int buffsize ) {
 	lseek ( fd,0,SEEK_END );
 	int resultado = write ( fd,buffer,buffsize );
+	return resultado;
+}
+
+int LockFile :: leer ( char* buffer,int buffsize ) {
+	lseek ( fd,lectura,SEEK_SET );
+	int resultado = read ( fd,(void*)buffer,buffsize );
+	lectura += resultado;
 	return resultado;
 }
 

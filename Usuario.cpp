@@ -5,7 +5,15 @@
 Usuario :: Usuario (string nombre, int pid) {
 
 	this->nombre = nombre;//string
+	this->pid = pid;
 	
+}
+
+Usuario ::Usuario (const Usuario& usuario)
+{
+	nombre = usuario.nombre;
+	pid = usuario.pid;
+	archivos = usuario.archivos;
 }
 
 Usuario :: Usuario () {

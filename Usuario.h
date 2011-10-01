@@ -20,6 +20,7 @@ class Usuario {
 
 	public:
 		Usuario (string nombre, int pid);
+		Usuario (const Usuario& usuario);
 		Usuario ();
 		virtual ~Usuario();
 
@@ -33,6 +34,11 @@ class Usuario {
 			return pid;
 		}
 
+		void agregarArchivo(string archivo)
+		{
+			archivos.insert(archivos.end(), archivo);
+		}
+
 };
 
-#endif /* FIFO_H_ */
+#endif /* USUARIO_H_ */
