@@ -28,10 +28,10 @@ class GestorUsuarios {
 		GestorUsuarios ();
 		virtual ~GestorUsuarios();
 
-		int agregarUsuario ( char* nombre,int pid ); //string?
+//		int agregarUsuario ( char* nombre,int pid ); //string?
 		int eliminarUsuario ( char* nombre,int pid );
-		int agregarArchivo ( string archivo,int pid ); //string?
-		int eliminarArchivo ( string archivo,int pid );
+		int agregarArchivo ( string archivo,int pid, string nombre); //string?
+		int eliminarArchivo ( string archivo,int pid, string nombre);
 		vector<Usuario> buscarArchivos(); //ojo copia
 		void cerrar ();
 };

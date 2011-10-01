@@ -9,6 +9,7 @@
 #define BUFFSIZE		100
 #define HIJO		0
 #define PADRE		1
+#define ERR0R		-1
 
 using namespace std;
 
@@ -31,7 +32,7 @@ void mostrarMenuCompartir()
 	cout<<"Opcion: ";
 }
 
-int compartirArchivos(GestorUsuarios* gestorUsuarios)
+int compartirArchivos(GestorUsuarios* gestorUsuarios, string nombre)
 {
 	int pidUsuario = getpid();
 	string ruta;
@@ -47,14 +48,14 @@ int compartirArchivos(GestorUsuarios* gestorUsuarios)
 			case '1':
 				cout << "Ingrese la ruta del archivo : " << endl;
 				cin >> ruta;
-				gestorUsuarios->agregarArchivo(ruta, pidUsuario);//ver si esta
+				gestorUsuarios->agregarArchivo(ruta, pidUsuario, nombre);//ver si esta
 				cout << "Archivo " << ruta << " compartido" << endl;
 				break;
 
 			case '2':
 				cout << "Ingrese la ruta del archivo : " << endl;
 				cin >> ruta;
-				gestorUsuarios->eliminarArchivo(ruta, pidUsuario); //ver si esta
+				gestorUsuarios->eliminarArchivo(ruta, pidUsuario, nombre); //ver si esta
 				cout << "Ha dejado de compartir el archivo " << ruta << endl;
 				break;
 
@@ -66,7 +67,6 @@ int compartirArchivos(GestorUsuarios* gestorUsuarios)
 				break;
 		}
 	}
-
 	return PADRE;
 }
 
@@ -122,8 +122,16 @@ int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescar
 	return PADRE;
 }
 
-int ejecutarMenu(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescargas)
+int ejecutarMenu(GestorDescargas* gestorDescargas)
 {
+	GestorUsuarios gestorUsuarios;
+	cout << "Ingrese su nombre de usuario" << endl;
+	string nombre;
+	cin >> nombre; //hace falta fin de linea?
+	int pidUsuario = getpid();
+
+	cout << "Usuario " << pidUsuario << ": escribo el dato [" << nombre << "] [" << pidUsuario << "] en el gestor"<< nombre.length() << endl;
+//	gestorUsuarios.agregarUsuario(usuario, pidUsuario); //no habria q decir el tambanio del char?
 
 	bool salir = false;
 	while (!salir) {
@@ -134,11 +142,11 @@ int ejecutarMenu(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescarga
 		switch (opcion)
 		{
 			case '1':
-				compartirArchivos(gestorUsuarios);
+				compartirArchivos(&gestorUsuarios, nombre);
 				break;
 
 			case '2':
-				if(buscarArchivos(gestorUsuarios,gestorDescargas) == HIJO)
+				if(buscarArchivos(&gestorUsuarios,gestorDescargas) == HIJO)
 					return HIJO;
 				break;
 
@@ -158,15 +166,6 @@ int ejecutarMenu(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescarga
 
 int main(int argc, char** argv)
 {
-	GestorUsuarios gestorUsuarios;
-	cout << "Ingrese su nombre de usuario" << endl;
-	char usuario[50]; 
-	cin >> usuario; //hace falta fin de linea?
-	int pidUsuario = getpid();
-
-	cout << "Usuario " << pidUsuario << ": escribo el dato [" << usuario << "] [" << pidUsuario << "] en el gestor"<< strlen(usuario) << endl;
-	gestorUsuarios.agregarUsuario(usuario, pidUsuario); //no habria q decir el tambanio del char?
-	
 	GestorDescargas gestorDescargas;
 	int pid = fork ();
 	if(pid == HIJO){
@@ -174,10 +173,10 @@ int main(int argc, char** argv)
 		exit(resultado);
 	}
 
-	if(ejecutarMenu(&gestorUsuarios, &gestorDescargas) == HIJO)
+	if(ejecutarMenu(&gestorDescargas) == HIJO)
 		;	//cerrar aca?
 	else
-		cout << "Usuario " << pidUsuario << ": fin del proceso" << endl;
+		cout << "Usuario " << getpid() << ": fin del proceso" << endl; //ESPERAR A LOS HIJOS
 	exit ( 0 );
 
 }

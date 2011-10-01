@@ -8,7 +8,7 @@ GestorUsuarios :: GestorUsuarios () : lockFile(ARCHIVO_USUARIOS) {
 
 GestorUsuarios :: ~GestorUsuarios () {
 }
-
+/*
 int GestorUsuarios :: agregarUsuario (char* nombre, int pid) {
 
 	lockFile.tomarLock ();
@@ -18,13 +18,13 @@ int GestorUsuarios :: agregarUsuario (char* nombre, int pid) {
 	
 	return resultado;
 }
-
+*/
 int GestorUsuarios :: eliminarUsuario ( char* nombre,int pid ) {
 
 	return 0;
 }
 
-int GestorUsuarios :: agregarArchivo (string archivo,int pid ) {
+int GestorUsuarios :: agregarArchivo (string archivo,int pid, string nombre) {
 
 	lockFile.tomarLock ();
 	int resultado = lockFile.escribir ((char*)archivo.c_str(), archivo.length());//falta busqueda y control de pid
@@ -33,7 +33,7 @@ int GestorUsuarios :: agregarArchivo (string archivo,int pid ) {
 	return resultado;
 }
 
-int GestorUsuarios :: eliminarArchivo ( string archivo,int pid ) {
+int GestorUsuarios :: eliminarArchivo ( string archivo,int pid, string nombre) {
 
 	return 0;
 }
