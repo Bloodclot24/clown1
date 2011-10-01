@@ -81,6 +81,7 @@ int descargarArchivo(GestorDescargas* gestorDescargas, Usuario usuario) {
 	int pidDescarga = fork(); //cuidado como sigue  el hijo!!!
 	if(pidDescarga == HIJO) {
 		string archivo = usuario.getArchivos()[numero];
+		cout << "inicia descarga" << endl;
 		gestorDescargas->descargar(archivo, usuario.getPid());
 		return HIJO;
 	}
@@ -110,7 +111,9 @@ int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescar
 				cout << "Ingrese el numero del usuario al que pertenece el archivo : " << endl;
 				cin >> numero; //control!!
 				if (descargarArchivo(gestorDescargas, usuarios[numero]) == HIJO)
-					return HIJO;
+					exit(HIJO);
+				salir = true;
+				break;
 			case 'n':
 				salir = true;
 				break;
