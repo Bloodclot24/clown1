@@ -15,7 +15,7 @@ using namespace std;
 
 void mostrarMenu()
 {
-	cout<<"Bienvenido a ConcuShare!!!"<<endl;
+	cout<<endl<<"CONCUSHARE"<<endl;
 	cout<<"Elija una opcion:"<<endl;
 	cout<<"1. Compartir un archivo."<<endl;
 	cout<<"2. Buscar un archivo."<<endl;

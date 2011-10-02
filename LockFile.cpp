@@ -1,6 +1,7 @@
 #include "LockFile.h"
 
 #include <iostream>
+#include <stdio.h>
 
 LockFile :: LockFile ( char* nombre ) {
 
@@ -11,7 +12,7 @@ std::cout<<nombre<<std::endl;
 	fl.l_start = 0;
 	fl.l_len = 0;
 	fl.l_pid = getpid ();
-	fd = open ( this->nombre,O_CREAT|O_RDWR,0777 );//( this->nombre,O_CREAT|O_WRONLY,0777 );
+	abrir();//( this->nombre,O_CREAT|O_WRONLY,0777 );
 	lectura = 0;
 }
 
@@ -35,9 +36,14 @@ int LockFile :: escribir ( char* buffer,int buffsize ) {
 
 int LockFile :: leer ( char* buffer,int buffsize ) {
 	lseek ( fd,lectura,SEEK_SET );
+	//lseek ( fd,0,SEEK_CUR );
 	int resultado = read ( fd,(void*)buffer,buffsize );
-	lectura += resultado;
-	return resultado;
+	if(resultado == 0)
+		return resultado;
+	string linea(buffer);
+	int pos = linea.find("\n", 0);
+	lectura += pos + 1;
+	return pos;
 }
 
 void LockFile :: cerrar () {
