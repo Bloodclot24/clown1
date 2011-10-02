@@ -39,6 +39,11 @@ class Usuario {
 			archivos.insert(archivos.end(), archivo);
 		}
 
+		string getNombre()
+		{
+			return nombre;
+		}
+
 };
 
 #endif /* USUARIO_H_ */

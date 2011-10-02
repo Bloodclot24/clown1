@@ -16,7 +16,7 @@
 #include "LockFile.h"
 
 #define ARCHIVO_USUARIOS	"/tmp/archivo_usuarios"
-#define	ARCHIVO_LOCK_USUARIOS	"/tmp/archivo_usuarios.lock"
+#define	ARCHIVO_LOCK_USUARIOS	"archivo_usuarios"
 
 using namespace std;
 

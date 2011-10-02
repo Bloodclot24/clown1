@@ -29,7 +29,9 @@ public:
 	void cerrar(); //lo agregue yo
 	void abrir() {
 		fd = open ( this->nombre,O_CREAT|O_RDWR,0777 );
+		lectura = 0;
 	}
+	void reset();
 };
 
 #endif /* LOCKFILE_H_ */

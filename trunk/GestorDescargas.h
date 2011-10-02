@@ -30,7 +30,7 @@ public:
 	virtual ~GestorDescargas();
 
 	int iniciarRecepcion();
-	int descargar(string path,int pidEnvia);
+	int descargar(string path,int pidEnvia, string nombre);
 
 };
 
