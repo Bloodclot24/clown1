@@ -23,27 +23,32 @@ int GestorDescargas::iniciarRecepcion() {
 	int pidEnvia = getppid();
 	Fifo canal(intToString(pidEnvia).c_str()); //TODO con pidUsuario
 //while no haya senial se queda bloqueado?
+
 	cout << "Receptor " << pidEnvia << ": esperando para leer . . ." << endl;
 	string pathLockEscritura = intToString(pidEnvia) + ".lockEscritura";
-	LockFile lockEscritura((char*)pathLockEscritura.c_str());
+	LockFile lockEscritura((char*) pathLockEscritura.c_str());
+	while (true) {
+		cout<< "Estoy antes del leer para recibir pedidos" <<endl;
+		int bytesLeidos = canal.leer(buffer, BUFFSIZE);
+		cout<< "despues de lees en canal para recibir pedidos de envios" <<endl;
+		lockEscritura.liberarLock();
+		buffer[bytesLeidos] = '\0'; //controlar esto
+		string linea(buffer);
+		int pidDestino = atoi(linea.substr(0, linea.find("|", 0)).c_str());
+		string path = linea.substr(linea.find("|", 0) + 1, linea.length());
 
-	int bytesLeidos = canal.leer(buffer,BUFFSIZE);
-	lockEscritura.liberarLock();
-	buffer[bytesLeidos] = '\0'; //controlar esto
-	string linea(buffer);
-	int pidDestino = atoi(linea.substr(0,linea.find("|",0)).c_str());
-	string path = linea.substr(linea.find("|",0) + 1, linea.length());
+		cout << "Receptor " << pidEnvia << ": lei el dato [" << buffer
+				<< "] del pipe" << pidDestino << endl;
 
-	cout << "Receptor " << pidEnvia << ": lei el dato [" << buffer << "] del pipe" << pidDestino<< endl;
-
-	int pid = fork ();
-	if (pid == 0) {
-		int resultado = enviar(pidEnvia,pidDestino, (char*)path.c_str());
-		canal.cerrar();
-		lockEscritura.cerrar();
-		exit(resultado);
-	}
+		int pid = fork();
+		if (pid == 0) {
+			int resultado = enviar(pidEnvia, pidDestino, (char*) path.c_str());
+	//		canal.cerrar(); //TODO chequear que este no quede colgado
+			lockEscritura.cerrar();
+			exit(resultado);
+		}
 //}
+	}
 	cout << "Receptor " << pidEnvia << ": fin del proceso" << endl;
 	lockEscritura.cerrar();
 	canal.cerrar();
@@ -84,7 +89,7 @@ int GestorDescargas::descargar(string path,int pidEnvia)
 	string pidPath = intToString(pid) + "|" + path;
 	canal.escribir(pidPath.c_str(), pidPath.length());
 
-	canal.cerrar();
+	//canal.cerrar();
 	lockEscritura.cerrar();
 
 	string pathFifoDescarga = intToString(pidEnvia) + "_" + intToString(pid);
