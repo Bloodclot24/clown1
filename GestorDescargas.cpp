@@ -78,7 +78,7 @@ int GestorDescargas::enviar(int pidEnvia, int pidDestino, char* buffer) {
 	return 0;
 }
 
-int GestorDescargas::descargar(string path,int pidEnvia)
+int GestorDescargas::descargar(string path,int pidEnvia, string nombre)
 {
 	int pid = getpid();
 	string pathLockEscritura = intToString(pidEnvia) + ".lockEscritura";
@@ -98,9 +98,8 @@ int GestorDescargas::descargar(string path,int pidEnvia)
 	Fifo canalDescarga((char*)pathFifoDescarga.c_str());
 
 	ofstream archivo;
-	string directorio = "descargas" + intToString(getppid()) + "/";
-	//TODO ver si no conviene hacer un unico directorio con todas las descargas, se crea en otro lado
-	//y se usa el pid del proceso padre.
+	string directorio = "descargas_" + nombre + "_" + intToString(getppid()) + "/";
+	//TODO mover de lugar esto
 	int estado = mkdir(directorio.c_str(), 0700);// TODO control de errores
 	cout << "Directorio [ " << directorio <<" ] creado para realizar la descarga." << endl; //debug
 	string pathTotal = directorio+path;

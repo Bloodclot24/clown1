@@ -72,7 +72,7 @@ int compartirArchivos(GestorUsuarios* gestorUsuarios, string nombre)
 }
 
 
-int descargarArchivo(GestorDescargas* gestorDescargas, Usuario usuario) {
+int descargarArchivo(GestorDescargas* gestorDescargas, Usuario usuario, string nombre) {
 
 	cout << "Ingrese el numero de archivo que desea descargar" << endl;
 	cout << usuario << endl;
@@ -82,13 +82,13 @@ int descargarArchivo(GestorDescargas* gestorDescargas, Usuario usuario) {
 	if(pidDescarga == HIJO) {
 		string archivo = usuario.getArchivos()[numero];
 		cout << "inicia descarga" << endl;
-		gestorDescargas->descargar(archivo, usuario.getPid());
+		gestorDescargas->descargar(archivo, usuario.getPid(), nombre);
 		return HIJO;
 	}
 	return PADRE;
 }
 
-int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescargas)
+int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescargas, string nombre)
 {
 	cout << "Los archivos compartidos son: " << endl;
 
@@ -110,7 +110,7 @@ int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescar
 			case 's':
 				cout << "Ingrese el numero del usuario al que pertenece el archivo : " << endl;
 				cin >> numero; //control!!
-				if (descargarArchivo(gestorDescargas, usuarios[numero]) == HIJO)
+				if (descargarArchivo(gestorDescargas, usuarios[numero], nombre) == HIJO)
 					exit(HIJO);
 				salir = true;
 				break;
@@ -151,12 +151,13 @@ int ejecutarMenu(GestorDescargas* gestorDescargas)
 				break;
 
 			case '2':
-				if(buscarArchivos(&gestorUsuarios,gestorDescargas) == HIJO)
+				if(buscarArchivos(&gestorUsuarios,gestorDescargas, nombre) == HIJO)
 					return HIJO;
 				break;
 
 			case '3':
 				cout << "Fin del Programa" << endl;//cerrar aca?
+				gestorUsuarios.eliminarUsuario((char*)nombre.c_str(),pidUsuario);
 				salir = true;
 				break;
 

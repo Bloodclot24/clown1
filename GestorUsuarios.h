@@ -9,7 +9,10 @@
 #include <fcntl.h>
 
 #include "Usuario.h"
-#include "ArchivoUsuarios.h"
+#include "LockFile.h"
+
+#define	ARCHIVO_LOCK_USUARIOS	"archivo_usuarios"
+
 
 using namespace std;
 
@@ -17,11 +20,24 @@ class GestorUsuarios {
 
 	private:
 		vector<Usuario> usuarios; //esto es una lista, hace falta o leo todas las veces?
-		ArchivoUsuarios archivoUsuarios;
+		//ArchivoUsuarios archivoUsuarios;
 		
+		LockFile lock;
+
 		//Actualiza los datos de la lista de usuarios
 		void actualizarUsuarios();
 		void guardarUsuarios();
+		int escribir (string ruta,int pid, string nombre);
+		int leer (string& ruta,int& pid, string& nombre);
+		int parsearLinea(string linea,string& nombre,int& pid,string& archivo);
+		void cerrar();
+		void reset();
+		string intToString(int entero) { //TODO clase utilitaria
+			stringstream out;
+			out << entero;
+			return out.str();
+		}
+
 
 	public:
 		GestorUsuarios ();
@@ -32,7 +48,8 @@ class GestorUsuarios {
 		int agregarArchivo ( string archivo,int pid, string nombre); //string?
 		int eliminarArchivo ( string archivo,int pid, string nombre);
 		vector<Usuario> buscarArchivos(); //ojo copia
-		void cerrar ();
+
+
 
 };
 
