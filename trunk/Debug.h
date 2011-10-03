@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
+#include <sstream>
 
 #include "LockFile.h"
 
@@ -14,13 +15,14 @@ class Debug
 {
 	private:
 		static Debug* instance;
-		LockFile lock;
+		static LockFile lock;
 		Debug();
 
 	public:
 		static Debug* getInstance ();
 		static void destruir ();
 		static void escribir ( string mensaje );
+		static string intToString ( int entero );
 };
 
 #endif /* DEBUG_H_ */
