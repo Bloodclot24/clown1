@@ -17,6 +17,8 @@
 #include "Usuario.h"
 #include "LockFile.h"
 #include "Debug.h"
+#include "SIGINT_Handler.h"
+#include "SignalHandler.h"
 
 #define BUFFSIZE		100
 

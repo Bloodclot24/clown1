@@ -29,7 +29,15 @@ int GestorDescargas::iniciarRecepcion() {
 
 	string pathLockEscritura = intToString(pidEnvia) + ".lockEscritura";
 	LockFile lockEscritura((char*) pathLockEscritura.c_str());
-	while (true) {
+
+	// event handler para la senial SIGINT (-2)
+	SIGINT_Handler sigint_handler;
+
+	// se registra el event handler declarado antes
+	SignalHandler :: getInstance()->registrarHandler ( SIGINT,&sigint_handler );
+	cout<<"PIDDDDDDDDDDDDD"<<getpid()<<endl;
+	// mientras no se reciba la senial SIGINT, el proceso realiza su trabajo
+	while ( sigint_handler.getGracefulQuit() == 0 ) {
 		int bytesLeidos = canal.leer(buffer, BUFFSIZE);
 		if(bytesLeidos == 0){ // leyo eof porque todos los escritores cerraron el canal y hay que abrir y cerrar para que se bloquee en la lectura.
 			canal.cerrar();
@@ -55,8 +63,11 @@ int GestorDescargas::iniciarRecepcion() {
 			lockEscritura.cerrar();
 			exit(resultado);
 		}
-//}
 	}
+	// se recibio la senial SIGINT, el proceso termina
+	SignalHandler :: destruir ();
+	cout << "ATRAPO LA SENIALLLLLLLLLLL" << endl;
+
 	lockEscritura.cerrar();
 	canal.cerrar();
 
