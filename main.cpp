@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <list>
 
 #include "GestorUsuarios.h"
 #include "GestorDescargas.h"
@@ -82,7 +83,7 @@ int compartirArchivos(GestorUsuarios* gestorUsuarios, string nombre)
 }
 
 
-int descargarArchivo(GestorDescargas* gestorDescargas, Usuario usuario, string nombre) {
+int descargarArchivo(GestorDescargas* gestorDescargas, Usuario usuario, string nombre, list<int>& hijos) {
 
 	cout<<"---------------------------------"<<endl;
 	cout << "Ingrese el numero de archivo que desea descargar" << endl;
@@ -98,10 +99,11 @@ int descargarArchivo(GestorDescargas* gestorDescargas, Usuario usuario, string n
 		gestorDescargas->descargar(archivo, usuario.getPid(), nombre);
 		return HIJO;
 	}
+	hijos.insert(hijos.end(),pidDescarga);
 	return PADRE;
 }
 
-int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescargas, string nombre)
+int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescargas, string nombre, list<int>& hijos)
 {
 	cout<<"---------------------------------"<<endl;
 	cout << "Los archivos compartidos son: " << endl;
@@ -125,7 +127,7 @@ int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescar
 			case 's':
 				cout << "Ingrese el numero del usuario al que pertenece el archivo : " << endl;
 				cin >> numero; //control!!
-				if (descargarArchivo(gestorDescargas, usuarios[numero], nombre) == HIJO)
+				if (descargarArchivo(gestorDescargas, usuarios[numero], nombre, hijos) == HIJO)
 					exit(HIJO);
 				salir = true;
 				break;
@@ -143,7 +145,7 @@ int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescar
 	return PADRE;
 }
 
-int ejecutarMenu(GestorDescargas* gestorDescargas)
+int ejecutarMenu(GestorDescargas* gestorDescargas, list<int>& hijos)
 {
 	GestorUsuarios gestorUsuarios;
 	cout<<"=============================="<<endl;
@@ -170,7 +172,7 @@ int ejecutarMenu(GestorDescargas* gestorDescargas)
 				break;
 
 			case '2':
-				if(buscarArchivos(&gestorUsuarios,gestorDescargas, nombre) == HIJO) {
+				if(buscarArchivos(&gestorUsuarios,gestorDescargas, nombre, hijos) == HIJO) {
 					gestorUsuarios.cerrar();
 					return HIJO;
 				}
@@ -201,14 +203,19 @@ int main(int argc, char** argv)
 		Debug::getInstance()->escribir(mensaje);
 		exit(resultado);
 	}
-
-	if(ejecutarMenu(&gestorDescargas) == HIJO) {
+	list<int> hijos;
+	if(ejecutarMenu(&gestorDescargas,hijos) == HIJO) {
 		string mensaje = "Descarga de usuario en proceso " + Debug::getInstance()->intToString(getpid()) + "finaliza el proceso\n";
 		Debug::getInstance()->escribir(mensaje);
+		exit(0);
 	} else {
+		list<int>::iterator it;
+		int estado, opciones;
+		for( it = hijos.begin(); it != hijos.end(); it++)
+			waitpid(*it,&estado,opciones);
 		string mensaje = "Usuario en proceso " + Debug::getInstance()->intToString(getpid()) + "finaliza el proceso\n";
 		Debug::getInstance()->escribir(mensaje);
+		exit(0);
 	}
-	exit ( 0 );
 
 }
