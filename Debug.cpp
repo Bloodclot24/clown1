@@ -1,8 +1,9 @@
 #include "Debug.h"
 
 Debug* Debug :: instance = NULL;
+LockFile Debug :: lock((char*)"debug");
 
-Debug :: Debug () : lock((char*)"debug"){
+Debug :: Debug () {
 }
 
 Debug* Debug :: getInstance () {
@@ -25,5 +26,10 @@ void Debug :: escribir ( string mensaje ) {
 	lock.tomarLock();
 	lock.escribir((char*)mensaje.c_str(), mensaje.length());
 	lock.liberarLock();
+}
 
+string Debug :: intToString ( int entero ) {
+	stringstream out;
+	out<<entero;
+	return out.str();
 }

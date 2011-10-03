@@ -21,24 +21,28 @@ int GestorDescargas::iniciarRecepcion() {
 	// receptor de pedidos de archivos
 	char buffer[BUFFSIZE];
 	int pidEnvia = getppid();
-	Fifo canal(intToString(pidEnvia).c_str()); //TODO con pidUsuario
+	Fifo canal(intToString(pidEnvia).c_str());
 //while no haya senial se queda bloqueado?
 
-	cout << "Receptor " << pidEnvia << ": esperando para leer . . ." << endl;
+	string mensaje = "Receptor " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(pidEnvia) + ": esperando para leer . . .\n";
+	Debug::getInstance()->escribir(mensaje);
+
 	string pathLockEscritura = intToString(pidEnvia) + ".lockEscritura";
 	LockFile lockEscritura((char*) pathLockEscritura.c_str());
 	while (true) {
-		cout<< "Estoy antes del leer para recibir pedidos" <<endl;
 		int bytesLeidos = canal.leer(buffer, BUFFSIZE);
-		cout<< "despues de lees en canal para recibir pedidos de envios" <<endl;
+		//if(bytesLeidos == 0){
+		//	canal.abrir();
+		//	bytesLeidos = canal.leer(buffer, BUFFSIZE);
+		//}
 		lockEscritura.liberarLock();
 		buffer[bytesLeidos] = '\0'; //controlar esto
 		string linea(buffer);
 		int pidDestino = atoi(linea.substr(0, linea.find("|", 0)).c_str());
 		string path = linea.substr(linea.find("|", 0) + 1, linea.length());
 
-		cout << "Receptor " << pidEnvia << ": lei el dato [" << buffer
-				<< "] del pipe" << pidDestino << endl;
+//		mensaje = "Receptor " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(pidEnvia) + ": lei el dato [" + linea	+ "] del fifo " + Debug::getInstance()->intToString(pidEnvia) + "\n";
+//		Debug::getInstance()->escribir(mensaje);
 
 		int pid = fork();
 		if (pid == 0) {
@@ -49,9 +53,12 @@ int GestorDescargas::iniciarRecepcion() {
 		}
 //}
 	}
-	cout << "Receptor " << pidEnvia << ": fin del proceso" << endl;
 	lockEscritura.cerrar();
 	canal.cerrar();
+
+	mensaje = "Receptor " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(pidEnvia) + ": fin del proceso\n";
+//	Debug::getInstance()->escribir(mensaje);
+
 	return 0;
 }
 
@@ -70,7 +77,8 @@ int GestorDescargas::enviar(int pidEnvia, int pidDestino, char* buffer) {
 		archivo.getline(linea,BUFFSIZE);
 		lock.tomarLock();
 		canal.escribir(linea,BUFFSIZE);
-		cout << "ya escribi " << linea << endl;
+		string mensaje = "Receptor " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(pidEnvia) + ": escribi linea [" + linea + "] en el fifo " + fifo + "\n";
+		//Debug::getInstance()->escribir(mensaje);
 	}
 	archivo.close();
 	lock.cerrar();
@@ -89,7 +97,7 @@ int GestorDescargas::descargar(string path,int pidEnvia, string nombre)
 	string pidPath = intToString(pid) + "|" + path;
 	canal.escribir(pidPath.c_str(), pidPath.length());
 
-	//canal.cerrar();
+	//canal.cerrar();//TODO lo descomente ahora
 	lockEscritura.cerrar();
 
 	string pathFifoDescarga = intToString(pidEnvia) + "_" + intToString(pid);
@@ -101,21 +109,28 @@ int GestorDescargas::descargar(string path,int pidEnvia, string nombre)
 	string directorio = "descargas_" + nombre + "_" + intToString(getppid()) + "/";
 	//TODO mover de lugar esto
 	int estado = mkdir(directorio.c_str(), 0700);// TODO control de errores
-	cout << "Directorio [ " << directorio <<" ] creado para realizar la descarga." << endl; //debug
+	if(estado >= 0) {
+		string mensaje = "Descarga " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(getppid()) + ": creo el directorio " + directorio + " para realizar la descarga\n";
+		Debug::getInstance()->escribir(mensaje);
+	}
 	string pathTotal = directorio+path;
 	archivo.open(pathTotal.c_str(),ofstream::out);//open del archivo path,  lee una linea en binario
 	char descarga[BUFFSIZE];
 	while(canalDescarga.leer(descarga,BUFFSIZE) != 0) {
 		lockDescargaEscritura.liberarLock();
-		cout <<"descargandooooooooo" << descarga << endl;
 		archivo << descarga << endl; //TODO endl esta mal parche!!!
 		archivo.flush();
+		string mensaje = "Descarga " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(getppid()) + ": descargue el dato [" + descarga + "] del fifo " + pathFifoDescarga + "\n";
+		//Debug::getInstance()->escribir(mensaje);
+		cout << "Estoy descargando" << endl;
 	}
-	lockDescargaEscritura.liberarLock(); //ver si esta bien
+	//lockDescargaEscritura.liberarLock(); //ver si esta bien
 	archivo.close();
-	canalDescarga.cerrar();
+	canalDescarga.cerrar(); //TODO SE CIERRA ADENTRO DEL LEER CUANDO ES 0
+	cout << "Me trabe en el cerrar del lock" << endl;
 	lockDescargaEscritura.cerrar();
-	cout<<"DESCARGADO" <<endl;
+	string mensaje = "Descarga " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(getppid()) + ": finaliza descarga\n";
+	Debug::getInstance()->escribir(mensaje);
 	return 0;
 }
 

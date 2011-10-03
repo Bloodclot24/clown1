@@ -21,6 +21,7 @@ class Fifo {
 		int escribir ( int* dato );
 		int leer ( int* dato);
 		void cerrar ();
+		void abrir();
 };
 
 #endif /* FIFO_H_ */

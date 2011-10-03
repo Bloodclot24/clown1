@@ -16,6 +16,7 @@
 #include "Fifo.h"
 #include "Usuario.h"
 #include "LockFile.h"
+#include "Debug.h"
 
 #define BUFFSIZE		100
 

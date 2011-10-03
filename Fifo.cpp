@@ -30,10 +30,11 @@ int Fifo :: leer ( char* buffer,int buffSize ) {
 
 	// se abre el file descriptor para lectura
 	if ( this->fileDes == -1 )
-		this->fileDes = open ( this->nombre,O_RDWR );
-  std::cout << "File descriptor " << this->fileDes << std::endl;
+		this->fileDes = open ( this->nombre,O_RDWR );//O_RDWR
 	// se leen los datos del fifo
 	int resultado = read ( this->fileDes,(void *)buffer,buffSize );
+	//if (resultado == 0) //si leo 0 bytes estoy en eof
+	//	cerrar();
 
 	return resultado;
 }
@@ -65,4 +66,9 @@ int Fifo :: leer ( int* dato ) {
 void Fifo :: cerrar () {
 	close ( this->fileDes );
 	unlink ( this->nombre );
+}
+
+void Fifo :: abrir () {
+	// se abre el file descriptor para lectura
+	this->fileDes = open ( this->nombre,O_RDONLY );//O_RDWR
 }

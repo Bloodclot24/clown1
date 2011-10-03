@@ -10,6 +10,7 @@
 
 #include "Usuario.h"
 #include "LockFile.h"
+#include "Debug.h"
 
 #define	ARCHIVO_LOCK_USUARIOS	"archivo_usuarios"
 
@@ -30,7 +31,6 @@ class GestorUsuarios {
 		int escribir (string ruta,int pid, string nombre);
 		int leer (string& ruta,int& pid, string& nombre);
 		int parsearLinea(string linea,string& nombre,int& pid,string& archivo);
-		void cerrar();
 		void reset();
 		string intToString(int entero) { //TODO clase utilitaria
 			stringstream out;
@@ -48,6 +48,7 @@ class GestorUsuarios {
 		int agregarArchivo ( string archivo,int pid, string nombre); //string?
 		int eliminarArchivo ( string archivo,int pid, string nombre);
 		vector<Usuario> buscarArchivos(); //ojo copia
+		void cerrar();
 
 
 
