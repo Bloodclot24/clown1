@@ -1,6 +1,8 @@
 #include "Fifo.h"
 #include <iostream>
 #include <stdlib.h>
+#include <stdio.h>
+
 
 Fifo :: Fifo ( const char* nombre ) {
 
@@ -30,12 +32,15 @@ int Fifo :: leer ( char* buffer,int buffSize ) {
 
 	// se abre el file descriptor para lectura
 	if ( this->fileDes == -1 )
-		this->fileDes = open ( this->nombre,O_RDWR );//O_RDWR
+		this->fileDes = open ( this->nombre,O_RDONLY );//O_RDWR
 	// se leen los datos del fifo
 	int resultado = read ( this->fileDes,(void *)buffer,buffSize );
 	//if (resultado == 0) //si leo 0 bytes estoy en eof
 	//	cerrar();
-
+	std::string eofRecibido((char*)buffer);
+	//if(atoi(eofRecibido.c_str()) == EOF)
+		//resultado = 0;
+	std::cout << "Resultado al leer del fifo de nombre " << nombre << ":" << resultado << std::endl;
 	return resultado;
 }
 
