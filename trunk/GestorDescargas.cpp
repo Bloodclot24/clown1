@@ -80,6 +80,8 @@ int GestorDescargas::enviar(int pidEnvia, int pidDestino, char* buffer) {
 		string mensaje = "Receptor " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(pidEnvia) + ": escribi linea [" + linea + "] en el fifo " + fifo + "\n";
 		//Debug::getInstance()->escribir(mensaje);
 	}
+	lock.tomarLock();
+	canal.escribir(intToString(EOF).c_str(), sizeof(EOF));
 	archivo.close();
 	lock.cerrar();
 	canal.cerrar();
@@ -121,10 +123,11 @@ int GestorDescargas::descargar(string path,int pidEnvia, string nombre)
 		archivo << descarga << endl; //TODO endl esta mal parche!!!
 		archivo.flush();
 		string mensaje = "Descarga " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(getppid()) + ": descargue el dato [" + descarga + "] del fifo " + pathFifoDescarga + "\n";
-		//Debug::getInstance()->escribir(mensaje);
+		Debug::getInstance()->escribir(mensaje);
 		cout << "Estoy descargando" << endl;
 	}
-	//lockDescargaEscritura.liberarLock(); //ver si esta bien
+	cout << "estoy despues del while" << endl;
+	lockDescargaEscritura.liberarLock(); //ver si esta bien
 	archivo.close();
 	canalDescarga.cerrar(); //TODO SE CIERRA ADENTRO DEL LEER CUANDO ES 0
 	cout << "Me trabe en el cerrar del lock" << endl;
