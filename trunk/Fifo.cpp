@@ -87,8 +87,8 @@ unlink ( this->nombre );
 */
 
 void Fifo :: abrir (){
-	if (fileDes == -1) {
+	//if (fileDes == -1) {
 		// se crea el fifo
 		mknod(nombre, S_IFIFO | 0666, 0);
-	}
+	//}
 }

@@ -34,7 +34,9 @@ int GestorDescargas::iniciarRecepcion() {
 		if(bytesLeidos == 0){ // leyo eof porque todos los escritores cerraron el canal y hay que abrir y cerrar para que se bloquee en la lectura.
 			canal.cerrar();
 			canal.abrir();
+			cout << "Espero peticion" << endl;
 			bytesLeidos = canal.leer(buffer, BUFFSIZE);
+
 		}
 		lockEscritura.liberarLock();
 		buffer[bytesLeidos] = '\0'; //controlar esto
@@ -42,13 +44,14 @@ int GestorDescargas::iniciarRecepcion() {
 		int pidDestino = atoi(linea.substr(0, linea.find("|", 0)).c_str());
 		string path = linea.substr(linea.find("|", 0) + 1, linea.length());
 
-//		mensaje = "Receptor " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(pidEnvia) + ": lei el dato [" + linea	+ "] del fifo " + Debug::getInstance()->intToString(pidEnvia) + "\n";
-//		Debug::getInstance()->escribir(mensaje);
+		mensaje = "Receptor " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(pidEnvia) + ": lei el dato [" + linea	+ "] del fifo " + Debug::getInstance()->intToString(pidEnvia) + "\n";
+		cout << "Mensaje " << mensaje << endl;
+		//		Debug::getInstance()->escribir(mensaje);
 
 		int pid = fork();
 		if (pid == 0) {
 			int resultado = enviar(pidEnvia, pidDestino, (char*) path.c_str());
-			canal.cerrar(); //TODO chequear que este no quede colgado
+			//canal.cerrar(); //TODO chequear que este no quede colgado
 			lockEscritura.cerrar();
 			exit(resultado);
 		}
@@ -124,7 +127,7 @@ int GestorDescargas::descargar(string path,int pidEnvia, string nombre)
 		archivo << descarga << endl; //TODO endl esta mal parche!!!
 		archivo.flush();
 		string mensaje = "Descarga " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(getppid()) + ": descargue el dato [" + descarga + "] del fifo " + pathFifoDescarga + "\n";
-		Debug::getInstance()->escribir(mensaje);
+		//Debug::getInstance()->escribir(mensaje);
 		cout << "Estoy descargando" << endl;
 	}
 	archivo.close();
