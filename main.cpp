@@ -213,6 +213,7 @@ int main(int argc, char** argv)
 		int estado, opciones;
 		for( it = hijos.begin(); it != hijos.end(); it++)
 			waitpid(*it,&estado,opciones);
+		kill(pid,SIGINT);
 		string mensaje = "Usuario en proceso " + Debug::getInstance()->intToString(getpid()) + "finaliza el proceso\n";
 		Debug::getInstance()->escribir(mensaje);
 		exit(0);
