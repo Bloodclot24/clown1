@@ -31,10 +31,11 @@ int GestorDescargas::iniciarRecepcion() {
 	LockFile lockEscritura((char*) pathLockEscritura.c_str());
 	while (true) {
 		int bytesLeidos = canal.leer(buffer, BUFFSIZE);
-		//if(bytesLeidos == 0){
-		//	canal.abrir();
-		//	bytesLeidos = canal.leer(buffer, BUFFSIZE);
-		//}
+		if(bytesLeidos == 0){ // leyo eof porque todos los escritores cerraron el canal y hay que abrir y cerrar para que se bloquee en la lectura.
+			canal.cerrar();
+			canal.abrir();
+			bytesLeidos = canal.leer(buffer, BUFFSIZE);
+		}
 		lockEscritura.liberarLock();
 		buffer[bytesLeidos] = '\0'; //controlar esto
 		string linea(buffer);
@@ -47,7 +48,7 @@ int GestorDescargas::iniciarRecepcion() {
 		int pid = fork();
 		if (pid == 0) {
 			int resultado = enviar(pidEnvia, pidDestino, (char*) path.c_str());
-	//		canal.cerrar(); //TODO chequear que este no quede colgado
+			canal.cerrar(); //TODO chequear que este no quede colgado
 			lockEscritura.cerrar();
 			exit(resultado);
 		}
@@ -80,8 +81,8 @@ int GestorDescargas::enviar(int pidEnvia, int pidDestino, char* buffer) {
 		string mensaje = "Receptor " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(pidEnvia) + ": escribi linea [" + linea + "] en el fifo " + fifo + "\n";
 		//Debug::getInstance()->escribir(mensaje);
 	}
-	lock.tomarLock();
-	canal.escribir(intToString(EOF).c_str(), sizeof(EOF));
+	//lock.tomarLock();
+	//canal.escribir(intToString(EOF).c_str(), sizeof(EOF));
 	archivo.close();
 	lock.cerrar();
 	canal.cerrar();
@@ -99,7 +100,7 @@ int GestorDescargas::descargar(string path,int pidEnvia, string nombre)
 	string pidPath = intToString(pid) + "|" + path;
 	canal.escribir(pidPath.c_str(), pidPath.length());
 
-	//canal.cerrar();//TODO lo descomente ahora
+	canal.cerrar();//TODO lo descomente ahora
 	lockEscritura.cerrar();
 
 	string pathFifoDescarga = intToString(pidEnvia) + "_" + intToString(pid);
@@ -118,7 +119,7 @@ int GestorDescargas::descargar(string path,int pidEnvia, string nombre)
 	string pathTotal = directorio+path;
 	archivo.open(pathTotal.c_str(),ofstream::out);//open del archivo path,  lee una linea en binario
 	char descarga[BUFFSIZE];
-	while(canalDescarga.leer(descarga,BUFFSIZE) != 0) {
+	while(canalDescarga.leer(descarga,BUFFSIZE) != 0) { // Estamos abusando de que cuando cierra el escritor lee eof.
 		lockDescargaEscritura.liberarLock();
 		archivo << descarga << endl; //TODO endl esta mal parche!!!
 		archivo.flush();
@@ -126,10 +127,8 @@ int GestorDescargas::descargar(string path,int pidEnvia, string nombre)
 		Debug::getInstance()->escribir(mensaje);
 		cout << "Estoy descargando" << endl;
 	}
-	cout << "estoy despues del while" << endl;
-	lockDescargaEscritura.liberarLock(); //ver si esta bien
 	archivo.close();
-	canalDescarga.cerrar(); //TODO SE CIERRA ADENTRO DEL LEER CUANDO ES 0
+	canalDescarga.cerrar();
 	cout << "Me trabe en el cerrar del lock" << endl;
 	lockDescargaEscritura.cerrar();
 	string mensaje = "Descarga " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(getppid()) + ": finaliza descarga\n";

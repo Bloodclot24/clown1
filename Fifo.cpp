@@ -37,7 +37,7 @@ int Fifo :: leer ( char* buffer,int buffSize ) {
 	int resultado = read ( this->fileDes,(void *)buffer,buffSize );
 	//if (resultado == 0) //si leo 0 bytes estoy en eof
 	//	cerrar();
-	std::string eofRecibido((char*)buffer);
+	//std::string eofRecibido((char*)buffer);
 	//if(atoi(eofRecibido.c_str()) == EOF)
 		//resultado = 0;
 	std::cout << "Resultado al leer del fifo de nombre " << nombre << ":" << resultado << std::endl;
@@ -70,10 +70,25 @@ int Fifo :: leer ( int* dato ) {
 
 void Fifo :: cerrar () {
 	close ( this->fileDes );
+	fileDes = -1;//lo agregue
 	unlink ( this->nombre );
 }
+/*LUCAS
+void Fifo :: cerrar () {
+if(fileDes!=-1)
+close ( this->fileDes );
+fileDes=-1;
+}
 
-void Fifo :: abrir () {
-	// se abre el file descriptor para lectura
-	this->fileDes = open ( this->nombre,O_RDONLY );//O_RDWR
+void Fifo::borrar(){
+cerrar();
+unlink ( this->nombre );
+}
+*/
+
+void Fifo :: abrir (){
+	if (fileDes == -1) {
+		// se crea el fifo
+		mknod(nombre, S_IFIFO | 0666, 0);
+	}
 }
