@@ -17,26 +17,39 @@ using namespace std;
 
 void mostrarMenu()
 {
-	cout<<"=============================="<<endl;
-	cout<<"=         CONCUSHARE         ="<<endl;
-	cout<<"=============================="<<endl;
+	cout<<"===================================="<<endl;
+	cout<<"=            CONCUSHARE            ="<<endl;
+	cout<<"===================================="<<endl;
 	cout<<"Elija una opcion:"<<endl;
 	cout<<"1. Compartir un archivo."<<endl;
 	cout<<"2. Buscar un archivo."<<endl;
 	cout<<"3. Salir"<<endl;
-	cout<<"=============================="<<endl;
+	cout<<"===================================="<<endl;
 	cout<<"Opcion: ";
 }
 
 void mostrarMenuCompartir()
 {
-	cout<<"=============================="<<endl;
+	cout<<"===================================="<<endl;
 	cout<<"Elija una opcion:"<<endl;
 	cout<<"1. Compartir un archivo."<<endl;
 	cout<<"2. Dejar de compartir un archivo."<<endl;
 	cout<<"3. Volver al menu anterior."<<endl;
-	cout<<"=============================="<<endl;
+	cout<<"===================================="<<endl;
 	cout<<"Opcion: ";
+}
+
+void mostrarArchivos(vector<Usuario>& usuarios)
+{
+	cout<<"------------------------------------"<<endl;
+	cout << "Los archivos compartidos son: " << endl;
+
+	vector<Usuario>::iterator it;
+	int i = 0;
+	for (it = usuarios.begin(); it != usuarios.end(); it++, i++) {
+		cout << i << " - " << *it << endl;
+	}
+	cout<<"------------------------------------"<<endl;
 }
 
 int compartirArchivos(GestorUsuarios* gestorUsuarios, string nombre)
@@ -53,21 +66,21 @@ int compartirArchivos(GestorUsuarios* gestorUsuarios, string nombre)
 		switch (opcion)
 		{
 			case '1':
-				cout<<"---------------------------------"<<endl;
+				cout<<"------------------------------------"<<endl;
 				cout << "Ingrese la ruta del archivo : " << endl;
 				cin >> ruta;
 				gestorUsuarios->agregarArchivo(ruta, pidUsuario, nombre);//ver si esta
 				cout << "Archivo " << ruta << " compartido" << endl;
-				cout<<"---------------------------------"<<endl;
+				cout<<"------------------------------------"<<endl;
 				break;
 
 			case '2':
-				cout<<"---------------------------------"<<endl;
+				cout<<"------------------------------------"<<endl;
 				cout << "Ingrese la ruta del archivo : " << endl;
 				cin >> ruta;
 				gestorUsuarios->eliminarArchivo(ruta, pidUsuario, nombre); //ver si esta
 				cout << "Ha dejado de compartir el archivo " << ruta << endl;
-				cout<<"---------------------------------"<<endl;
+				cout<<"------------------------------------"<<endl;
 				break;
 
 			case '3':
@@ -85,12 +98,12 @@ int compartirArchivos(GestorUsuarios* gestorUsuarios, string nombre)
 
 int descargarArchivo(GestorDescargas* gestorDescargas, Usuario usuario, string nombre, list<int>& hijos) {
 
-	cout<<"---------------------------------"<<endl;
+	cout<<"------------------------------------"<<endl;
 	cout << "Ingrese el numero de archivo que desea descargar" << endl;
 	cout << usuario << endl;
 	int numero;
 	cin >> numero;
-	cout<<"---------------------------------"<<endl;
+	cout<<"------------------------------------"<<endl;
 	int pidDescarga = fork(); //cuidado como sigue  el hijo!!!
 	if(pidDescarga == HIJO) {
 		string archivo = usuario.getArchivos()[numero];
@@ -105,16 +118,9 @@ int descargarArchivo(GestorDescargas* gestorDescargas, Usuario usuario, string n
 
 int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescargas, string nombre, list<int>& hijos)
 {
-	cout<<"---------------------------------"<<endl;
-	cout << "Los archivos compartidos son: " << endl;
-
 	vector<Usuario> usuarios = gestorUsuarios->buscarArchivos();
-	vector<Usuario>::iterator it;
-	int i = 0;
-	for (it = usuarios.begin(); it != usuarios.end(); it++, i++) {
-		cout << i << " - " << *it << endl;
-	}
-	cout<<"---------------------------------"<<endl;
+	mostrarArchivos(usuarios);
+
 	cout << "Desea seleccionar un archivo para descargar? (s/n)" << endl;
 	bool salir = false;
 	while (!salir) {
@@ -139,25 +145,18 @@ int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescar
 				cout << "No es una opcion valida, intente nuevamente." << endl;
 				break;
 		}
-		cout<<"---------------------------------"<<endl;
+		cout<<"------------------------------------"<<endl;
 	}
 
 	return PADRE;
 }
 
-int ejecutarMenu(GestorDescargas* gestorDescargas, list<int>& hijos)
+int ejecutarMenu(GestorDescargas* gestorDescargas, list<int>& hijos, string nombre)
 {
-	GestorUsuarios gestorUsuarios;
-	cout<<"=============================="<<endl;
-	cout<<"=  Bienvenido a CONCUSHARE   ="<<endl;
-	cout<<"=============================="<<endl;
-	cout << "Ingrese su nombre de usuario" << endl;
-	string nombre;
-	cin >> nombre; //hace falta fin de linea?
 	int pidUsuario = getpid();
-
+	GestorUsuarios gestorUsuarios;
 	string mensaje = "Usuario " + nombre + " en proceso " + Debug::getInstance()->intToString(pidUsuario) + "\n";
-	Debug::getInstance()->escribir(mensaje);
+	Debug::getInstance()->escribir(mensaje); //ver si esto va aca
 
 	bool salir = false;
 	while (!salir) {
@@ -203,8 +202,16 @@ int main(int argc, char** argv)
 		Debug::getInstance()->escribir(mensaje);
 		exit(resultado);
 	}
+
+	cout<<"===================================="<<endl;
+	cout<<"=     Bienvenido a CONCUSHARE      ="<<endl;
+	cout<<"===================================="<<endl;
+	cout << "Ingrese su nombre de usuario" << endl;
+	string nombre;
+	cin >> nombre; //hace falta fin de linea?
+
 	list<int> hijos;
-	if(ejecutarMenu(&gestorDescargas,hijos) == HIJO) {
+	if(ejecutarMenu(&gestorDescargas, hijos, nombre) == HIJO) {
 		string mensaje = "Descarga de usuario en proceso " + Debug::getInstance()->intToString(getpid()) + "finaliza el proceso\n";
 		Debug::getInstance()->escribir(mensaje);
 		exit(0);
