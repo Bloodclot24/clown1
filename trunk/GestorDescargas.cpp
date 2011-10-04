@@ -7,22 +7,20 @@
 
 #include "GestorDescargas.h"
 
-GestorDescargas::GestorDescargas() {
-	// TODO Auto-generated constructor stub
-
+GestorDescargas::GestorDescargas()
+{
 }
 
-GestorDescargas::~GestorDescargas() {
-	// TODO Auto-generated destructor stub
+GestorDescargas::~GestorDescargas()
+{
 }
 
-int GestorDescargas::iniciarRecepcion() {
-
+int GestorDescargas::iniciarRecepcion()
+{
 	// receptor de pedidos de archivos
 	char buffer[BUFFSIZE];
 	int pidEnvia = getppid();
 	Fifo canal(intToString(pidEnvia).c_str());
-//while no haya senial se queda bloqueado?
 
 	string mensaje = "Receptor " + Debug::getInstance()->intToString(getpid()) + " del proceso " + Debug::getInstance()->intToString(pidEnvia) + ": esperando para leer . . .\n";
 	Debug::getInstance()->escribir(mensaje);
@@ -33,7 +31,6 @@ int GestorDescargas::iniciarRecepcion() {
 	// event handler para la senial SIGINT (-2)
 	SIGINT_Handler sigint_handler;
 
-	// se registra el event handler declarado antes
 	SignalHandler :: getInstance()->registrarHandler ( SIGINT,&sigint_handler );
 	cout<<"PIDDDDDDDDDDDDD"<<getpid()<<endl;
 	// mientras no se reciba la senial SIGINT, el proceso realiza su trabajo
@@ -44,7 +41,6 @@ int GestorDescargas::iniciarRecepcion() {
 			canal.abrir();
 			cout << "Espero peticion" << endl;
 			bytesLeidos = canal.leer(buffer, BUFFSIZE);
-
 		}
 		lockEscritura.liberarLock();
 		buffer[bytesLeidos] = '\0'; //controlar esto
