@@ -5,6 +5,8 @@
 #include <fcntl.h>
 #include <string.h>
 #include <fstream>
+#include <iostream>
+#include <stdio.h>
 
 using namespace std;
 
@@ -14,12 +16,12 @@ private:
 
 	struct flock fl;
 	int fd;
-	char nombre [ 255 ];
+	string nombre;
 	int lectura; // lo agregue yo
 
 public:
 
-	LockFile ( char* nombre );
+	LockFile (string nombre );
 	virtual ~LockFile();
 
 	int tomarLock ();
@@ -28,7 +30,7 @@ public:
 	int leer (char* buffer,int buffsize );//lo agregue yo
 	void cerrar(); //lo agregue yo
 	void abrir() {
-		fd = open ( this->nombre,O_CREAT|O_RDWR,0777 );
+		fd = open (nombre.c_str(),O_CREAT|O_RDWR,0777 );
 		lectura = 0;
 	}
 	void reset();

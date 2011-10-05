@@ -1,0 +1,39 @@
+Int a string--- streamstring
+Pasar de char* a string en fifo por ejemplo
+Controlar const
+Control de errores
+usar valgrind, ipcs
+nombres
+Controlar cierre antes de exit en hijos.
+Controlar delete antes de exit en hijos
+Parseo de archivo y de buffer. Parseo de string usando find y separador ; pid;nombre;archivo (una linea por cada archivo)
+Incluir listas de stl
+Fifo, cambiar O_RDRW por if resultado lectura == 0 cerrar y volver a abrir. Agregar el control de volverlo a abrir y volver a llamar al leer
+Clase Debug para el archivo de debug, debe tomar y liberar el lock segun corresponda.
+Formato
+Seleccion en 2 etapas, primera etapa, seleccione el usuario del que quiere descargar el archivo... le mostramos como opciones los usuarios y los archivos que tiene cada uno. Cuando elije el usuario obtenemos el pid(posicion en la lista) y pasamos a la 2da etapa. En la 2da etapa preguntamos que archivo quiere descargar de los de ese usuario y obtenemos el path.
+Ver cantidad de procesos
+Ver el unlink de fifo
+Crear carpeta fifo y lock (Eliminarlosss)
+Cambiar todo a string
+Formato del codigo.
+Para borrar un archivo compartido se decidio actualizar los usuarios y volver a crear el archivo de usuario filtrando el que se desea eliminar
+imprimir hora en debug
+
+q hacer si no se encuentra el archivo a compartir?
+
+siguen los procesos?
+
+un usuario no se comparte asi mismo
+formato al codigo
+
+sacar int si no se controla errores
+
+desde consulta hasta bajar hay q tomar lock?
+
+eliminar los archivos de lock?
+crear clase utils,config
+includes sobrantes
+orden de argumentos
+q pasa al descargar 2 veces el mismo archivo
+eliminar lock?

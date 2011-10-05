@@ -7,6 +7,7 @@
 #include <vector>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <stdlib.h>
 
 using namespace std;
 

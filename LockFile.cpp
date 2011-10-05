@@ -1,17 +1,14 @@
 #include "LockFile.h"
 
-#include <iostream>
-#include <stdio.h>
+LockFile :: LockFile ( string nombre ) {
 
-LockFile :: LockFile ( char* nombre ) {
-
-	strcpy ( this->nombre,nombre );
+	this->nombre  = nombre;
 	fl.l_type = F_WRLCK;
 	fl.l_whence = SEEK_SET;
 	fl.l_start = 0;
 	fl.l_len = 0;
 	fl.l_pid = getpid ();
-	abrir();//( this->nombre,O_CREAT|O_WRONLY,0777 );
+	abrir();
 	//TODO escribir en debug
 }
 
@@ -46,13 +43,13 @@ int LockFile :: leer ( char* buffer,int buffsize ) {
 }
 
 void LockFile :: cerrar () {
-	close ( fd );
+	close ( fd ); //ver si se elimina
 }
 
 void LockFile :: reset() {
 	//lseek ( fd,0,SEEK_SET);
 	cerrar();
-	unlink(nombre);
+	unlink(nombre.c_str()); //ver esto!!!
 	abrir();
 }
 

@@ -27,13 +27,13 @@ using namespace std;
 class GestorDescargas {
 private:
 	int enviar(int pidUsuario, int pidDestino, char* buffer);
-	string intToString(int entero);
+	void enviarRuta(int pidOrigen, int pidDestino, string path);
 public:
 	GestorDescargas();
 	virtual ~GestorDescargas();
 
 	int iniciarRecepcion();
-	int descargar(string path,int pidEnvia, string nombre);
+	int descargar(string path, Usuario usuarioOrigen, Usuario usuarioDestino);
 
 };
 

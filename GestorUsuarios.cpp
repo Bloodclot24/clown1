@@ -1,16 +1,14 @@
 #include "GestorUsuarios.h"
-#include <iostream>
-#include <stdlib.h>
 
-GestorUsuarios :: GestorUsuarios (): lock((char*)ARCHIVO_LOCK_USUARIOS)
+GestorUsuarios :: GestorUsuarios (): lock(ARCHIVO_LOCK_USUARIOS)
 {
-
 }
 
-GestorUsuarios :: ~GestorUsuarios () {
+GestorUsuarios :: ~GestorUsuarios ()
+{
 }
 
-int GestorUsuarios::eliminarUsuario(char* nombre, int pid)
+int GestorUsuarios::eliminarUsuario(Usuario usuario)
 {
 	lock.tomarLock();
 	actualizarUsuarios();
@@ -18,7 +16,7 @@ int GestorUsuarios::eliminarUsuario(char* nombre, int pid)
 	lock.reset();
 	vector<Usuario>::iterator it;
 	for (it = usuarios.begin(); it != usuarios.end(); it++) {
-		if ((*it).getPid() != pid || (*it).getNombre() != nombre) {//sobrecargar operador =
+		if ((*it).getPid() != usuario.getPid() || (*it).getNombre() != usuario.getNombre()) {//sobrecargar operador =
 			vector<string> archivosDeUsuario = (*it).getArchivos();
 			vector<string>::iterator itArch;
 			for (itArch = archivosDeUsuario.begin(); itArch != archivosDeUsuario.end(); itArch++) {
@@ -30,15 +28,15 @@ int GestorUsuarios::eliminarUsuario(char* nombre, int pid)
 	return 0; // TODO ver return
 }
 
-int GestorUsuarios :: agregarArchivo (string archivo,int pid, string nombre)
+int GestorUsuarios :: agregarArchivo (string archivo, Usuario usuario)
 {
 	lock.tomarLock();
-	int resultado = escribir(archivo,pid,nombre);
+	int resultado = escribir(archivo, usuario.getPid(), usuario.getNombre());
 	lock.liberarLock();
 	return resultado;
 }
 
-int GestorUsuarios :: eliminarArchivo ( string archivo,int pid, string nombre)
+int GestorUsuarios :: eliminarArchivo ( string archivo, Usuario usuario)
 {
 	lock.tomarLock();
 	actualizarUsuarios();
@@ -50,7 +48,7 @@ int GestorUsuarios :: eliminarArchivo ( string archivo,int pid, string nombre)
 		vector<string>::iterator itArch;
 		cout << (*it).getPid() << (*it).getNombre() << endl;
 		for (itArch = archivosDeUsuario.begin(); itArch != archivosDeUsuario.end(); itArch++) {
-			if (!((*itArch).compare(archivo.c_str()) == 0 && (*it).getPid() == pid && (*it).getNombre() == nombre)) {
+			if (!((*itArch).compare(archivo.c_str()) == 0 && (*it).getPid() == usuario.getPid() && (*it).getNombre() == usuario.getNombre())) {
 				escribir((*itArch), (*it).getPid(), (*it).getNombre());
 			}
 		}
@@ -84,7 +82,6 @@ void GestorUsuarios :: actualizarUsuarios ()
 		bool encontrado = false;
 		for (it = usuarios.begin(); it != usuarios.end() && !encontrado; it++) {
 			if ((*it).getPid() == pid) {
-					//TODO ver si es necesario ver si no estaba
 				(*it).agregarArchivo(archivo);
 				encontrado = true;
 			}
@@ -94,8 +91,7 @@ void GestorUsuarios :: actualizarUsuarios ()
 			usuario.agregarArchivo(archivo);
 			usuarios.insert(usuarios.end(), usuario); //verrrr por memoria TODO Constructor copia
 		}
-		string mensaje = "Actualizando usuario " + nombre + " pid " + Debug::getInstance()->intToString(pid) + " archivo " + archivo + "\n";
-		//Debug::getInstance()->escribir(mensaje);
+		//Debug::getInstance()->escribir( "Actualizando usuario " + nombre + " pid " + Debug::intToString(pid) + " archivo " + archivo + "\n");
 	}
 }
 
@@ -127,9 +123,6 @@ int GestorUsuarios::parsearLinea(string linea,string& nombre,int& pid,string& ar
 	cadenaAux.assign(linea, coma2 + 1, coma3 - coma2 -1);
 	pid = atoi(cadenaAux.c_str());
 	archivo.assign(linea,coma3 + 1,linea.length());
-	string mensaje = "Se parseo usuario " + nombre + " pid " + Debug::getInstance()->intToString(pid) + " archivo " + archivo + "\n";
-	//Debug::getInstance()->escribir(mensaje);
-
 	return 0;
 }
 
