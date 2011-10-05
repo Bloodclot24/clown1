@@ -5,23 +5,27 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
+
+using namespace std;
 
 class Fifo {
 
 	private:
-		char nombre[255];
+		string nombre;
 		int fileDes;
 
 	public:
-		Fifo ( const char* nombre );
+		Fifo ( string nombre );
 		virtual ~Fifo();
 
 		int escribir ( const char* dato,int datoSize );
 		int leer ( char* buffer,int buffSize );
-		int escribir ( int* dato );
-		int leer ( int* dato);
 		void cerrar ();
 		void abrir();
+		void eliminar();
 };
 
 #endif /* FIFO_H_ */

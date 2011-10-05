@@ -7,6 +7,8 @@
 #include <vector>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <iostream>
+#include <stdlib.h>
 
 #include "Usuario.h"
 #include "LockFile.h"
@@ -43,10 +45,9 @@ class GestorUsuarios {
 		GestorUsuarios ();
 		virtual ~GestorUsuarios();
 
-//		int agregarUsuario ( char* nombre,int pid ); //string?
-		int eliminarUsuario ( char* nombre,int pid );
-		int agregarArchivo ( string archivo,int pid, string nombre); //string?
-		int eliminarArchivo ( string archivo,int pid, string nombre);
+		int eliminarUsuario ( Usuario usuario);
+		int agregarArchivo ( string archivo, Usuario usuario);
+		int eliminarArchivo ( string archivo, Usuario usuario);
 		vector<Usuario> buscarArchivos(); //ojo copia
 		void cerrar();
 
