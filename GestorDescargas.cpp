@@ -28,17 +28,19 @@ int GestorDescargas::iniciarRecepcion()
 			canal.cerrar();
 			canal.abrir();
 			cout << "recibi eof Espero peticion" << endl;
-			bytesLeidos = canal.leer(buffer, BUFFSIZE);
-		}
-		lockEscritura.liberarLock();
-		buffer[bytesLeidos] = '\0'; //controlar esto
-		string linea(buffer);
-		int pidDestino = atoi(linea.substr(0, linea.find("|", 0)).c_str());
-		string path = linea.substr(linea.find("|", 0) + 1, linea.length());
+			//bytesLeidos = canal.leer(buffer, BUFFSIZE);
+		} else if (sigint_handler.getGracefulQuit() == 0) { //por si recibe la senial mientras lee
+			lockEscritura.liberarLock();
+			buffer[bytesLeidos] = '\0'; //controlar esto
+			string linea(buffer);
+			int pidDestino = atoi(linea.substr(0, linea.find("|", 0)).c_str());
+			string path = linea.substr(linea.find("|", 0) + 1, linea.length());
 
-		Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": lei el dato [" + linea	+ "] del fifo " + Debug::intToString(pidOrigen) + "\n");
+			Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso "	+
+					Debug::intToString(pidOrigen) + ": lei el dato [" + linea + "] del fifo " + Debug::intToString(pidOrigen) + "\n");
 
-		if (pidDestino != 0) { //por manejo incorrecto de fifo
+			//if (pidDestino != 0) { //por manejo incorrecto de fifo
+			cout << "CREO HIJO " << endl;
 			int pid = fork();
 			if (pid == 0) {
 				int resultado = enviar(pidOrigen, pidDestino,
