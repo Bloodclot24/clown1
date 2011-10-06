@@ -36,13 +36,17 @@ int GestorDescargas::iniciarRecepcion()
 		int pidDestino = atoi(linea.substr(0, linea.find("|", 0)).c_str());
 		string path = linea.substr(linea.find("|", 0) + 1, linea.length());
 
-		//Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": lei el dato [" + linea	+ "] del fifo " + Debug::intToString(pidOrigen) + "\n");
-		int pid = fork();
-		if (pid == 0) {
-			int resultado = enviar(pidOrigen, pidDestino, (char*) path.c_str());
-			canal.cerrar(); //TODO chequear que este no quede colgado
-			lockEscritura.cerrar();
-			exit(resultado);
+		Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": lei el dato [" + linea	+ "] del fifo " + Debug::intToString(pidOrigen) + "\n");
+
+		if (pidDestino != 0) { //por manejo incorrecto de fifo
+			int pid = fork();
+			if (pid == 0) {
+				int resultado = enviar(pidOrigen, pidDestino,
+						(char*) path.c_str());
+				canal.eliminar(); //TODO chequear que este no quede colgado
+				lockEscritura.cerrar();
+				return resultado;
+			}
 		}
 	}
 	// se recibio la senial SIGINT, el proceso termina
@@ -50,9 +54,9 @@ int GestorDescargas::iniciarRecepcion()
 	cout << "ATRAPO LA SENIALLLLLLLLLLL" << endl;
 
 	lockEscritura.cerrar();
-	canal.cerrar();
 	canal.eliminar();
-//	Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": fin del proceso\n");
+
+	Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": fin del proceso\n");
 
 	return 0;
 }
@@ -64,17 +68,17 @@ int GestorDescargas::enviar(int pidOrigen, int pidDestino, char* buffer) {
 	Fifo canal(fifo);
 	LockFile lock(fifo + ".lockEscritura");
 	ifstream archivo;
-	archivo.open(buffer,ifstream::in);//open del archivo path,  lee una linea en binario
+	archivo.open(buffer,ifstream::in);// open del archivo path, lee una linea en binario
 	char linea[BUFFSIZE];
 	while(!archivo.eof()) {
 		archivo.getline(linea,BUFFSIZE);
 		lock.tomarLock();
 		canal.escribir(linea,BUFFSIZE);
-		//Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": escribi linea [" + linea + "] en el fifo " + fifo + "\n");
+		Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": escribi linea [" + linea + "] en el fifo " + fifo + "\n");
 	}
 	archivo.close();
 	lock.cerrar();
-	canal.cerrar();
+	canal.eliminar();
 	return 0;
 }
 
@@ -87,7 +91,7 @@ void GestorDescargas::enviarRuta(int pidOrigen, int pidDestino, string path)
 	string pidPath = Debug::intToString(pidDestino) + "|" + path;
 	canal.escribir(pidPath.c_str(), pidPath.length());
 
-	canal.cerrar();
+	//canal.eliminar();
 	lockEscritura.cerrar();
 }
 
@@ -107,10 +111,9 @@ int GestorDescargas::descargar(string path, Usuario usuarioOrigen, Usuario usuar
 		lockDescargaEscritura.liberarLock();
 		archivo << descarga << endl; //TODO endl esta mal parche!!!
 		archivo.flush();
-		//Debug::getInstance()->escribir("Descarga " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(getppid()) + ": descargue el dato [" + descarga + "] del fifo " + pathFifoDescarga + "\n");
+		Debug::getInstance()->escribir("Descarga " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(getppid()) + ": descargue el dato [" + descarga + "] del fifo " + pathFifoDescarga + "\n");
 	}
 	archivo.close();
-	canalDescarga.cerrar();
 	canalDescarga.eliminar();
 	lockDescargaEscritura.cerrar();
 	Debug::getInstance()->escribir("Descarga " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(getppid()) + ": finaliza descarga\n");

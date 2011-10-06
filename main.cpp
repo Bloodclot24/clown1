@@ -25,7 +25,7 @@ void mostrarMenu()
 	cout<<"| 2. Buscar un archivo                   |"<<endl;
 	cout<<"| 3. Salir                               |"<<endl;
 	cout<<"=========================================="<<endl;
-	cout<<" Opcion: ";
+	cout<<"Opcion: ";
 }
 
 void mostrarMenuCompartir()
@@ -108,10 +108,13 @@ int descargarArchivo(GestorDescargas* gestorDescargas, Usuario usuarioOrigen, Us
 		Debug::getInstance()->escribir("Usuario " + usuarioDestino.getNombre() + " inicia descarga en proceso " + Debug::intToString(usuarioDestino.getPid()) + "\n");
 		gestorDescargas->descargar(archivo, usuarioOrigen, usuarioDestino);
 		cout << "Archivo " + archivo + " descargado" << endl;
+		cout<<"PID2 descarga hijo " << getpid() <<endl;
 		return HIJO;
-	}
-	hijos.insert(hijos.end(),pidDescarga);
-	return PADRE;
+	} //else {
+		hijos.insert(hijos.end(), pidDescarga);
+		cout << "PID2 descarga padre" << getpid() << endl;
+		return PADRE;
+	//}
 }
 
 int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescargas, Usuario usuario, list<int>& hijos)
@@ -131,8 +134,10 @@ int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescar
 			case 's':
 				cout << "Ingrese el numero del usuario al que pertenece el archivo : " << endl;
 				cin >> numero; //control!!
-				if (descargarArchivo(gestorDescargas, usuarios[numero], usuario, hijos) == HIJO)
-					exit(HIJO);
+				if (descargarArchivo(gestorDescargas, usuarios[numero], usuario, hijos) == HIJO) {
+					cout<<"PID2buscararchivos " << getpid() <<endl;
+					return HIJO;
+				}
 				salir = true;
 				break;
 			case 'n':
@@ -168,6 +173,7 @@ int ejecutarMenu(GestorDescargas* gestorDescargas, list<int>& hijos, Usuario usu
 			case '2':
 				if(buscarArchivos(&gestorUsuarios,gestorDescargas, usuario, hijos) == HIJO) {
 					gestorUsuarios.cerrar();
+					cout<<"PID2menu " << getpid() <<endl;
 					return HIJO;
 				}
 				break;
@@ -194,8 +200,10 @@ int main(int argc, char** argv)
 	if(pid == HIJO){
 		int resultado = gestorDescargas.iniciarRecepcion();
 		Debug::getInstance()->escribir("Recepcion de usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
+		cout<<"PID0 " << getpid() <<endl;
 		exit(resultado);
 	}
+	cout<<"PID1 " << getpid() <<endl;
 
 	cout<<"=========================================="<<endl;
 	cout<<"=        Bienvenido a CONCUSHARE         ="<<endl;
@@ -213,6 +221,7 @@ int main(int argc, char** argv)
 	list<int> hijos;
 	if(ejecutarMenu(&gestorDescargas, hijos, usuario) == HIJO) {
 		Debug::getInstance()->escribir("Descarga de usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
+		cout<<"PID2 " << getpid() <<endl;
 		exit(0);
 	} else {
 		list<int>::iterator it;
@@ -221,7 +230,7 @@ int main(int argc, char** argv)
 			waitpid(*it,&estado,opciones);
 		kill(pid,SIGINT);
 		Debug::getInstance()->escribir("Usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
+		cout<<"PID3 " << getpid() <<endl;
 		exit(0);
 	}
-
 }

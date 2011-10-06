@@ -43,12 +43,15 @@ void Fifo::eliminar()
 {
 	cerrar();
 	unlink(nombre.c_str());
+	cout<<"Elimino el fifo " << nombre <<endl;
 }
 
 void Fifo :: abrir ()
 {
 	if (fileDes == -1)
 		mknod(nombre.c_str(), S_IFIFO | 0666, 0); //crea el fifo
+
+	cout<<"Abri el " << nombre<<endl;
 }
 
 
