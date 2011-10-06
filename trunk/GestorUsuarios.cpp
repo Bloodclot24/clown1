@@ -91,7 +91,7 @@ void GestorUsuarios :: actualizarUsuarios ()
 			usuario.agregarArchivo(archivo);
 			usuarios.insert(usuarios.end(), usuario); //verrrr por memoria TODO Constructor copia
 		}
-		//Debug::getInstance()->escribir( "Actualizando usuario " + nombre + " pid " + Debug::intToString(pid) + " archivo " + archivo + "\n");
+		Debug::getInstance()->escribir( "Actualizando usuario " + nombre + " pid " + Debug::intToString(pid) + " archivo " + archivo + "\n");
 	}
 }
 

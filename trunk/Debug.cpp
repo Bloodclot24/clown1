@@ -1,7 +1,7 @@
 #include "Debug.h"
 
 Debug* Debug :: instance = NULL;
-LockFile Debug :: lock((char*)"debug");
+LockFile Debug :: lock("debug");
 
 Debug :: Debug () {
 }
