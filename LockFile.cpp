@@ -46,6 +46,11 @@ void LockFile :: cerrar () {
 	close ( fd ); //ver si se elimina
 }
 
+void LockFile :: eliminar () {
+	close ( fd ); //ver si se elimina
+	unlink(nombre.c_str());
+}
+
 void LockFile :: reset() {
 	//lseek ( fd,0,SEEK_SET);
 	cerrar();

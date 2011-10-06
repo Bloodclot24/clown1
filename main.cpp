@@ -200,6 +200,7 @@ int main(int argc, char** argv)
 	if(pid == HIJO){
 		int resultado = gestorDescargas.iniciarRecepcion();
 		Debug::getInstance()->escribir("Recepcion de usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
+		Debug::destruir();
 		cout<<"PID0 " << getpid() <<endl;
 		exit(resultado);
 	}
@@ -230,6 +231,7 @@ int main(int argc, char** argv)
 			waitpid(*it,&estado,opciones);
 		kill(pid,SIGINT);
 		Debug::getInstance()->escribir("Usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
+		Debug::destruir();
 		cout<<"PID3 " << getpid() <<endl;
 		exit(0);
 	}

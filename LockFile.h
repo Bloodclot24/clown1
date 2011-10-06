@@ -34,6 +34,7 @@ public:
 		lectura = 0;
 	}
 	void reset();
+	void eliminar();
 };
 
 #endif /* LOCKFILE_H_ */
