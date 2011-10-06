@@ -47,6 +47,7 @@ int GestorDescargas::iniciarRecepcion()
 						(char*) path.c_str());
 				canal.eliminar(); //TODO chequear que este no quede colgado
 				lockEscritura.cerrar();
+				Debug::destruir();
 				return resultado;
 			}
 		}
@@ -55,11 +56,11 @@ int GestorDescargas::iniciarRecepcion()
 	SignalHandler :: destruir ();
 	cout << "ATRAPO LA SENIALLLLLLLLLLL" << endl;
 
-	lockEscritura.cerrar();
+	lockEscritura.eliminar();
 	canal.eliminar();
 
 	Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": fin del proceso\n");
-
+	Debug::destruir();
 	return 0;
 }
 
@@ -71,11 +72,11 @@ int GestorDescargas::enviar(int pidOrigen, int pidDestino, char* buffer) {
 	LockFile lock(fifo + ".lockEscritura");
 	ifstream archivo;
 	archivo.open(buffer,ifstream::in);// open del archivo path, lee una linea en binario
-	char linea[BUFFSIZE];
+	char linea[BUFFSIZE*20];
 	while(!archivo.eof()) {
-		archivo.getline(linea,BUFFSIZE);
+		archivo.getline(linea,BUFFSIZE*20);
 		lock.tomarLock();
-		canal.escribir(linea,BUFFSIZE);
+		canal.escribir(linea,BUFFSIZE*20);
 		Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": escribi linea [" + linea + "] en el fifo " + fifo + "\n");
 	}
 	archivo.close();
@@ -108,8 +109,8 @@ int GestorDescargas::descargar(string path, Usuario usuarioOrigen, Usuario usuar
 	ofstream archivo;
 	string pathTotal = "descargas_" + usuarioDestino.getNombre() + "_" + Debug::intToString(usuarioDestino.getPid()) + "/" + path;
 	archivo.open(pathTotal.c_str(),ofstream::out);//open del archivo path,  lee una linea en binario
-	char descarga[BUFFSIZE];
-	while(canalDescarga.leer(descarga,BUFFSIZE) != 0) { // Estamos abusando de que cuando cierra el escritor lee eof.
+	char descarga[BUFFSIZE*20];
+	while(canalDescarga.leer(descarga,BUFFSIZE*20) != 0) { // Estamos abusando de que cuando cierra el escritor lee eof.
 		lockDescargaEscritura.liberarLock();
 		archivo << descarga << endl; //TODO endl esta mal parche!!!
 		archivo.flush();
@@ -117,7 +118,7 @@ int GestorDescargas::descargar(string path, Usuario usuarioOrigen, Usuario usuar
 	}
 	archivo.close();
 	canalDescarga.eliminar();
-	lockDescargaEscritura.cerrar();
+	lockDescargaEscritura.eliminar();
 	Debug::getInstance()->escribir("Descarga " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(getppid()) + ": finaliza descarga\n");
 	return 0;
 }
