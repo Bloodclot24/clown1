@@ -1,10 +1,3 @@
-/*
- * ArchivoUsuarios.h
- *
- *  Created on: Oct 1, 2011
- *      Author: guido
- */
-
 #ifndef ARCHIVOUSUARIOS_H_
 #define ARCHIVOUSUARIOS_H_
 
@@ -25,19 +18,19 @@ private:
 	LockFile lock;
 	fstream archivo;
 
-	int parsearLinea(string linea,string& nombre,int& pid,string& archivo);
+	int parsearLinea(string linea, string& nombre, int& pid, string& archivo);
 
 public:
 	ArchivoUsuarios();
 	virtual ~ArchivoUsuarios();
 
-	int escribir (string ruta,int pid, string nombre);
-	int leer (string& ruta,int& pid, string& nombre);
+	int escribir(string ruta, int pid, string nombre);
+	int leer(string& ruta, int& pid, string& nombre);
 
-	string  intToString(int entero) { //TODO clase utilitaria
+	string intToString(int entero) { //TODO clase utilitaria
 
 		stringstream out;
-		out<<entero;
+		out << entero;
 		return out.str();
 	}
 	void cerrar() {
@@ -46,7 +39,7 @@ public:
 	}
 
 	void reset() {
-		archivo.seekg(0,ios::beg);
+		archivo.seekg(0, ios::beg);
 		lock.cerrar();
 		lock.abrir();
 	}

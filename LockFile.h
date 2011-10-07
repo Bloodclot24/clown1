@@ -29,10 +29,7 @@ public:
 	int escribir ( char* buffer,int buffsize );
 	int leer (char* buffer,int buffsize );//lo agregue yo
 	void cerrar(); //lo agregue yo
-	void abrir() {
-		fd = open (nombre.c_str(),O_CREAT|O_RDWR,0777 );
-		lectura = 0;
-	}
+	void abrir();
 	void reset();
 	void eliminar();
 };

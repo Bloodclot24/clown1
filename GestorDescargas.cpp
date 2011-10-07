@@ -27,7 +27,7 @@ int GestorDescargas::iniciarRecepcion()
 		if(bytesLeidos == 0){ // leyo eof porque todos los escritores cerraron el canal y hay que abrir y cerrar para que se bloquee en la lectura.
 			canal.cerrar();
 			canal.abrir();
-			cout << "recibi eof Espero peticion" << endl;
+			Vista::debug("recibi eof Espero peticion");
 		} else if (sigint_handler.getGracefulQuit() == 0) { //por si recibe la senial mientras lee
 			lockEscritura.liberarLock();
 			buffer[bytesLeidos] = '\0'; //controlar esto
@@ -38,7 +38,7 @@ int GestorDescargas::iniciarRecepcion()
 			Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso "	+
 					Debug::intToString(pidOrigen) + ": lei el dato [" + linea + "] del fifo " + Debug::intToString(pidOrigen) + "\n");
 
-			cout << "CREO HIJO " << endl;
+			Vista::debug("CREO HIJO ");
 			int pid = fork();
 			if (pid == 0) {
 				int resultado = enviar(pidOrigen, pidDestino,
@@ -53,7 +53,7 @@ int GestorDescargas::iniciarRecepcion()
 	}
 	// se recibio la senial SIGINT, el proceso termina
 	SignalHandler :: destruir ();
-	cout << "ATRAPO LA SENIALLLLLLLLLLL" << endl;
+	Vista::debug("ATRAPO LA SENIALLLLLLLLLLL");
 
 	lockEscritura.eliminar();
 	canal.eliminar();

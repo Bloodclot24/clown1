@@ -11,18 +11,17 @@
 
 using namespace std;
 
-class Debug
-{
-	private:
-		static Debug* instance;
-		static LockFile lock;
-		Debug();
+class Debug {
+private:
+	static Debug* instance;
+	static LockFile lock;
+	Debug();
 
-	public:
-		static Debug* getInstance ();
-		static void destruir ();
-		static void escribir ( string mensaje );
-		static string intToString ( int entero );
+public:
+	static Debug* getInstance();
+	static void destruir();
+	static void escribir(string mensaje);
+	static string intToString(int entero);
 };
 
 #endif /* DEBUG_H_ */
