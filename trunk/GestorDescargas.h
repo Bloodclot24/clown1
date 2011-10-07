@@ -1,10 +1,3 @@
-/*
- * GestorDescargas.h
- *
- *  Created on: Sep 30, 2011
- *      Author: guido
- */
-
 #ifndef GESTORDESCARGAS_H_
 #define GESTORDESCARGAS_H_
 

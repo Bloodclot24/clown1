@@ -12,38 +12,32 @@
 using namespace std;
 
 class Usuario {
-		
-		friend ostream & operator<<(ostream &, const Usuario &);
-	private:
-		string nombre;
-		int pid;
-		vector<string> archivos; //deberia ser una lista!!
 
-	public:
-		Usuario (string nombre, int pid);
-		Usuario (const Usuario& usuario);
-		Usuario ();
-		virtual ~Usuario();
+	friend ostream & operator<<(ostream &, const Usuario &);
+private:
+	string nombre;
+	int pid;
+	vector<string> archivos;
 
-		vector<string> getArchivos()
-		{
-			return archivos; //copia
-		}
+public:
+	Usuario(string nombre, int pid);
+	Usuario(const Usuario& usuario);
+	Usuario();
+	virtual ~Usuario();
 
-		int getPid()
-		{
-			return pid;
-		}
+	vector<string> getArchivos();
 
-		void agregarArchivo(string archivo)
-		{
-			archivos.insert(archivos.end(), archivo);
-		}
+	int getPid();
 
-		string getNombre()
-		{
-			return nombre;
-		}
+	void agregarArchivo(string archivo);
+
+	void eliminarArchivo(string archivo);
+
+	string getNombre();
+
+	bool operator==(const Usuario & otro) const;
+
+	bool operator!=(const Usuario & otro) const;
 
 };
 

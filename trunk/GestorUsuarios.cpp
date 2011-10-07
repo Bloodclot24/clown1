@@ -16,27 +16,27 @@ int GestorUsuarios::eliminarUsuario(Usuario usuario)
 	lock.reset();
 	vector<Usuario>::iterator it;
 	for (it = usuarios.begin(); it != usuarios.end(); it++) {
-		if ((*it).getPid() != usuario.getPid() || (*it).getNombre() != usuario.getNombre()) {//sobrecargar operador =
+		if ((*it) != usuario) {
 			vector<string> archivosDeUsuario = (*it).getArchivos();
 			vector<string>::iterator itArch;
-			for (itArch = archivosDeUsuario.begin(); itArch != archivosDeUsuario.end(); itArch++) {
+			for (itArch = archivosDeUsuario.begin(); itArch != archivosDeUsuario.end(); itArch++)
 					escribir(*itArch, (*it).getPid(), (*it).getNombre());
-			}
 		}
 	}
 	lock.liberarLock();
 	return 0; // TODO ver return
 }
 
-int GestorUsuarios :: agregarArchivo (string archivo, Usuario usuario)
+int GestorUsuarios :: agregarArchivo (string archivo, Usuario& usuario)
 {
 	lock.tomarLock();
 	int resultado = escribir(archivo, usuario.getPid(), usuario.getNombre());
 	lock.liberarLock();
+	usuario.agregarArchivo(archivo);
 	return resultado;
 }
 
-int GestorUsuarios :: eliminarArchivo ( string archivo, Usuario usuario)
+int GestorUsuarios :: eliminarArchivo ( string archivo, Usuario& usuario) //eliminar el archivo del usuario
 {
 	lock.tomarLock();
 	actualizarUsuarios();
@@ -46,14 +46,13 @@ int GestorUsuarios :: eliminarArchivo ( string archivo, Usuario usuario)
 	for (it = usuarios.begin(); it != usuarios.end(); it++) {
 		vector<string> archivosDeUsuario = (*it).getArchivos();
 		vector<string>::iterator itArch;
-		cout << (*it).getPid() << (*it).getNombre() << endl;
 		for (itArch = archivosDeUsuario.begin(); itArch != archivosDeUsuario.end(); itArch++) {
-			if (!((*itArch).compare(archivo.c_str()) == 0 && (*it).getPid() == usuario.getPid() && (*it).getNombre() == usuario.getNombre())) {
-				escribir((*itArch), (*it).getPid(), (*it).getNombre());
-			}
+			if (!(*itArch == archivo && *it == usuario))
+				escribir(*itArch, (*it).getPid(), (*it).getNombre());
 		}
 	}
 	lock.liberarLock();
+	usuario.eliminarArchivo(archivo);
 	return 0; // TODO ver return
 }
 
@@ -97,7 +96,7 @@ void GestorUsuarios :: actualizarUsuarios ()
 
 int GestorUsuarios::escribir (string ruta,int pid, string nombre)
 {
-	string linea = nombre + "," + intToString(pid) + "," + ruta + "\n";
+	string linea = nombre + "," + Debug::intToString(pid) + "," + ruta + "\n";
 	lock.escribir((char*)linea.c_str(), linea.length());
 	return 0;
 }
@@ -116,13 +115,13 @@ int GestorUsuarios::leer (string& ruta,int& pid, string& nombre)
 int GestorUsuarios::parsearLinea(string linea,string& nombre,int& pid,string& archivo)
 {
 	string cadenaAux;
-	string:: size_type coma2 = linea.find(",", 0);
-	cadenaAux.assign(linea, 0, coma2);
+	string:: size_type posComa1 = linea.find(",", 0);
+	cadenaAux.assign(linea, 0, posComa1);
 	nombre = cadenaAux;
-	string:: size_type coma3 = linea.find(",", coma2 + 1);
-	cadenaAux.assign(linea, coma2 + 1, coma3 - coma2 -1);
+	string:: size_type posComa2 = linea.find(",", posComa1 + 1);
+	cadenaAux.assign(linea, posComa1 + 1, posComa2 - posComa1 -1);
 	pid = atoi(cadenaAux.c_str());
-	archivo.assign(linea,coma3 + 1,linea.length());
+	archivo.assign(linea,posComa2 + 1,linea.length());
 	return 0;
 }
 
