@@ -10,7 +10,6 @@ SignalHandler* SignalHandler :: getInstance () {
 
 	if ( instance == NULL )
 		instance = new SignalHandler ();
-
 	return instance;
 }
 
