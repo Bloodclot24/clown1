@@ -60,7 +60,7 @@ int compartirArchivos(GestorUsuarios* gestorUsuarios, Usuario usuario)
 
 	while (!salir) {
 		mostrarMenuCompartir();
-		char opcion;
+		char opcion = '0';
 		cin >> opcion;
 
 		switch (opcion)
@@ -98,19 +98,31 @@ int compartirArchivos(GestorUsuarios* gestorUsuarios, Usuario usuario)
 
 int descargarArchivo(GestorDescargas* gestorDescargas, Usuario usuarioOrigen, Usuario usuarioDestino, list<int>& hijos)
 {
-	cout << "Ingrese el numero de archivo que desea descargar" << endl;
 	cout << usuarioOrigen << endl;
-	int numero;
-	cin >> numero;
+	cout << "Ingrese el numero de archivo que desea descargar" << endl;
+	char numeroLeido = '0';
+	int numero = 0;
+	bool salir = false;
+	while(!salir) {
+		cin >> numeroLeido;
+		numero = atoi(&numeroLeido);
+		if (numero < usuarioOrigen.getArchivos().size() && numero >= 0)
+			salir = true;
+		else
+			cout << "No es una opcion valida, intente nuevamente." << endl;
+	}
+	cout<<"------------------------------------------"<<endl;
+
 	int pidDescarga = fork(); //cuidado como sigue  el hijo!!!
 	if(pidDescarga == HIJO) {
 		string archivo = usuarioOrigen.getArchivos()[numero];
 		Debug::getInstance()->escribir("Usuario " + usuarioDestino.getNombre() + " inicia descarga en proceso " + Debug::intToString(usuarioDestino.getPid()) + "\n");
 		gestorDescargas->descargar(archivo, usuarioOrigen, usuarioDestino);
 		cout << "Archivo " + archivo + " descargado" << endl;
+		Debug::destruir();
 		cout<<"PID2 descarga hijo " << getpid() <<endl;
 		return HIJO;
-	} //else {
+	} //else { verrr
 		hijos.insert(hijos.end(), pidDescarga);
 		cout << "PID2 descarga padre" << getpid() << endl;
 		return PADRE;
@@ -124,21 +136,28 @@ int buscarArchivos(GestorUsuarios* gestorUsuarios, GestorDescargas* gestorDescar
 
 	cout << "Desea seleccionar un archivo para descargar? (s/n)" << endl;
 	bool salir = false;
+	bool numeroValido = false;
 	while (!salir) {
-		int numero;
-		char opcion;
+		char numeroLeido = '0';
+		int numero = 0;
+		char opcion = '0';
 		cin >> opcion;
 
 		switch (opcion)
 		{
 			case 's':
 				cout << "Ingrese el numero del usuario al que pertenece el archivo : " << endl;
-				cin >> numero; //control!!
-				if (descargarArchivo(gestorDescargas, usuarios[numero], usuario, hijos) == HIJO) {
-					cout<<"PID2buscararchivos " << getpid() <<endl;
-					return HIJO;
+				while(!numeroValido) {
+					cin >> numeroLeido;
+					numero = atoi(&numeroLeido);
+					if (numero < usuarios.size() && numero >= 0) {
+						if (descargarArchivo(gestorDescargas, usuarios[numero], usuario, hijos) == HIJO)
+							return HIJO;
+						salir = true;
+						numeroValido = true;
+					} else
+						cout << "No es una opcion valida, intente nuevamente." << endl;
 				}
-				salir = true;
 				break;
 			case 'n':
 				salir = true;
@@ -161,7 +180,7 @@ int ejecutarMenu(GestorDescargas* gestorDescargas, list<int>& hijos, Usuario usu
 	bool salir = false;
 	while (!salir) {
 		mostrarMenu();
-		char opcion;
+		char opcion = '0';
 		cin >> opcion;
 
 		switch (opcion)
@@ -202,7 +221,7 @@ int main(int argc, char** argv)
 		Debug::getInstance()->escribir("Recepcion de usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
 		Debug::destruir();
 		cout<<"PID0 " << getpid() <<endl;
-		exit(resultado);
+		return resultado;
 	}
 	cout<<"PID1 " << getpid() <<endl;
 
@@ -222,8 +241,8 @@ int main(int argc, char** argv)
 	list<int> hijos;
 	if(ejecutarMenu(&gestorDescargas, hijos, usuario) == HIJO) {
 		Debug::getInstance()->escribir("Descarga de usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
+		Debug::destruir();
 		cout<<"PID2 " << getpid() <<endl;
-		exit(0);
 	} else {
 		list<int>::iterator it;
 		int estado, opciones;
@@ -233,6 +252,6 @@ int main(int argc, char** argv)
 		Debug::getInstance()->escribir("Usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
 		Debug::destruir();
 		cout<<"PID3 " << getpid() <<endl;
-		exit(0);
 	}
+	return 0;
 }

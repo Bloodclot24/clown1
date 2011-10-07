@@ -28,7 +28,6 @@ int GestorDescargas::iniciarRecepcion()
 			canal.cerrar();
 			canal.abrir();
 			cout << "recibi eof Espero peticion" << endl;
-			//bytesLeidos = canal.leer(buffer, BUFFSIZE);
 		} else if (sigint_handler.getGracefulQuit() == 0) { //por si recibe la senial mientras lee
 			lockEscritura.liberarLock();
 			buffer[bytesLeidos] = '\0'; //controlar esto
@@ -39,15 +38,15 @@ int GestorDescargas::iniciarRecepcion()
 			Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso "	+
 					Debug::intToString(pidOrigen) + ": lei el dato [" + linea + "] del fifo " + Debug::intToString(pidOrigen) + "\n");
 
-			//if (pidDestino != 0) { //por manejo incorrecto de fifo
 			cout << "CREO HIJO " << endl;
 			int pid = fork();
 			if (pid == 0) {
 				int resultado = enviar(pidOrigen, pidDestino,
 						(char*) path.c_str());
-				canal.eliminar(); //TODO chequear que este no quede colgado
+				//canal.cerrar(); //TODO chequear que este no quede colgado
 				lockEscritura.cerrar();
 				Debug::destruir();
+				SignalHandler :: destruir ();
 				return resultado;
 			}
 		}
@@ -94,7 +93,7 @@ void GestorDescargas::enviarRuta(int pidOrigen, int pidDestino, string path)
 	string pidPath = Debug::intToString(pidDestino) + "|" + path;
 	canal.escribir(pidPath.c_str(), pidPath.length());
 
-	//canal.eliminar();
+	canal.eliminar();
 	lockEscritura.cerrar();
 }
 
