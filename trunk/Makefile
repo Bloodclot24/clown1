@@ -1,9 +1,4 @@
-# Makefile de ejemplo para C++
-#
-# Creado: jue abr 15 15:34:19 ART 2004
-#
-# Copyleft 2004 - Leandro Lucarella, Bajo licencia GPL [http://www.gnu.org/]
-#
+# Makefile 
 
 # CONFIGURACION
 ################

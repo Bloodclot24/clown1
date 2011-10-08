@@ -105,7 +105,7 @@ int GestorDescargas::descargar(string path, Usuario usuarioOrigen, Usuario usuar
 	LockFile lockDescargaEscritura(pathFifoDescarga + ".lockEscritura");
 
 	string pathTotal = "descargas_" + usuarioDestino.getNombre() + "_" + Debug::intToString(usuarioDestino.getPid()) + "/" + path;
-	int fd = open(pathTotal.c_str(), O_CREAT | O_WRONLY);
+	int fd = open(pathTotal.c_str(), O_CREAT | O_WRONLY, 0777);
 	char descarga[BUFFSIZE];
 	int resultado;
 	while((resultado = canalDescarga.leer(descarga,BUFFSIZE)) != 0) { // Estamos abusando de que cuando cierra el escritor lee eof.
