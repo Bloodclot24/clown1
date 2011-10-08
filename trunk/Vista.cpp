@@ -53,6 +53,14 @@ void Vista::mostrarUsuario(Usuario usuario) {
 	cout << usuario << endl;
 }
 
+void Vista::mostrarUso(char* nombre) {
+	cout << "Uso: " << endl;
+	cout << "\t " << nombre << endl;
+	cout << "\t " << nombre << " [opciones] " << endl;
+	cout << "Opciones: " << endl;
+	cout << "\t -d, --debug   Corre el programa en modo debug, generando la salida en un archivo de nombre debug." << endl;
+}
+
 void Vista::mostrarMensaje(string mensaje) {
 	cout << mensaje << endl;
 }

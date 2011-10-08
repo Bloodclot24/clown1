@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <list>
+#include <getopt.h>
+//#include <unistd.h>
 
 #include "GestorUsuarios.h"
 #include "GestorDescargas.h"
@@ -150,8 +152,36 @@ int ejecutarMenu(GestorDescargas* gestorDescargas, list<int>& hijos, Usuario& us
 
 }
 
+int parsearLineaDeComandos(int argc, char** argv) {
+	int ch;
+	int index = 0;
+	struct option options[] = { { "help", 0, NULL, 'h' },
+								{ "debug", 0, NULL,	'd' }, };
+	//while ((ch = getopt_long(argc, argv, "hd", options, &index)) != -1) { //para opciones largas
+
+	while ((ch = getopt(argc, argv, "hd")) != -1) {
+		switch (ch) {
+		case 'h':
+			Vista::mostrarUso(argv[0]);
+			return 1;
+			break;
+		case 'd':
+
+			break;
+		default:
+			Vista::mostrarUso(argv[0]);
+			return 1;
+			break;
+		}
+	}
+	return 0;
+}
+
 int main(int argc, char** argv)
 {
+	if(parsearLineaDeComandos(argc, argv) != 0)
+		return 0;
+
 	GestorDescargas gestorDescargas;
 	int pid = fork ();
 	if(pid == HIJO){
