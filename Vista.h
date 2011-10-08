@@ -22,6 +22,8 @@ public:
 
 	static void mostrarUsuario(Usuario usuario);
 
+	static void mostrarUso(char* nombre);
+
 	static string pedirString();
 
 	static char pedirChar();

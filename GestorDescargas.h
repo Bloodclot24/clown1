@@ -19,7 +19,7 @@ using namespace std;
 
 class GestorDescargas {
 private:
-	int enviar(int pidUsuario, int pidDestino, char* buffer);
+	int enviar(int pidUsuario, int pidDestino, char* archivo);
 	void enviarRuta(int pidOrigen, int pidDestino, string path);
 public:
 	GestorDescargas();

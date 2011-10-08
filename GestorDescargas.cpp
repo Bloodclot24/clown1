@@ -41,8 +41,7 @@ int GestorDescargas::iniciarRecepcion()
 			Vista::debug("CREO HIJO ");
 			int pid = fork();
 			if (pid == 0) {
-				int resultado = enviar(pidOrigen, pidDestino,
-						(char*) path.c_str());
+				int resultado = enviar(pidOrigen, pidDestino, (char*) path.c_str());
 				//canal.cerrar(); //TODO chequear que este no quede colgado
 				lockEscritura.cerrar();
 				Debug::destruir();
@@ -64,21 +63,21 @@ int GestorDescargas::iniciarRecepcion()
 }
 
 
-int GestorDescargas::enviar(int pidOrigen, int pidDestino, char* buffer) {
+int GestorDescargas::enviar(int pidOrigen, int pidDestino, char* archivo) {
 
 	string fifo = Debug::intToString(pidOrigen) + "_" + Debug::intToString(pidDestino);
 	Fifo canal(fifo);
 	LockFile lock(fifo + ".lockEscritura");
-	ifstream archivo;
-	archivo.open(buffer,ifstream::in);// open del archivo path, lee una linea en binario
-	char linea[BUFFSIZE*20];
-	while(!archivo.eof()) {
-		archivo.getline(linea,BUFFSIZE*20);
+	int fd = open(archivo, O_RDONLY); //abre el file descriptor para lectura
+	char buffer[BUFFSIZE];
+	int resultado;
+	while((resultado = read(fd, (void *) buffer, BUFFSIZE)) != 0) {
 		lock.tomarLock();
-		canal.escribir(linea,BUFFSIZE*20);
+		canal.escribir(buffer,resultado);
+		string linea(buffer);
 		Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": escribi linea [" + linea + "] en el fifo " + fifo + "\n");
 	}
-	archivo.close();
+	close(fd);
 	lock.cerrar();
 	canal.eliminar();
 	return 0;
@@ -105,17 +104,17 @@ int GestorDescargas::descargar(string path, Usuario usuarioOrigen, Usuario usuar
 	Fifo canalDescarga(pathFifoDescarga);
 	LockFile lockDescargaEscritura(pathFifoDescarga + ".lockEscritura");
 
-	ofstream archivo;
 	string pathTotal = "descargas_" + usuarioDestino.getNombre() + "_" + Debug::intToString(usuarioDestino.getPid()) + "/" + path;
-	archivo.open(pathTotal.c_str(),ofstream::out);//open del archivo path,  lee una linea en binario
-	char descarga[BUFFSIZE*20];
-	while(canalDescarga.leer(descarga,BUFFSIZE*20) != 0) { // Estamos abusando de que cuando cierra el escritor lee eof.
+	int fd = open(pathTotal.c_str(), O_CREAT | O_WRONLY);
+	char descarga[BUFFSIZE];
+	int resultado;
+	while((resultado = canalDescarga.leer(descarga,BUFFSIZE)) != 0) { // Estamos abusando de que cuando cierra el escritor lee eof.
 		lockDescargaEscritura.liberarLock();
-		archivo << descarga << endl; //TODO endl esta mal parche!!!
-		archivo.flush();
-		Debug::getInstance()->escribir("Descarga " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(getppid()) + ": descargue el dato [" + descarga + "] del fifo " + pathFifoDescarga + "\n");
+		write(fd, (const void *) descarga, resultado);
+		string linea(descarga);
+		Debug::getInstance()->escribir("Descarga " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(getppid()) + ": descargue el dato [" + linea + "] del fifo " + pathFifoDescarga + "\n");
 	}
-	archivo.close();
+	close(fd);
 	canalDescarga.eliminar();
 	lockDescargaEscritura.eliminar();
 	Debug::getInstance()->escribir("Descarga " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(getppid()) + ": finaliza descarga\n");
