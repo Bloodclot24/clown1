@@ -3,6 +3,7 @@
 
 #include <signal.h>
 #include <stdio.h>
+#include <time.h>
 #include <string>
 #include <iostream>
 #include <sstream>
