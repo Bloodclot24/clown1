@@ -24,7 +24,7 @@ int GestorUsuarios::eliminarUsuario(Usuario usuario)
 		}
 	}
 	lock.liberarLock();
-	return 0; // TODO ver return
+	return 0;
 }
 
 int GestorUsuarios :: agregarArchivo (string archivo, Usuario& usuario)
@@ -53,7 +53,7 @@ int GestorUsuarios :: eliminarArchivo ( string archivo, Usuario& usuario)
 	}
 	lock.liberarLock();
 	usuario.eliminarArchivo(archivo);
-	return 0; // TODO ver return
+	return 0;
 }
 
 vector<Usuario> GestorUsuarios::buscarArchivos()
@@ -104,7 +104,7 @@ int GestorUsuarios::escribir (string ruta,int pid, string nombre)
 int GestorUsuarios::leer (string& ruta,int& pid, string& nombre)
 {
 	char linea[512];
-	int leidos = lock.leer(linea,512);//falta busqueda y control de pid
+	int leidos = lock.leer(linea,512);
 	string linea1(linea);
 	linea1.assign(linea1,0,leidos);
 	parsearLinea(linea1,nombre,pid,ruta);

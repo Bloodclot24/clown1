@@ -1,12 +1,9 @@
 #ifndef FIFO_H_
 #define FIFO_H_
 
-//#include <unistd.h>
 #include <string>
 #include <sys/stat.h>
 #include <fcntl.h>
-//#include <stdlib.h>
-//#include <stdio.h>
 
 using namespace std;
 

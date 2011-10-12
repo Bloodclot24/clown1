@@ -23,12 +23,19 @@ public:
 	virtual ~LockFile();
 
 	int tomarLock ();
+
 	int liberarLock ();
+
 	int escribir ( char* buffer,int buffsize );
+
 	int leer (char* buffer,int buffsize );
+
 	void cerrar();
+
 	void abrir();
+
 	void reset();
+
 	void eliminar();
 };
 

@@ -20,7 +20,7 @@ void Debug::destruir() {
 		delete (instance);
 		instance = NULL;
 	}
-	lock.cerrar(); //TODO eliminar!!
+	lock.cerrar();
 }
 
 void Debug::setModoDebug()

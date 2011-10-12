@@ -1,11 +1,6 @@
 #ifndef CONCUSHARE_H_
 #define CONCUSHARE_H_
 
-//#include <string.h>
-//#include <iostream>
-//#include <stdlib.h>
-//#include <sys/wait.h>
-//#include <list>
 #include <getopt.h>
 
 #include "GestorUsuarios.h"

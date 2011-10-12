@@ -190,8 +190,7 @@ int ConcuShare::iniciar(int argc, char** argv)
 		Debug::getInstance()->escribir("Recepcion de usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
 		Debug::destruir();
 		return resultado;
-	}// else
-	//	hijos.insert(hijos.end(), pid);
+	}
 
 	Vista::mostrarBienvenida();
 	string nombre = Vista::pedirString();
