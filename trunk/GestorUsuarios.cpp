@@ -12,8 +12,8 @@ int GestorUsuarios::eliminarUsuario(Usuario usuario)
 {
 	lock.tomarLock();
 	actualizarUsuarios();
-	//TODO pisar el archivo de usuarios
-	lock.reset();
+	lock.eliminar();
+	lock.abrir();
 	vector<Usuario>::iterator it;
 	for (it = usuarios.begin(); it != usuarios.end(); it++) {
 		if ((*it) != usuario) {
@@ -36,12 +36,12 @@ int GestorUsuarios :: agregarArchivo (string archivo, Usuario& usuario)
 	return resultado;
 }
 
-int GestorUsuarios :: eliminarArchivo ( string archivo, Usuario& usuario) //eliminar el archivo del usuario
+int GestorUsuarios :: eliminarArchivo ( string archivo, Usuario& usuario)
 {
 	lock.tomarLock();
 	actualizarUsuarios();
-	//TODO pisar el archivo de usuarios
-	lock.reset();
+	lock.eliminar();
+	lock.abrir();
 	vector<Usuario>::iterator it;
 	for (it = usuarios.begin(); it != usuarios.end(); it++) {
 		vector<string> archivosDeUsuario = (*it).getArchivos();
@@ -74,9 +74,10 @@ void GestorUsuarios :: actualizarUsuarios ()
 	string nombre;
 	int pid;
 	string archivo;
-	reset();
+	lock.cerrar();
+	lock.abrir();
 	usuarios.erase(usuarios.begin(), usuarios.end());
-	while ( leer(archivo,pid,nombre) != 0) { //Si la lectura devuelve 0 bytes es porque estoy en eof
+	while ( leer(archivo,pid,nombre) != 0) { //Si la lectura devuelve 0 bytes corresponde al eof
 		vector<Usuario>::iterator it;
 		bool encontrado = false;
 		for (it = usuarios.begin(); it != usuarios.end() && !encontrado; it++) {
@@ -88,7 +89,7 @@ void GestorUsuarios :: actualizarUsuarios ()
 		if(!encontrado) {
 			Usuario usuario(nombre, pid);
 			usuario.agregarArchivo(archivo);
-			usuarios.insert(usuarios.end(), usuario); //verrrr por memoria TODO Constructor copia
+			usuarios.insert(usuarios.end(), usuario);
 		}
 		Debug::getInstance()->escribir( "Actualizando usuario " + nombre + " pid " + Debug::intToString(pid) + " archivo " + archivo + "\n");
 	}
@@ -123,10 +124,4 @@ int GestorUsuarios::parsearLinea(string linea,string& nombre,int& pid,string& ar
 	pid = atoi(cadenaAux.c_str());
 	archivo.assign(linea,posComa2 + 1,linea.length());
 	return 0;
-}
-
-void GestorUsuarios::reset()
-{
-	lock.cerrar();
-	lock.abrir();
 }
