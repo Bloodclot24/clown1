@@ -8,7 +8,7 @@ GestorDescargas::~GestorDescargas()
 {
 }
 
-int GestorDescargas::iniciarRecepcion()
+int GestorDescargas::iniciarRecepcion(list<int>& hijos)
 {
 	// receptor de pedidos de archivos
 	char buffer[BUFFSIZE];
@@ -44,10 +44,11 @@ int GestorDescargas::iniciarRecepcion()
 				int resultado = enviar(pidOrigen, pidDestino, (char*) path.c_str());
 				//canal.cerrar(); //TODO chequear que este no quede colgado
 				lockEscritura.cerrar();
-				Debug::destruir();
+			//	Debug::destruir();
 				SignalHandler :: destruir ();
 				return resultado;
-			}
+			} else
+				hijos.insert(hijos.end(), pid);
 		}
 	}
 	// se recibio la senial SIGINT, el proceso termina
@@ -58,7 +59,7 @@ int GestorDescargas::iniciarRecepcion()
 	canal.eliminar();
 
 	Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": fin del proceso\n");
-	Debug::destruir();
+	//Debug::destruir();
 	return 0;
 }
 

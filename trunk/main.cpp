@@ -4,7 +4,9 @@
 #include <sys/wait.h>
 #include <list>
 #include <getopt.h>
-//#include <unistd.h>
+#include <unistd.h>
+#include <stdio.h>
+
 
 #include "GestorUsuarios.h"
 #include "GestorDescargas.h"
@@ -71,7 +73,7 @@ int descargarArchivo(GestorDescargas* gestorDescargas, Usuario usuarioOrigen, Us
 		Debug::getInstance()->escribir("Usuario " + usuarioDestino.getNombre() + " inicia descarga en proceso " + Debug::intToString(usuarioDestino.getPid()) + "\n");
 		gestorDescargas->descargar(archivo, usuarioOrigen, usuarioDestino);
 		Vista::mostrarMensaje("Archivo " + archivo + " descargado");
-		Debug::destruir();
+	//	Debug::destruir();
 		Vista::debug("PID2 descarga hijo ", getpid());
 		return HIJO;
 	} //else { verrr
@@ -156,8 +158,8 @@ int parsearLineaDeComandos(int argc, char** argv) {
 	int ch;
 	int index = 0;
 	struct option options[] = { { "help", 0, NULL, 'h' },
-								{ "debug", 0, NULL,	'd' }, };
-	//while ((ch = getopt_long(argc, argv, "hd", options, &index)) != -1) { //para opciones largas
+								{ "debug", 0, NULL,	'd' }, };//sacar del uso!
+//	while ((ch = getopt_long(argc, argv, "hd", options, &index)) != -1) { //para opciones largas
 
 	while ((ch = getopt(argc, argv, "hd")) != -1) {
 		switch (ch) {
@@ -181,11 +183,12 @@ int main(int argc, char** argv)
 {
 	if(parsearLineaDeComandos(argc, argv) != 0)
 		return 0;
-
+	Debug::getInstance();
 	GestorDescargas gestorDescargas;
+	list<int> hijos;
 	int pid = fork ();
 	if(pid == HIJO){
-		int resultado = gestorDescargas.iniciarRecepcion();
+		int resultado = gestorDescargas.iniciarRecepcion(hijos);
 		Debug::getInstance()->escribir("Recepcion de usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
 		Debug::destruir();
 		Vista::debug("PID0 ", getpid());
@@ -203,10 +206,10 @@ int main(int argc, char** argv)
 	if(estado >= 0)
 		Debug::getInstance()->escribir("Proceso " + Debug::intToString(getpid()) + ": creo el directorio " + directorio + " para realizar la descarga\n");
 
-	list<int> hijos;
+
 	if(ejecutarMenu(&gestorDescargas, hijos, usuario) == HIJO) {
 		Debug::getInstance()->escribir("Descarga de usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
-		Debug::destruir();
+	//	Debug::destruir();
 		Vista::debug("PID2 ", getpid());
 	} else {
 		list<int>::iterator it;
@@ -215,8 +218,9 @@ int main(int argc, char** argv)
 			waitpid(*it,&estado,opciones);
 		kill(pid,SIGINT);
 		Debug::getInstance()->escribir("Usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
-		Debug::destruir();
+		//Debug::destruir();
 		Vista::debug("PID3 ", getpid());
 	}
+	Debug::destruir();
 	return 0;
 }
