@@ -7,6 +7,8 @@
 #include <fstream>
 #include <sstream>
 #include <list>
+#include <sys/wait.h>
+
 #include "Fifo.h"
 #include "Usuario.h"
 #include "LockFile.h"
@@ -26,8 +28,9 @@ public:
 	GestorDescargas();
 	virtual ~GestorDescargas();
 
-	int iniciarRecepcion(list<int>& hijos);
+	int iniciarRecepcion();
 	int descargar(string path, Usuario usuarioOrigen, Usuario usuarioDestino);
+	void esperarFinalizacionDescargas(list<int> hijos);
 
 };
 

@@ -16,10 +16,12 @@ class Debug {
 private:
 	static Debug* instance;
 	static LockFile lock;
+	static bool modoDebug;
 	Debug();
 
 public:
 	static Debug* getInstance();
+	static void setModoDebug();
 	static void destruir();
 	static void escribir(string mensaje);
 	static string intToString(int entero);
