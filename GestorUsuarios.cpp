@@ -74,8 +74,7 @@ void GestorUsuarios :: actualizarUsuarios ()
 	string nombre;
 	int pid;
 	string archivo;
-	lock.cerrar();
-	lock.abrir();
+	lock.reset();
 	usuarios.erase(usuarios.begin(), usuarios.end());
 	while ( leer(archivo,pid,nombre) != 0) { //Si la lectura devuelve 0 bytes corresponde al eof
 		vector<Usuario>::iterator it;
