@@ -17,8 +17,11 @@ private:
 
 public:
 	static SignalHandler* getInstance();
+
 	static void destruir();
+
 	EventHandler* registrarHandler(int signum, EventHandler* eh);
+
 	int removerHandler(int signum);
 
 };

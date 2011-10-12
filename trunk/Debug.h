@@ -19,9 +19,13 @@ private:
 
 public:
 	static Debug* getInstance();
+
 	static void setModoDebug();
+
 	static void destruir();
+
 	static void escribir(string mensaje);
+
 	static string intToString(int entero);
 };
 

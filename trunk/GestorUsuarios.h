@@ -1,13 +1,6 @@
 #ifndef GESTOR_USUARIOS_H_
 #define GESTOR_USUARIOS_H_
 
-//#include <unistd.h>
-//#include <string.h>
-//#include <sstream>
-//#include <vector>
-//#include <sys/stat.h>
-//#include <fcntl.h>
-//#include <iostream>
 #include <stdlib.h>
 
 #include "Usuario.h"
@@ -25,8 +18,11 @@ private:
 	LockFile lock;
 
 	void actualizarUsuarios();
+
 	int escribir(string ruta, int pid, string nombre);
+
 	int leer(string& ruta, int& pid, string& nombre);
+
 	int parsearLinea(string linea, string& nombre, int& pid, string& archivo);
 
 public:
@@ -34,9 +30,13 @@ public:
 	virtual ~GestorUsuarios();
 
 	int eliminarUsuario(Usuario usuario);
+
 	int agregarArchivo(string archivo, Usuario& usuario);
+
 	int eliminarArchivo(string archivo, Usuario& usuario);
+
 	vector<Usuario> buscarArchivos();
+
 	void cerrar();
 };
 

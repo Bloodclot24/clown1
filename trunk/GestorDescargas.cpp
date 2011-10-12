@@ -10,14 +10,11 @@ GestorDescargas::~GestorDescargas()
 
 int GestorDescargas::iniciarRecepcion()
 {
-	// receptor de pedidos de archivos
 	char buffer[BUFFSIZE];
 	int pidOrigen = getppid();
 	Fifo canal(Debug::intToString(pidOrigen));
 	LockFile lockEscritura(Debug::intToString(pidOrigen) + ".lockEscritura");
-	list<int> hijos;
-	// event handler para la senial SIGINT (-2)
-	SIGINT_Handler sigint_handler;
+	SIGINT_Handler sigint_handler; // event handler para la senial SIGINT (-2)
 	SignalHandler :: getInstance()->registrarHandler ( SIGINT,&sigint_handler );
 
 	Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": esperando para leer . . .\n");
@@ -43,13 +40,10 @@ int GestorDescargas::iniciarRecepcion()
 				lockEscritura.cerrar();
 				SignalHandler :: destruir ();
 				return resultado;
-			} else
-				hijos.insert(hijos.end(), pid);
+			}
 		}
 	}
-	// se recibio la senial SIGINT, el proceso termina
 	SignalHandler :: destruir ();
-	//esperarFinalizacionDescargas(hijos);
 	lockEscritura.eliminar();
 	canal.eliminar();
 	Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": fin del proceso\n");
