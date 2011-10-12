@@ -9,7 +9,6 @@ LockFile::LockFile(string nombre) {
 	fl.l_len = 0;
 	fl.l_pid = getpid();
 	abrir();
-	//TODO escribir en debug
 }
 
 int LockFile::tomarLock() {
@@ -32,7 +31,6 @@ int LockFile::escribir(char* buffer, int buffsize) {
 
 int LockFile::leer(char* buffer, int buffsize) {
 	lseek(fd, lectura, SEEK_SET);
-	//lseek ( fd,0,SEEK_CUR );
 	int resultado = read(fd, (void*) buffer, buffsize);
 	if (resultado == 0)
 		return resultado;
@@ -48,19 +46,16 @@ void LockFile::abrir() {
 }
 
 void LockFile::cerrar() {
-	close(fd); //ver si se elimina
+	close(fd);
 }
 
 void LockFile::eliminar() {
-	close(fd); //ver si se elimina
+	close(fd);
 	unlink(nombre.c_str());
 }
 
 void LockFile::reset() {
-	//lseek ( fd,0,SEEK_SET);
-	cerrar();
-	unlink(nombre.c_str()); //ver esto!!!
-	abrir();
+	lectura = 0;
 }
 
 LockFile::~LockFile() {

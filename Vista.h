@@ -36,11 +36,6 @@ public:
 	static void mostrarMensajeInicial(string mensaje);
 
 	static void mostrarMensajeFinal(string mensaje);
-
-	static void debug(string mensaje, int entero);
-
-	static void debug(string mensaje);
-
 };
 
 #endif /* VISTA_H_ */

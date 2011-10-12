@@ -30,11 +30,10 @@ int GestorDescargas::iniciarRecepcion()
 			canal.abrir();
 		} else if (sigint_handler.getGracefulQuit() == 0) { //por si recibe la senial mientras lee
 			lockEscritura.liberarLock();
-			buffer[bytesLeidos] = '\0'; //controlar esto
+			buffer[bytesLeidos] = '\0';
 			string linea(buffer);
 			int pidDestino = atoi(linea.substr(0, linea.find("|", 0)).c_str());
 			string path = linea.substr(linea.find("|", 0) + 1, linea.length());
-
 			Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso "	+
 					Debug::intToString(pidOrigen) + ": lei el dato [" + linea + "] del fifo " + Debug::intToString(pidOrigen) + "\n");
 
@@ -50,12 +49,9 @@ int GestorDescargas::iniciarRecepcion()
 	}
 	// se recibio la senial SIGINT, el proceso termina
 	SignalHandler :: destruir ();
-
 	//esperarFinalizacionDescargas(hijos);
-
 	lockEscritura.eliminar();
 	canal.eliminar();
-
 	Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": fin del proceso\n");
 	return 0;
 }
@@ -66,7 +62,7 @@ int GestorDescargas::enviar(int pidOrigen, int pidDestino, char* archivo) {
 	string fifo = Debug::intToString(pidOrigen) + "_" + Debug::intToString(pidDestino);
 	Fifo canal(fifo);
 	LockFile lock(fifo + ".lockEscritura");
-	int fd = open(archivo, O_RDONLY); //abre el file descriptor para lectura
+	int fd = open(archivo, O_RDONLY);
 	char buffer[BUFFSIZE];
 	int resultado;
 	while((resultado = read(fd, (void *) buffer, BUFFSIZE)) != 0) {
@@ -114,7 +110,7 @@ int GestorDescargas::descargar(string path, Usuario usuarioOrigen, Usuario usuar
 	int fd = open(pathTotal.c_str(), O_CREAT | O_WRONLY, 0777);
 	char descarga[BUFFSIZE];
 	int resultado;
-	while((resultado = canalDescarga.leer(descarga,BUFFSIZE)) != 0) { // Estamos abusando de que cuando cierra el escritor lee eof.
+	while((resultado = canalDescarga.leer(descarga,BUFFSIZE)) != 0) { // corresponde al eof
 		lockDescargaEscritura.liberarLock();
 		write(fd, (const void *) descarga, resultado);
 		string linea(descarga);

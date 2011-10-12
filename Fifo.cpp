@@ -40,7 +40,7 @@ void Fifo::eliminar() {
 
 void Fifo::abrir() {
 	if (fileDes == -1)
-		mknod(nombre.c_str(), S_IFIFO | 0666, 0); //crea el fifo
+		mknod(nombre.c_str(), S_IFIFO | 0666, 0);
 }
 
 

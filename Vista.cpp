@@ -58,7 +58,7 @@ void Vista::mostrarUso(char* nombre) {
 	cout << "\t " << nombre << endl;
 	cout << "\t " << nombre << " [opciones] " << endl;
 	cout << "Opciones: " << endl;
-	cout << "\t -d, --debug   Corre el programa en modo debug, generando la salida en un archivo de nombre debug." << endl;
+	cout << "\t -d   Corre el programa en modo debug, generando la salida en un archivo de nombre debug." << endl;
 }
 
 void Vista::mostrarMensaje(string mensaje) {
@@ -100,12 +100,4 @@ int Vista::pedirInt(int inferior, int superior) {
 			cout << "No es una opcion valida, intente nuevamente." << endl;
 	}
 	return numero;
-}
-
-void Vista::debug(string mensaje, int entero) {
-	//cout << mensaje << entero << endl;
-}
-
-void Vista::debug(string mensaje) {
-	//cout << mensaje << endl;
 }

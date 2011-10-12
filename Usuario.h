@@ -16,9 +16,9 @@ private:
 	vector<string> archivos;
 
 public:
+	Usuario();
 	Usuario(string nombre, int pid);
 	Usuario(const Usuario& usuario);
-	Usuario();
 	virtual ~Usuario();
 
 	vector<string> getArchivos();
