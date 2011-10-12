@@ -1,22 +1,17 @@
-#include <string.h>
-#include <iostream>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include <list>
+//#include <string.h>
+//#include <iostream>
+//#include <stdlib.h>
+//#include <sys/wait.h>
+//#include <list>
 #include <getopt.h>
-#include <unistd.h>
-#include <stdio.h>
-
 
 #include "GestorUsuarios.h"
 #include "GestorDescargas.h"
 #include "Debug.h"
 #include "Vista.h"
 
-#define BUFFSIZE		100
 #define HIJO		0
 #define PADRE		1
-#define ERR0R		-1
 
 using namespace std;
 

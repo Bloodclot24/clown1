@@ -1,7 +1,8 @@
 #ifndef VISTA_H_
 #define VISTA_H_
 
-#include<iostream>
+#include <iostream>
+#include <stdlib.h>
 
 #include "Usuario.h"
 

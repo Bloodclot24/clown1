@@ -2,12 +2,8 @@
 #define USUARIO_H_
 
 #include <iostream>
-#include <unistd.h>
 #include <string>
 #include <vector>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdlib.h>
 
 using namespace std;
 
