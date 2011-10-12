@@ -55,7 +55,8 @@ void LockFile::eliminar() {
 }
 
 void LockFile::reset() {
-	lectura = 0;
+	cerrar();
+	abrir();
 }
 
 LockFile::~LockFile() {
