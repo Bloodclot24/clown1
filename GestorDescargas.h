@@ -25,7 +25,7 @@ public:
 	GestorDescargas();
 	virtual ~GestorDescargas();
 
-	int iniciarRecepcion();
+	int iniciarRecepcion(list<int>& hijos);
 	int descargar(string path, Usuario usuarioOrigen, Usuario usuarioDestino);
 
 };

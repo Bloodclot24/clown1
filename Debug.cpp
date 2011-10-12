@@ -8,9 +8,10 @@ Debug::Debug() {
 
 Debug* Debug::getInstance() {
 
-	if (instance == NULL)
+	if (instance == NULL) {
 		instance = new Debug();
-
+		cout << "CREADOOOOOOOOo" << endl;
+	}
 	return instance;
 }
 
