@@ -1,8 +1,6 @@
 #ifndef DEBUG_H_
 #define DEBUG_H_
 
-#include <signal.h>
-#include <stdio.h>
 #include <time.h>
 #include <string>
 #include <iostream>

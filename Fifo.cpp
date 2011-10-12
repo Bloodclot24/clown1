@@ -36,14 +36,11 @@ void Fifo::cerrar() {
 void Fifo::eliminar() {
 	cerrar();
 	unlink(nombre.c_str());
-	Vista::debug("Elimino el fifo" + nombre);
 }
 
 void Fifo::abrir() {
 	if (fileDes == -1)
 		mknod(nombre.c_str(), S_IFIFO | 0666, 0); //crea el fifo
-
-	Vista::debug("Abri el fifo " + nombre);
 }
 
 

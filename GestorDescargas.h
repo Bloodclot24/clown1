@@ -1,17 +1,17 @@
 #ifndef GESTORDESCARGAS_H_
 #define GESTORDESCARGAS_H_
 
-#include <string.h>
+//#include <string.h>
 #include <stdlib.h>
-#include <iostream>
-#include <fstream>
-#include <sstream>
+//#include <iostream>
+//#include <fstream>
+//#include <sstream>
 #include <list>
 #include <sys/wait.h>
 
 #include "Fifo.h"
 #include "Usuario.h"
-#include "LockFile.h"
+//#include "LockFile.h"
 #include "Debug.h"
 #include "SIGINT_Handler.h"
 #include "SignalHandler.h"

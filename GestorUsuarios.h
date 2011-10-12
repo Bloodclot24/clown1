@@ -1,13 +1,13 @@
 #ifndef GESTOR_USUARIOS_H_
 #define GESTOR_USUARIOS_H_
 
-#include <unistd.h>
-#include <string.h>
-#include <sstream>
-#include <vector>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <iostream>
+//#include <unistd.h>
+//#include <string.h>
+//#include <sstream>
+//#include <vector>
+//#include <sys/stat.h>
+//#include <fcntl.h>
+//#include <iostream>
 #include <stdlib.h>
 
 #include "Usuario.h"
@@ -22,7 +22,6 @@ class GestorUsuarios {
 
 private:
 	vector<Usuario> usuarios; //esto es una lista, hace falta o leo todas las veces?
-	//ArchivoUsuarios archivoUsuarios;
 
 	LockFile lock;
 
