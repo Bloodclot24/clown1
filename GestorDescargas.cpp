@@ -8,13 +8,14 @@ GestorDescargas::~GestorDescargas()
 {
 }
 
-int GestorDescargas::iniciarRecepcion(list<int>& hijos)
+int GestorDescargas::iniciarRecepcion()
 {
 	// receptor de pedidos de archivos
 	char buffer[BUFFSIZE];
 	int pidOrigen = getppid();
 	Fifo canal(Debug::intToString(pidOrigen));
 	LockFile lockEscritura(Debug::intToString(pidOrigen) + ".lockEscritura");
+	list<int> hijos;
 	// event handler para la senial SIGINT (-2)
 	SIGINT_Handler sigint_handler;
 	SignalHandler :: getInstance()->registrarHandler ( SIGINT,&sigint_handler );
@@ -42,9 +43,7 @@ int GestorDescargas::iniciarRecepcion(list<int>& hijos)
 			int pid = fork();
 			if (pid == 0) {
 				int resultado = enviar(pidOrigen, pidDestino, (char*) path.c_str());
-				//canal.cerrar(); //TODO chequear que este no quede colgado
 				lockEscritura.cerrar();
-			//	Debug::destruir();
 				SignalHandler :: destruir ();
 				return resultado;
 			} else
@@ -55,11 +54,12 @@ int GestorDescargas::iniciarRecepcion(list<int>& hijos)
 	SignalHandler :: destruir ();
 	Vista::debug("ATRAPO LA SENIALLLLLLLLLLL");
 
+	//esperarFinalizacionDescargas(hijos);
+
 	lockEscritura.eliminar();
 	canal.eliminar();
 
 	Debug::getInstance()->escribir("Receptor " + Debug::intToString(getpid()) + " del proceso " + Debug::intToString(pidOrigen) + ": fin del proceso\n");
-	//Debug::destruir();
 	return 0;
 }
 
@@ -95,6 +95,14 @@ void GestorDescargas::enviarRuta(int pidOrigen, int pidDestino, string path)
 
 	canal.eliminar();
 	lockEscritura.cerrar();
+}
+
+void GestorDescargas::esperarFinalizacionDescargas(list<int> hijos)
+{
+	list<int>::iterator it;
+	int estado, opciones = 0;
+	for( it = hijos.begin(); it != hijos.end(); it++)
+		waitpid(*it,&estado,opciones);
 }
 
 int GestorDescargas::descargar(string path, Usuario usuarioOrigen, Usuario usuarioDestino)

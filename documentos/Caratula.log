@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2010.12.13)  12 OCT 2011 03:02
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.3.27)  12 OCT 2011 09:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -291,7 +291,7 @@ File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
 Package graphics Info: Driver file: pdftex.def on input line 91.
 
 (/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
-File: pdftex.def 2009/08/25 v0.04m Graphics/color for pdfTeX
+File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
 \Gread@gobject=\count90
 ))
 \Gin@req@height=\dimen104
@@ -318,8 +318,7 @@ Version 1.0, Aug 13, 1994
 \@Rightmargin=\dimen109
 \@Topmargin=\dimen110
 \@Bottommargin=\dimen111
-)
-No file Caratula.aux.
+) (./Caratula.aux)
 \openout1 = `Caratula.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
@@ -335,7 +334,7 @@ LaTeX Font Info:    ... okay on input line 19.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
 LaTeX Font Info:    ... okay on input line 19.
 LaTeX Font Info:    Try loading font information for T1+pbk on input line 19.
-(/usr/share/texmf-texlive/tex/latex/psnfss/t1pbk.fd
+ (/usr/share/texmf-texlive/tex/latex/psnfss/t1pbk.fd
 File: t1pbk.fd 2001/06/04 font definitions for T1/pbk.
 )
 LaTeX Font Info:    Font shape `T1/pbk/m/n' in size <12> not available
@@ -355,33 +354,33 @@ LaTeX Font Info:    Font shape `T1/pbk/m/n' in size <12> not available
 \everyMPtoPDFconversion=\toks20
 )
 LaTeX Font Info:    Font shape `T1/pbk/m/n' in size <20.74> not available
-(Font)              Font shape `T1/pbk/l/n' tried instead on input line 45.
+(Font)              Font shape `T1/pbk/l/n' tried instead on input line 44.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 45.
+(Font)              <12> on input line 44.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 45.
+(Font)              <8> on input line 44.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 45.
+(Font)              <6> on input line 44.
 
 
 Package pdftex.def Warning: Option `bb' does not make sense,
-(pdftex.def)                using `viewport' instead on input line 45.
+(pdftex.def)                using `viewport' instead on input line 44.
 
 <Logo-fiuba.png, id=1, 186.2157pt x 186.2157pt>
 File: Logo-fiuba.png Graphic file (type png)
  <use Logo-fiuba.png>
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <20.74> on input line 45.
+(Font)              <20.74> on input line 44.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 45.
+(Font)              <14.4> on input line 44.
 LaTeX Font Info:    Font shape `T1/pbk/m/n' in size <17.28> not available
-(Font)              Font shape `T1/pbk/l/n' tried instead on input line 45.
+(Font)              Font shape `T1/pbk/l/n' tried instead on input line 44.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <17.28> on input line 45.
+(Font)              <17.28> on input line 44.
 LaTeX Font Info:    Font shape `T1/pbk/m/n' in size <14.4> not available
-(Font)              Font shape `T1/pbk/l/n' tried instead on input line 45.
+(Font)              Font shape `T1/pbk/l/n' tried instead on input line 44.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 45.
+(Font)              <7> on input line 44.
 
 
 LaTeX Warning: No \author given.
@@ -391,10 +390,10 @@ LaTeX Warning: No \author given.
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./Logo-fiuba.png (PNG copy
 )>] (./Caratula.aux) ) 
 Here is how much of TeX's memory you used:
- 2060 strings out of 495061
- 23863 string characters out of 1182620
- 76990 words of memory out of 3000000
- 5238 multiletter control sequences out of 15000+50000
+ 2065 strings out of 495061
+ 23942 string characters out of 1182621
+ 77259 words of memory out of 3000000
+ 5241 multiletter control sequences out of 15000+50000
  15785 words of font info for 41 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  26i,12n,31p,205b,433s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -402,7 +401,7 @@ Here is how much of TeX's memory you used:
 sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/te
 xmf-texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/
 fonts/type1/urw/bookman/ubkl8a.pfb>
-Output written on Caratula.pdf (1 page, 98024 bytes).
+Output written on Caratula.pdf (1 page, 98020 bytes).
 PDF statistics:
  20 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

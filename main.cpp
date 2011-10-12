@@ -25,9 +25,10 @@ int compartirArchivos(GestorUsuarios* gestorUsuarios, Usuario& usuario)
 	string ruta;
 	int numero;
 	bool salir = false;
+
 	while (!salir) {
-		bool valido = false;
 		Vista::mostrarMenuCompartir();
+		bool valido = false;
 		char opcion = Vista::pedirChar();
 
 		switch (opcion)
@@ -37,9 +38,9 @@ int compartirArchivos(GestorUsuarios* gestorUsuarios, Usuario& usuario)
 					Vista::mostrarMensajeInicial("Ingrese la ruta del archivo : ");
 					ruta = Vista::pedirString();
 					if (open(ruta.c_str(), O_RDONLY) == -1) {
-						Vista::mostrarMensaje("Archivo no valido, intente nuevamente");
+						Vista::mostrarMensaje("Archivo no valido, intente nuevamente.");
 					} else {
-						gestorUsuarios->agregarArchivo(ruta, usuario);//ver si esta
+						gestorUsuarios->agregarArchivo(ruta, usuario);
 						Vista::mostrarMensajeFinal("Archivo " + ruta + " compartido");
 						valido = true;
 					}
@@ -81,7 +82,6 @@ int descargarArchivo(GestorDescargas* gestorDescargas, Usuario usuarioOrigen, Us
 		Debug::getInstance()->escribir("Usuario " + usuarioDestino.getNombre() + " inicia descarga en proceso " + Debug::intToString(usuarioDestino.getPid()) + "\n");
 		gestorDescargas->descargar(archivo, usuarioOrigen, usuarioDestino);
 		Vista::mostrarMensaje("Archivo " + archivo + " descargado");
-	//	Debug::destruir();
 		Vista::debug("PID2 descarga hijo ", getpid());
 		return HIJO;
 	} //else { verrr
@@ -162,13 +162,18 @@ int ejecutarMenu(GestorDescargas* gestorDescargas, list<int>& hijos, Usuario& us
 
 }
 
-int parsearLineaDeComandos(int argc, char** argv) {
-	int ch;
-	int index = 0;
-	struct option options[] = { { "help", 0, NULL, 'h' },
-								{ "debug", 0, NULL,	'd' }, };//sacar del uso!
-//	while ((ch = getopt_long(argc, argv, "hd", options, &index)) != -1) { //para opciones largas
+void crearDirectorioDescargas(string nombre)
+{
+	string directorio = "descargas_" + nombre + "_" + Debug::intToString(getpid()) + "/";
+	int estado = mkdir(directorio.c_str(), 0700);
+	if(estado >= 0)
+		Debug::getInstance()->escribir("Proceso " + Debug::intToString(getpid()) + ": creo el directorio " + directorio + " para realizar las descargas\n");
+}
 
+int parsearLineaDeComandos(int argc, char** argv)
+{
+	int ch;
+	Debug::getInstance();
 	while ((ch = getopt(argc, argv, "hd")) != -1) {
 		switch (ch) {
 		case 'h':
@@ -176,7 +181,7 @@ int parsearLineaDeComandos(int argc, char** argv) {
 			return 1;
 			break;
 		case 'd':
-
+			Debug::setModoDebug();
 			break;
 		default:
 			Vista::mostrarUso(argv[0]);
@@ -191,17 +196,19 @@ int main(int argc, char** argv)
 {
 	if(parsearLineaDeComandos(argc, argv) != 0)
 		return 0;
-	Debug::getInstance();
+
 	GestorDescargas gestorDescargas;
 	list<int> hijos;
 	int pid = fork ();
 	if(pid == HIJO){
-		int resultado = gestorDescargas.iniciarRecepcion(hijos);
+		int resultado = gestorDescargas.iniciarRecepcion();
 		Debug::getInstance()->escribir("Recepcion de usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
 		Debug::destruir();
 		Vista::debug("PID0 ", getpid());
 		return resultado;
-	}
+	}// else
+	//	hijos.insert(hijos.end(), pid);
+
 	Vista::debug("PID1 ", getpid());
 
 	Vista::mostrarBienvenida();
@@ -209,24 +216,17 @@ int main(int argc, char** argv)
 	string nombre = Vista::pedirString();
 	Usuario usuario(nombre,getpid());
 
-	string directorio = "descargas_" + nombre + "_" + Debug::intToString(getpid()) + "/";
-	int estado = mkdir(directorio.c_str(), 0700);// TODO control de errores
-	if(estado >= 0)
-		Debug::getInstance()->escribir("Proceso " + Debug::intToString(getpid()) + ": creo el directorio " + directorio + " para realizar la descarga\n");
-
+	crearDirectorioDescargas(nombre);
 
 	if(ejecutarMenu(&gestorDescargas, hijos, usuario) == HIJO) {
 		Debug::getInstance()->escribir("Descarga de usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
-	//	Debug::destruir();
 		Vista::debug("PID2 ", getpid());
 	} else {
-		list<int>::iterator it;
-		int estado, opciones;
-		for( it = hijos.begin(); it != hijos.end(); it++)
-			waitpid(*it,&estado,opciones);
 		kill(pid,SIGINT);
+		gestorDescargas.esperarFinalizacionDescargas(hijos);
+
 		Debug::getInstance()->escribir("Usuario en proceso " + Debug::intToString(getpid()) + "finaliza el proceso\n");
-		//Debug::destruir();
+
 		Vista::debug("PID3 ", getpid());
 	}
 	Debug::destruir();
