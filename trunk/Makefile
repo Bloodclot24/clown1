@@ -16,7 +16,7 @@ extension = cpp
 #fuentes = entrada.cpp
 
 # Si usa funciones de math.h, descomentá (quitale el '#' a) la siguiente línea.
-math = si
+#math = si
 
 # Si usa pthreads, descomentá (quitale el '#' a) la siguiente línea.
 #pthreads = si
