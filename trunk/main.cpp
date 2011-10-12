@@ -26,16 +26,24 @@ int compartirArchivos(GestorUsuarios* gestorUsuarios, Usuario& usuario)
 	int numero;
 	bool salir = false;
 	while (!salir) {
+		bool valido = false;
 		Vista::mostrarMenuCompartir();
 		char opcion = Vista::pedirChar();
 
 		switch (opcion)
 		{
 			case '1':
-				Vista::mostrarMensajeInicial("Ingrese la ruta del archivo : ");
-				ruta = Vista::pedirString();
-				gestorUsuarios->agregarArchivo(ruta, usuario);//ver si esta
-				Vista::mostrarMensajeFinal("Archivo " + ruta + " compartido");
+				while (!valido) {
+					Vista::mostrarMensajeInicial("Ingrese la ruta del archivo : ");
+					ruta = Vista::pedirString();
+					if (open(ruta.c_str(), O_RDONLY) == -1) {
+						Vista::mostrarMensaje("Archivo no valido, intente nuevamente");
+					} else {
+						gestorUsuarios->agregarArchivo(ruta, usuario);//ver si esta
+						Vista::mostrarMensajeFinal("Archivo " + ruta + " compartido");
+						valido = true;
+					}
+				}
 				break;
 
 			case '2':

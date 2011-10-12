@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <list>
 #include "Fifo.h"
 #include "Usuario.h"
 #include "LockFile.h"
