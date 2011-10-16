@@ -34,8 +34,6 @@ public:
 
 	void abrir();
 
-	void reset();
-
 	void eliminar();
 };
 

@@ -54,11 +54,6 @@ void LockFile::eliminar() {
 	unlink(nombre.c_str());
 }
 
-void LockFile::reset() {
-	cerrar();
-	abrir();
-}
-
 LockFile::~LockFile() {
 	close(fd);
 }
