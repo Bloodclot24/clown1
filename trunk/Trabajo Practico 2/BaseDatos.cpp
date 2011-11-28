@@ -4,6 +4,8 @@ BaseDatos::BaseDatos(): memoria(), semaforo("BaseDatos.cpp", 1), registros(){
 	std::cout<< "Resultado de crear memoria "<< memoria.crear((char *) "BaseDatos.cpp",'g') << std::endl;
 	//registros = NULL;
 	recuperar();
+	LockFile lock;
+	lock.eliminar();
 	//semaforo.p();
 	//memoria.escribir(registros);
 	//semaforo.v();
