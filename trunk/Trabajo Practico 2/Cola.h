@@ -19,6 +19,7 @@ template <class T> class Cola {
 		~Cola();
 		int escribir ( T dato );
 		int leer ( int tipo,T* buffer );
+		void eliminar();
 };
 
 template <class T> Cola<T> :: Cola ( char* archivo,char letra ) {
@@ -32,6 +33,9 @@ template <class T> Cola<T> :: Cola ( char* archivo,char letra ) {
 }
 
 template <class T> Cola<T> :: ~Cola () {
+}
+
+template <class T> void Cola<T> :: eliminar () {
 	msgctl ( this->id,IPC_RMID,NULL );
 }
 

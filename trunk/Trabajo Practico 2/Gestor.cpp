@@ -4,6 +4,7 @@ Gestor::Gestor() : cola(ARCH_COLA, LETRA_COLA) {
 }
 
 Gestor::~Gestor() {
+	cola.eliminar();
 }
 
 void Gestor::ejecutarPeticion() {
@@ -43,8 +44,16 @@ void Gestor::ejecutarPeticion() {
 
 void Gestor::procesarPeticion() {
 	if(cola.leer(PETICION, &peticion) > 0) {
+		cout << "Peticion " << peticion.id << " mtype " << peticion.mtype << endl;
+		cout << "Persona: " << peticion.registro.nombre << endl;
+		cout << "Direccion: " << peticion.registro.direccion << endl;
+		cout << "Telefono: " << peticion.registro.telefono << endl;
 		ejecutarPeticion();
 		respuesta.mtype = peticion.id;
+		cout << "Respuesta " << respuesta.id << " mtype " << respuesta.mtype << endl;
+		cout << "Persona: " << respuesta.registro.nombre << endl;
+		cout << "Direccion: " << respuesta.registro.direccion << endl;
+		cout << "Telefono: " << respuesta.registro.telefono << endl;
 		cola.escribir(respuesta);
 	}
 }
