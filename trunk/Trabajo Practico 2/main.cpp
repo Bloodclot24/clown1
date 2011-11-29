@@ -95,7 +95,7 @@ int main(int argc, char**argv) {
 	printf("tel:%s \n", registro1.telefono);
 
 	std::cout << "Eliminando registro Karen de la bd " << std::endl;
-	bd.eliminarPersona(registro1.nombre);
+	bd.eliminarPersona(registro1);
 	std::cout << "Registro Karen eliminado" << std::endl;
 	std::cout << "Consultando registro Karen" << std::endl;
 	bd.consultarPersona(registro1);

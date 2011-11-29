@@ -55,11 +55,9 @@ bool BaseDatos::modificarPersona(Registro persona) {
 }
 
 
-bool BaseDatos::eliminarPersona(std::string nombre) {
+bool BaseDatos::eliminarPersona(Registro persona) {
 	semaforo.p();
 	registros = memoria.leer();
-	Registro persona;
-	strcpy(persona.nombre, nombre.c_str());
 	bool resultado = false;
 	if(!registros.eliminarRegistro(persona))
 		std::cerr << "Error, la persona que intenta eliminar no existe." << std::endl;
