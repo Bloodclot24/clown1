@@ -12,48 +12,63 @@ BaseDatos::BaseDatos(): memoria(), semaforo("BaseDatos.cpp", 1), registros(){
 }
 
 
-Registro BaseDatos::consultarPersona(Registro persona) {
+bool BaseDatos::consultarPersona(Registro& persona) {
 	semaforo.p();
 	registros = memoria.leer();
 	semaforo.v();
-	if(!registros.consultarRegistro(persona))
+	bool resultado = true;
+	if(!registros.consultarRegistro(persona)) {
 		std::cerr << "Error, la persona consultada no existe." << std::endl;
-	return persona;
+		resultado = false;
+	}
+	return resultado;
 }
 
 
-void BaseDatos::agregarPersona(Registro persona) {
+bool BaseDatos::agregarPersona(Registro persona) {
 	semaforo.p();
 	registros = memoria.leer();
+	bool resultado = false;
 	if(!registros.agregarRegistro(persona))
 		std::cerr << "Error, la persona que intenta agregar ya existe o no hay mas espacio disponible" << std::endl;
-	else
+	else {
 		memoria.escribir(registros);
+		resultado = true;
+	}
 	semaforo.v();
+	return resultado;
 }
 
 
-void BaseDatos::modificarPersona(std::string nombre, Registro persona) {
+bool BaseDatos::modificarPersona(std::string nombre, Registro persona) {
 	semaforo.p();
 	registros = memoria.leer();
+	bool resultado = false;
 	if(!registros.modificarRegistro(persona))
 		std::cerr << "Error, la persona que intenta modificar no existe." << std::endl;
-	else
+	else {
 		memoria.escribir(registros);
+		resultado = true;
+	}
 	semaforo.v();
+	return resultado;
 }
 
 
-void BaseDatos::eliminarPersona(std::string nombre) {
+bool BaseDatos::eliminarPersona(std::string nombre) {
 	semaforo.p();
 	registros = memoria.leer();
 	Registro persona;
 	strcpy(persona.nombre, nombre.c_str());
+	bool resultado = false;
 	if(!registros.eliminarRegistro(persona))
 		std::cerr << "Error, la persona que intenta eliminar no existe." << std::endl;
-	else
+	else {
 		memoria.escribir(registros);
+		resultado = true;
+	}
 	semaforo.v();
+	return resultado;
 }
 
 
@@ -70,7 +85,6 @@ void BaseDatos::recuperar() {
 	semaforo.p();
 	memoria.escribir(registros);
 	semaforo.v();
-
 }
 
 
