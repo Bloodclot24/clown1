@@ -1,13 +1,13 @@
 #include "Gestor.h"
 
-Gestor::Gestor(const string & archivo) : cola(ARCH_COLA, LETRA_COLA) {
+Gestor::Gestor() : cola(ARCH_COLA, LETRA_COLA) {
 }
 
 Gestor::~Gestor() {
 }
 
 void Gestor::ejecutarPeticion() {
-	cout << "ejecutaar gestor" << endl;
+
 	switch (peticion.tipo) {
 	case AGREGAR:
 		if (!baseDatos.agregarPersona(peticion.registro))
@@ -16,7 +16,7 @@ void Gestor::ejecutarPeticion() {
 			strcpy(respuesta.respuesta, "Se agrego la persona a la base de datos");
 		break;
 	case ELIMINAR:
-		if (!baseDatos.eliminarPersona(string(peticion.registro.nombre)))
+		if (!baseDatos.eliminarPersona(peticion.registro.nombre))
 			strcpy(respuesta.respuesta, "La persona no existe");
 		else
 			strcpy(respuesta.respuesta, "Se elimino la persona en la base de datos");
@@ -31,7 +31,7 @@ void Gestor::ejecutarPeticion() {
 		}
 		break;
 	case MODIFICAR:
-		if (!baseDatos.modificarPersona(string(peticion.registro.nombre), peticion.registro))
+		if (!baseDatos.modificarPersona(peticion.registro))
 			strcpy(respuesta.respuesta, "La persona no existe");
 		else
 			strcpy(respuesta.respuesta, "Se modifico la persona en la base de datos\0");
@@ -42,7 +42,7 @@ void Gestor::ejecutarPeticion() {
 }
 
 void Gestor::procesarPeticion() {
-	if(cola.leer(PETICION, &peticion) != 0) {
+	if(cola.leer(PETICION, &peticion) > 0) {
 		ejecutarPeticion();
 		respuesta.mtype = peticion.id;
 		cola.escribir(respuesta);
@@ -52,9 +52,6 @@ void Gestor::procesarPeticion() {
 void Gestor::inciar() {
 	SIGINT_Handler sigint_handler;
 	SignalHandler :: getInstance()->registrarHandler ( SIGTERM,&sigint_handler );
-	while ( sigint_handler.getGracefulQuit() == 0 ) {
-		cout << "while" << endl;
+	while ( sigint_handler.getGracefulQuit() == 0 )
 		procesarPeticion();
-	}
-
 }

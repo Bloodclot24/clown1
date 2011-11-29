@@ -11,8 +11,6 @@
 #include "SignalHandler.h"
 #include "BaseDatos.h"
 
-#define ARCHIVO "archivo"
-
 using namespace std;
 
 class Gestor {
@@ -25,7 +23,7 @@ private:
 	mensaje respuesta;
 
 public:
-	Gestor(const string & archivo);
+	Gestor();
 	virtual ~Gestor();
 	void inciar();
 };
