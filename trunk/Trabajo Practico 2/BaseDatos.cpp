@@ -40,7 +40,7 @@ bool BaseDatos::agregarPersona(Registro persona) {
 }
 
 
-bool BaseDatos::modificarPersona(std::string nombre, Registro persona) {
+bool BaseDatos::modificarPersona(Registro persona) {
 	semaforo.p();
 	registros = memoria.leer();
 	bool resultado = false;

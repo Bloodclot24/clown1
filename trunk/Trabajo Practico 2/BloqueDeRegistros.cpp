@@ -2,7 +2,6 @@
 
 BloqueDeRegistros::BloqueDeRegistros() /*: lock()*/ /*: lock("baseDatos")*/ {
 	this->cantidadDeRegistros = 0;
-	std::cout << "Pase por el constructorrrrrrr " << std::endl;
 
 }
 
@@ -80,7 +79,6 @@ bool BloqueDeRegistros::buscarRegistro(Registro registro) {
 
 
 void BloqueDeRegistros::persistir() {
-
 	LockFile lock;
 	lock.tomarLock();
 	for(int i = 0; i < cantidadDeRegistros; i++){
@@ -89,8 +87,6 @@ void BloqueDeRegistros::persistir() {
 		lock.escribir(registros[i].telefono, 13 * sizeof(char));
 	}
 	lock.liberarLock();
-
-
 
 }
 
@@ -101,11 +97,8 @@ BloqueDeRegistros BloqueDeRegistros::recuperar() {
 	int i = 0;
 	int leidos = 0;
 	while((leidos = lock.leer(registros[i].nombre, 61 * sizeof(char))) != 0 && i < MAX_REG_MEM) {
-		std::cout << "Nombre leido en la posicion " << i << ": " << registros[i].nombre << std::endl;
 		lock.leer( registros[i].direccion, 120 * sizeof(char) );
-		std::cout << "Direccion leida en la posicion " << i << ": " << registros[i].direccion << std::endl;
 		lock.leer(registros[i].telefono, 13 * sizeof(char));
-		std::cout << "Telefono leido en la posicion " << i << ": " << registros[i].telefono << std::endl;
 		i++;
 		cantidadDeRegistros++;
 	}
