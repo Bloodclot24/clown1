@@ -30,14 +30,15 @@ char ejecutarMenu() {
 }
 
 string pedirString() {
-	string cadena;
-	cin >> cadena;
-	return cadena;
+	char cadena[120];
+	cin.getline(cadena,120);
+	return string(cadena);
 }
 
 void pedirDatosPersona(string &nombre, string &direccion, string &telefono){
 	cout << "------------------------------------------" << endl;
 	cout << "Ingrese el nombre de la persona" << endl;
+	pedirString();//arreglar esto
 	nombre = pedirString();
 	cout << "Ingrese la direccion de la persona" << endl;
 	direccion = pedirString();
@@ -62,6 +63,7 @@ void modificarPersona(Cliente &cliente) {
 void eliminarPersona(Cliente &cliente) {
 	cout << "------------------------------------------" << endl;
 	cout << "Ingrese el nombre de la persona a eliminar" << endl;
+	pedirString();
 	string nombre = pedirString();
 	cout << cliente.eliminarPersona(nombre) << endl;
 	cout << "------------------------------------------" << endl;
@@ -70,6 +72,7 @@ void eliminarPersona(Cliente &cliente) {
 void consultarPersona(Cliente &cliente) {
 	cout << "------------------------------------------" << endl;
 	cout << "Ingrese el nombre de la persona buscada" << endl;
+	pedirString();
 	string nombre = pedirString();
 	Persona persona = cliente.consultarPersona(nombre);
 	if(persona.getNombre() != "")
