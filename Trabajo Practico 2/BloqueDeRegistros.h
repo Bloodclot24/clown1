@@ -12,13 +12,10 @@ class BloqueDeRegistros {
 private:
 
 //	LockFile lock;
-
-
 	Registro registros [MAX_REG_MEM];
 	int cantidadDeRegistros;
 	void acomodarBloque(int posicion);
 	bool buscarRegistro(Registro registro);
-
 
 public:
 	BloqueDeRegistros();
