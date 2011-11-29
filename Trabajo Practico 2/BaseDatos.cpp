@@ -36,6 +36,7 @@ bool BaseDatos::agregarPersona(Registro persona) {
 	semaforo.p();
 	if(buscarPersona(persona)) {
 		std::cerr << "Error, la persona que intenta agregar ya existe" << std::endl;
+		semaforo.v();
 		return false;
 	}
 	registros = memoria[memoria.size() - 1].leer();
