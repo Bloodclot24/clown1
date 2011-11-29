@@ -40,21 +40,19 @@ int LockFile::escribir(char* buffer, int buffsize) {
 }
 
 int LockFile::leer(char* buffer, int buffsize) {
-	lseek(fd, lectura, SEEK_SET);
+	lseek(fd, posicion, SEEK_SET);
 	int resultado = read(fd, (void*) buffer, buffsize);
-//	if (resultado == 0)
-//		return resultado;
-//	string linea(buffer);
-//	int pos = linea.find("\n", 0);
-//	lectura += pos + 1;
-	lectura += resultado;
-//	return pos;
+	posicion += resultado;
 	return resultado;
+}
+
+void LockFile::setPosicion(int nuevaPosicion) {
+	posicion = nuevaPosicion;
 }
 
 void LockFile::abrir() {
 	fd = open(nombre.c_str(), O_CREAT | O_RDWR, 0777);
-	lectura = 0;
+	posicion = 0;
 }
 
 void LockFile::cerrar() {

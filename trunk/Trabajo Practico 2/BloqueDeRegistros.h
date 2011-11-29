@@ -6,12 +6,13 @@
 #include "Registro.h"
 #include "LockFile.h"
 
-#define MAX_REG_MEM 100
+#define MAX_REG_MEM 1
 
 class BloqueDeRegistros {
 private:
 
 //	LockFile lock;
+	int numeroBloque;
 	Registro registros [MAX_REG_MEM];
 	int cantidadDeRegistros;
 	void acomodarBloque(int posicion);
@@ -23,9 +24,14 @@ public:
 	bool agregarRegistro(Registro registro);
 	bool eliminarRegistro(Registro registro);
 	bool modificarRegistro(Registro registro);
-//	Registro consultarRegistro(Registro registro);
 	bool consultarRegistro(Registro& registro);
+	void setNumeroBloque(int numero){
+		numeroBloque = numero;
+	}
 
+	int getCantidadDeRegistros() {
+		return cantidadDeRegistros;
+	}
 	void persistir();
 	BloqueDeRegistros recuperar();
 };

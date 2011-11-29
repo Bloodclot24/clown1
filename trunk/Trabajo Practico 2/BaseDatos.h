@@ -8,14 +8,16 @@
 #include "Registro.h"
 #include "BloqueDeRegistros.h"
 
+
 class BaseDatos {
 private:
 	Semaforo semaforo;
 	BloqueDeRegistros registros;
-	MemoriaCompartida<BloqueDeRegistros> memoria;
+	vector<MemoriaCompartida<BloqueDeRegistros> > memoria;
 
 	void persistir();
 	void recuperar();
+	bool buscarPersona(Registro& persona);
 
 public:
 	BaseDatos();

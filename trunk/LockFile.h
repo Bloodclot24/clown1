@@ -15,7 +15,7 @@ private:
 	struct flock fl;
 	int fd;
 	string nombre;
-	int lectura;
+	int posicion;
 
 public:
 
