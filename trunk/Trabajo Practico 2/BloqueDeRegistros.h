@@ -25,13 +25,8 @@ public:
 	bool eliminarRegistro(Registro registro);
 	bool modificarRegistro(Registro registro);
 	bool consultarRegistro(Registro& registro);
-	void setNumeroBloque(int numero){
-		numeroBloque = numero;
-	}
-
-	int getCantidadDeRegistros() {
-		return cantidadDeRegistros;
-	}
+	void setNumeroBloque(int numero);
+	int getCantidadDeRegistros() ;
 	void persistir();
 	BloqueDeRegistros recuperar();
 };

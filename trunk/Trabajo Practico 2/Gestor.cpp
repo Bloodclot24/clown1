@@ -12,30 +12,27 @@ void Gestor::ejecutarPeticion() {
 	switch (peticion.tipo) {
 	case AGREGAR:
 		if (!baseDatos.agregarPersona(peticion.registro))
-			strcpy(respuesta.respuesta, "La persona ya existe");
+			strcpy(respuesta.respuesta, "Ya existe en la base de datos la persona");
 		else
-			strcpy(respuesta.respuesta, "Se agrego la persona a la base de datos");
+			strcpy(respuesta.respuesta, "Se agrego a la base de datos la persona");
 		break;
 	case ELIMINAR:
 		if (!baseDatos.eliminarPersona(peticion.registro))
-			strcpy(respuesta.respuesta, "La persona no existe");
+			strcpy(respuesta.respuesta, "No existe en la base de datos la persona");
 		else
-			strcpy(respuesta.respuesta, "Se elimino la persona en la base de datos");
+			strcpy(respuesta.respuesta, "Se elimino de la base de datos la persona");
 		break;
 	case CONSULTAR:
 		if (!baseDatos.consultarPersona(peticion.registro))
 			strcpy(respuesta.registro.nombre, "");
-		else {
-			strcpy(respuesta.registro.nombre, peticion.registro.nombre);//usar =
-			strcpy(respuesta.registro.direccion, peticion.registro.direccion);
-			strcpy(respuesta.registro.telefono, peticion.registro.telefono);
-		}
+		else
+			respuesta.registro = peticion.registro;
 		break;
 	case MODIFICAR:
 		if (!baseDatos.modificarPersona(peticion.registro))
-			strcpy(respuesta.respuesta, "La persona no existe");
+			strcpy(respuesta.respuesta, "No existe en la base de datos la persona");
 		else
-			strcpy(respuesta.respuesta, "Se modifico la persona en la base de datos\0");
+			strcpy(respuesta.respuesta, "Se modifico en la base de datos la persona");
 		break;
 	default:
 		;
@@ -51,6 +48,7 @@ void Gestor::procesarPeticion() {
 		ejecutarPeticion();
 		respuesta.mtype = peticion.id;
 		cout << "Respuesta " << respuesta.id << " mtype " << respuesta.mtype << endl;
+		cout << "Respuesta " << respuesta.respuesta << endl;
 		cout << "Persona: " << respuesta.registro.nombre << endl;
 		cout << "Direccion: " << respuesta.registro.direccion << endl;
 		cout << "Telefono: " << respuesta.registro.telefono << endl;

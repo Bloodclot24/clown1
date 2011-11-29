@@ -100,6 +100,13 @@ BloqueDeRegistros BloqueDeRegistros::recuperar() {
 	return (*this);
 }
 
+void BloqueDeRegistros::setNumeroBloque(int numero){
+	numeroBloque = numero;
+}
+
+int BloqueDeRegistros::getCantidadDeRegistros() {
+	return cantidadDeRegistros;
+}
 
 BloqueDeRegistros::~BloqueDeRegistros() {
 	LockFile lock;
