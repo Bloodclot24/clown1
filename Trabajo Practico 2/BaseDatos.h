@@ -24,7 +24,7 @@ public:
 	bool consultarPersona(Registro& persona);
 	bool agregarPersona(Registro persona);
 	bool modificarPersona(Registro persona);
-	bool eliminarPersona(std::string nombre);
+	bool eliminarPersona(Registro persona);
 
 };
 

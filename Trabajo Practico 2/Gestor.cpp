@@ -16,7 +16,7 @@ void Gestor::ejecutarPeticion() {
 			strcpy(respuesta.respuesta, "Se agrego la persona a la base de datos");
 		break;
 	case ELIMINAR:
-		if (!baseDatos.eliminarPersona(peticion.registro.nombre))
+		if (!baseDatos.eliminarPersona(peticion.registro))
 			strcpy(respuesta.respuesta, "La persona no existe");
 		else
 			strcpy(respuesta.respuesta, "Se elimino la persona en la base de datos");
