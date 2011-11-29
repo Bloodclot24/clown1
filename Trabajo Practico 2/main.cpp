@@ -32,8 +32,6 @@ int main(int argc, char**argv) {
 	std::cout << "Registro 1 agregado" << std::endl;
 	std::cout << "Consultando registro  de la Base de datos" << std::endl;
 	strcpy(registro.nombre, nombre.c_str());
-	//strcpy(registro.direccion, NULL);
-	//strcpy(registro.telefono, NULL);
 	bd.consultarPersona(registro);
 	std::cout << "Registro obtenido de la base de datos " << std::endl;
 	printf("nombre:%s \n", registro.nombre);
@@ -55,8 +53,6 @@ int main(int argc, char**argv) {
 	std::cout << "Registro 1 agregado" << std::endl;
 	std::cout << "Consultando registro  de la Base de datos" << std::endl;
 	strcpy(registro1.nombre, nombre1.c_str());
-//	strcpy(registro1.direccion, NULL);
-//	strcpy(registro1.telefono, NULL);
 	bd.consultarPersona(registro1);
 	std::cout << "Registro obtenido de la base de datos " << std::endl;
 	printf("nombre:%s \n", registro1.nombre);
@@ -78,8 +74,6 @@ int main(int argc, char**argv) {
 	std::cout << "Registro 2 agregado" << std::endl;
 	std::cout << "Consultando registro  de la Base de datos" << std::endl;
 	strcpy(registro2.nombre, nombre2.c_str());
-	//strcpy(registro2.direccion, NULL);
-	//strcpy(registro2.telefono, NULL);
 	bd.consultarPersona(registro2);
 	std::cout << "Registro obtenido de la base de datos " << std::endl;
 	printf("nombre:%s \n", registro2.nombre);
@@ -91,7 +85,7 @@ int main(int argc, char**argv) {
 	strcpy(registro1.nombre, nombre1.c_str());
 	strcpy(registro1.direccion, ndireccion1.c_str());
 	strcpy(registro1.telefono, tel1.c_str());
-	bd.modificarPersona(registro1.nombre, registro1);
+	bd.modificarPersona(registro1);
 	std::cout << "Direccion registro Karen Roberts modificada" << std::endl;
 	std::cout << "Consultando registro Karen" << std::endl;
 	bd.consultarPersona(registro1);

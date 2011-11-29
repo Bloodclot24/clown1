@@ -23,7 +23,7 @@ public:
 
 	bool consultarPersona(Registro& persona);
 	bool agregarPersona(Registro persona);
-	bool modificarPersona(std::string nombre, Registro persona); //TODO: sacar nombre xq va en registro
+	bool modificarPersona(Registro persona);
 	bool eliminarPersona(std::string nombre);
 
 };
