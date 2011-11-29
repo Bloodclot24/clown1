@@ -1,7 +1,8 @@
 #include "BloqueDeRegistros.h"
 
 BloqueDeRegistros::BloqueDeRegistros() /*: lock("baseDatos")*/ {
-	this->cantidadDeRegistros = 0;
+	cantidadDeRegistros = 0;
+	numeroBloque = 0;
 }
 
 
@@ -88,6 +89,7 @@ BloqueDeRegistros BloqueDeRegistros::recuperar() {
 	LockFile lock;
 	lock.tomarLock();
 	int i = 0;
+	lock.setPosicion(numeroBloque * sizeof(Registro) * MAX_REG_MEM);
 	while(lock.leer(registros[i].nombre, 61 * sizeof(char)) != 0 && i < MAX_REG_MEM) {
 		lock.leer( registros[i].direccion, 120 * sizeof(char) );
 		lock.leer(registros[i].telefono, 13 * sizeof(char));
