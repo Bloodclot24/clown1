@@ -42,10 +42,11 @@ void Gestor::ejecutarPeticion() {
 }
 
 void Gestor::procesarPeticion() {
-	cola.leer(PETICION, &peticion);
-	ejecutarPeticion();
-	respuesta.mtype = peticion.id;
-	cola.escribir(respuesta);
+	if(cola.leer(PETICION, &peticion) != 0) {
+		ejecutarPeticion();
+		respuesta.mtype = peticion.id;
+		cola.escribir(respuesta);
+	}
 }
 
 void Gestor::inciar() {
