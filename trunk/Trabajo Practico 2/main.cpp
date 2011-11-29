@@ -34,11 +34,11 @@ int main(int argc, char**argv) {
 	strcpy(registro.nombre, nombre.c_str());
 	//strcpy(registro.direccion, NULL);
 	//strcpy(registro.telefono, NULL);
-	Registro registroConsultado = bd.consultarPersona(registro);
+	bd.consultarPersona(registro);
 	std::cout << "Registro obtenido de la base de datos " << std::endl;
-	printf("nombre:%s \n", registroConsultado.nombre);
-	printf("dire:%s \n ", registroConsultado.direccion);
-	printf("tel:%s\n ", registroConsultado.telefono);
+	printf("nombre:%s \n", registro.nombre);
+	printf("dire:%s \n ", registro.direccion);
+	printf("tel:%s\n ", registro.telefono);
 	std::cout << "Agregando nuevos registros a la bd" << std::endl;
 	Registro registro1;
 	std::string nombre1("Karen Roberts\0");
@@ -57,11 +57,11 @@ int main(int argc, char**argv) {
 	strcpy(registro1.nombre, nombre1.c_str());
 //	strcpy(registro1.direccion, NULL);
 //	strcpy(registro1.telefono, NULL);
-	Registro registroConsultado1 = bd.consultarPersona(registro1);
+	bd.consultarPersona(registro1);
 	std::cout << "Registro obtenido de la base de datos " << std::endl;
-	printf("nombre:%s \n", registroConsultado1.nombre);
-	printf("dire:%s \n", registroConsultado1.direccion);
-	printf("tel:%s \n", registroConsultado1.telefono);
+	printf("nombre:%s \n", registro1.nombre);
+	printf("dire:%s \n", registro1.direccion);
+	printf("tel:%s \n", registro1.telefono);
 
 	Registro registro2;
 	std::string nombre2("Gonzalo Ferrero\0");
@@ -80,11 +80,11 @@ int main(int argc, char**argv) {
 	strcpy(registro2.nombre, nombre2.c_str());
 	//strcpy(registro2.direccion, NULL);
 	//strcpy(registro2.telefono, NULL);
-	Registro registroConsultado3 = bd.consultarPersona(registro2);
+	bd.consultarPersona(registro2);
 	std::cout << "Registro obtenido de la base de datos " << std::endl;
-	printf("nombre:%s \n", registroConsultado3.nombre);
-	printf("dire:%s \n", registroConsultado3.direccion);
-	printf("tel:%s \n", registroConsultado3.telefono);
+	printf("nombre:%s \n", registro2.nombre);
+	printf("dire:%s \n", registro2.direccion);
+	printf("tel:%s \n", registro2.telefono);
 	std::string ndireccion1("1234\0");
 	std::cout << "Modificando direccion registro Karen Roberts por 1234"
 			<< std::endl;
@@ -94,29 +94,29 @@ int main(int argc, char**argv) {
 	bd.modificarPersona(registro1.nombre, registro1);
 	std::cout << "Direccion registro Karen Roberts modificada" << std::endl;
 	std::cout << "Consultando registro Karen" << std::endl;
-	Registro registroConsultado4 = bd.consultarPersona(registro1);
+	bd.consultarPersona(registro1);
 	std::cout << "Registro obtenido de la base de datos " << std::endl;
-	printf("nombre:%s \n", registroConsultado4.nombre);
-	printf("dire:%s \n", registroConsultado4.direccion);
-	printf("tel:%s \n", registroConsultado4.telefono);
+	printf("nombre:%s \n", registro1.nombre);
+	printf("dire:%s \n", registro1.direccion);
+	printf("tel:%s \n", registro1.telefono);
 
 	std::cout << "Eliminando registro Karen de la bd " << std::endl;
 	bd.eliminarPersona(registro1.nombre);
 	std::cout << "Registro Karen eliminado" << std::endl;
 	std::cout << "Consultando registro Karen" << std::endl;
-	Registro registroConsultado5 = bd.consultarPersona(registro1);
+	bd.consultarPersona(registro1);
 	std::cout << "Consultando registro Guido" << std::endl;
-	registroConsultado5 = bd.consultarPersona(registro);
+	bd.consultarPersona(registro);
 	std::cout << "Registro obtenido de la base de datos " << std::endl;
-	printf("nombre:%s \n", registroConsultado5.nombre);
-	printf("nombre:%s \n", registroConsultado5.direccion);
-	printf("tel:%s \n", registroConsultado5.telefono);
+	printf("nombre:%s \n", registro.nombre);
+	printf("nombre:%s \n", registro.direccion);
+	printf("tel:%s \n", registro.telefono);
 	std::cout << "Consultando registro Gonzalo" << std::endl;
-	Registro registroConsultado6 = bd.consultarPersona(registro2);
+	bd.consultarPersona(registro2);
 	std::cout << "Registro obtenido de la base de datos " << std::endl;
-	printf("nombre:%s \n", registroConsultado6.nombre);
-	printf("dire:%s \n", registroConsultado6.direccion);
-	printf("tel:%s \n", registroConsultado6.telefono);
+	printf("nombre:%s \n", registro2.nombre);
+	printf("dire:%s \n", registro2.direccion);
+	printf("tel:%s \n", registro2.telefono);
 
 	return 0;
 
