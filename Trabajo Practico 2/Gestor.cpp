@@ -10,13 +10,11 @@ void Gestor::ejecutarPeticion() {
 	cout << "ejecutaar gestor" << endl;
 	switch (peticion.tipo) {
 	case AGREGAR:
-		cout << "Agregar gestor" << endl;
-		if (!baseDatos.agregarPersona(peticion.registro)) {
+		if (!baseDatos.agregarPersona(peticion.registro))
 			strcpy(respuesta.respuesta, "La persona ya existe");
-		}else {
-			cout << "Agregar gestor" << endl;
+		else
 			strcpy(respuesta.respuesta, "Se agrego la persona a la base de datos");
-		}break;
+		break;
 	case ELIMINAR:
 		if (!baseDatos.eliminarPersona(string(peticion.registro.nombre)))
 			strcpy(respuesta.respuesta, "La persona no existe");
@@ -41,8 +39,6 @@ void Gestor::ejecutarPeticion() {
 	default:
 		;
 	}
-	cout << "Agregar gestor" << endl;
-	//baseDatos.escribirArchivo(ARCHIVO);
 }
 
 void Gestor::procesarPeticion() {

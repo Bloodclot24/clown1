@@ -45,6 +45,6 @@ Persona Cliente::consultarPersona(string nombre) {
 	mensaje peticion;
 	peticion.tipo = CONSULTAR;
 	strcpy(peticion.registro.nombre, nombre.c_str());
-	enviarPeticion(peticion);
-	return Persona(peticion.registro.nombre, peticion.registro.direccion, peticion.registro.telefono);
+	mensaje respuesta = enviarPeticion(peticion);
+	return Persona(respuesta.registro.nombre, respuesta.registro.direccion, respuesta.registro.telefono);
 }
