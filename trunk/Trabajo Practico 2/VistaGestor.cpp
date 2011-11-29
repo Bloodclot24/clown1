@@ -10,11 +10,9 @@ int main(int argc, char * argv[]) {
 	int pid = fork();
 
 	if (pid != 0) {
-		cout << "construc" << endl;
-		Gestor gestor("archivoBaseDatos");
-		cout << "iniciar" << endl;
+		Gestor gestor;
 		gestor.inciar();
-		cout << "Fin del proceso gesstor" << endl;
+		cout << "Fin del proceso gestor" << endl;
 	} else {
 		char salir = '0';
 		cout << "Para salir presione 's'" << endl;
