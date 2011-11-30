@@ -246,6 +246,118 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
   \end{tabular}
   \newline
 
+\begin{tabular}{|l|m{0.8\textwidth}|}
+    \hline
+    \multicolumn{2}{|m{0.9\textwidth}|}{{\bf Caso de uso: Modificar Persona}} \\
+    \hline
+    \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
+    \hline
+  
+    \multicolumn{2}{|p{0.9\textwidth}|}{{\bf Descripción:} Modificaci\'on de los datos de una 
+    persona en la base de datos } \\
+  
+    \hline
+    \multicolumn{2}{|l|}{Actores participantes: Cliente} \\
+    \hline
+  
+    \multicolumn{2}{|l|}{Pre-condiciones: Se deben haber ejecutado las aplicaciones cliente 
+    y gestor} \\
+  
+    \hline
+    \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
+    \hline
+    \multicolumn{2}{|l|}{Flujo Principal} \\
+    \hline
+    1 & El actor cliente ingresa a la aplicaci\'on. \\
+    \hline
+    2 &  El actor indica la acción a realizar \newline
+    Si la acción es la modificaci\'on de los datos de una persona entonces ejecutar subflujo Modificaci\'on de persona (S1)\newline
+   \\
+    
+    \hline
+    \multicolumn{2}{|l|}{Flujos Alternativos} \\
+    \hline
+  
+    S1 &  Modificaci\'on de persona: \\ \hline
+    S1.1 & El sistema solicita el ingreso del nombre de la persona a modificar.\\ \hline
+    S1.2 & El cliente ingresa el nombre de la persona\\ \hline
+    S1.3 & El sistema valida que el nombre de dicha persona ya exista en la base de datos (E1) \\ \hline
+    S1.4 & El sistema solicita el ingreso de la direcci\'on de dicha persona\\ \hline
+    S1.5 & El cliente ingresa la direcci\'on de la persona\\ \hline
+    S1.6 & El sistema solicita el ingreso del tel\'efono de dicha persona\\ \hline
+    S1.7 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
+    S1.8 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
+    
+    \multicolumn{2}{|l|}{Flujos de Excepción} \\
+    \hline
+  
+    E1 & Si no existe una persona con dicho nombre, se le informa al cliente y se vuelve al men\'u anterior. 
+    El caso de uso finaliza.\\
+  
+    \hline
+    \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
+    \hline
+  
+    \multicolumn{2}{|m{0.9\textwidth}|}{Post-condiciones: Se modificaron los datos de la persona en la base de datos} \\
+  
+    \hline
+  \end{tabular}
+  \newline
+
+\begin{tabular}{|l|m{0.8\textwidth}|}
+    \hline
+    \multicolumn{2}{|m{0.9\textwidth}|}{{\bf Caso de uso: Eliminar Persona}} \\
+    \hline
+    \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
+    \hline
+  
+    \multicolumn{2}{|p{0.9\textwidth}|}{{\bf Descripción:} Baja de los datos de una 
+    persona en la base de datos } \\
+  
+    \hline
+    \multicolumn{2}{|l|}{Actores participantes: Cliente} \\
+    \hline
+  
+    \multicolumn{2}{|l|}{Pre-condiciones: Se deben haber ejecutado las aplicaciones cliente 
+    y gestor} \\
+  
+    \hline
+    \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
+    \hline
+    \multicolumn{2}{|l|}{Flujo Principal} \\
+    \hline
+    1 & El actor cliente ingresa a la aplicaci\'on. \\
+    \hline
+    2 &  El actor indica la acción a realizar \newline
+    Si la acción es la baja de una persona entonces ejecutar subflujo Baja de persona (S1)\newline
+   \\
+    
+    \hline
+    \multicolumn{2}{|l|}{Flujos Alternativos} \\
+    \hline
+  
+    S1 &  Baja de persona: \\ \hline
+    S1.1 & El sistema solicita el ingreso del nombre de la persona a dar de alta.\\ \hline
+    S1.2 & El cliente ingresa el nombre de la persona\\ \hline
+    S1.3 & El sistema valida que el nombre de dicha persona exista en la base de datos (E1) \\ \hline
+    S1.4 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
+    
+    \multicolumn{2}{|l|}{Flujos de Excepción} \\
+    \hline
+  
+    E1 & No existe una persona con dicho nombre, se le informa al cliente y se vuelve al men\'u anterior. 
+    El caso de uso finaliza.\\
+  
+    \hline
+    \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
+    \hline
+  
+   \multicolumn{2}{|m{0.9\textwidth}|}{Post-condiciones: Se eliminaron los datos de la persona en la base de datos} \\
+  
+    \hline
+  \end{tabular}
+  \newline
+
 
 
 \subsection{Gestor}
