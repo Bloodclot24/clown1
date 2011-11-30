@@ -14,8 +14,8 @@ int main(int argc, char * argv[]) {
 		cout << "Para salir presione 's'" << endl;
 		do {
 			cin >> salir;
-		} while (salir != 's');
-		kill(pid, SIGTERM);
+		} while (salir != 's' && salir != 'S');
+		kill(pid, SIGINT);
 	} else { //hijo
 		Gestor gestor;
 		gestor.inciar();

@@ -24,9 +24,9 @@ public:
 	bool modificarRegistro(Registro registro);
 	bool consultarRegistro(Registro& registro);
 	void setNumeroBloque(int numero);
-	int getCantidadDeRegistros() ;
+	int getCantidadDeRegistros();
 	void persistir();
-	BloqueDeRegistros recuperar();
+	void recuperar();
 };
 
 #endif /* BLOQUEDEREGISTROS_H_ */

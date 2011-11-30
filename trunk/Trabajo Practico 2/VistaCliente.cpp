@@ -32,6 +32,14 @@ string ejecutarMenu() {
 	return pedirString();
 }
 
+bool respondeSi() {
+	string opcion;
+	do {
+		opcion = pedirString();
+	} while (opcion.c_str()[0] != 's'&& opcion.c_str()[0] != 'n');
+	return opcion.c_str()[0] == 's';
+}
+
 void pedirDatosPersona(string &nombre, string &direccion, string &telefono){
 	cout << "------------------------------------------" << endl;
 	cout << "Ingrese el nombre de la persona" << endl;
@@ -45,14 +53,18 @@ void pedirDatosPersona(string &nombre, string &direccion, string &telefono){
 void agregarPersona(Cliente &cliente) {
 	string nombre, direccion, telefono;
 	pedirDatosPersona(nombre, direccion, telefono);
-	cout << cliente.agregarPersona(nombre, direccion, telefono) << " " << nombre << endl;
+	cout << "Desea agregar la persona " << nombre << " a la base de datos (s/n)?" << endl;
+	if(respondeSi())
+		cout << cliente.agregarPersona(nombre, direccion, telefono) << " " << nombre << endl;
 	cout << "------------------------------------------" << endl;
 }
 
 void modificarPersona(Cliente &cliente) {
 	string nombre, direccion, telefono;
 	pedirDatosPersona(nombre, direccion, telefono);
-	cout << cliente.modificarPersona(nombre, direccion, telefono) << " " << nombre << endl;
+	cout << "Desea modificar la persona " << nombre << " en la base de datos (s/n)?" << endl;
+	if(respondeSi())
+		cout << cliente.modificarPersona(nombre, direccion, telefono) << " " << nombre << endl;
 	cout << "------------------------------------------" << endl;
 }
 
@@ -60,7 +72,9 @@ void eliminarPersona(Cliente &cliente) {
 	cout << "------------------------------------------" << endl;
 	cout << "Ingrese el nombre de la persona a eliminar" << endl;
 	string nombre = pedirString();
-	cout << cliente.eliminarPersona(nombre) << " " << nombre << endl;
+	cout << "Desea eliminar la persona " << nombre << " de la base de datos (s/n)?" << endl;
+	if(respondeSi())
+		cout << cliente.eliminarPersona(nombre) << " " << nombre << endl;
 	cout << "------------------------------------------" << endl;
 }
 

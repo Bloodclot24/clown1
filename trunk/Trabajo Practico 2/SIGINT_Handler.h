@@ -18,7 +18,7 @@ public:
 	}
 
 	virtual int handleSignal(int signum) {
-		//assert( signum == SIGTERM);
+		assert( signum == SIGINT);
 		gracefulQuit = 1;
 		return 0;
 	}

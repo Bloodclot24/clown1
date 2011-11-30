@@ -58,7 +58,7 @@ void Gestor::procesarPeticion() {
 
 void Gestor::inciar() {
 	SIGINT_Handler sigint_handler;
-	SignalHandler :: getInstance()->registrarHandler ( SIGTERM,&sigint_handler );
+	SignalHandler :: getInstance()->registrarHandler ( SIGINT,&sigint_handler );
 	while ( sigint_handler.getGracefulQuit() == 0 )
 		procesarPeticion();
 }

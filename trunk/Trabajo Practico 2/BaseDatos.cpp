@@ -1,13 +1,20 @@
 #include "BaseDatos.h"
 
 BaseDatos::BaseDatos(): semaforo("BaseDatos.cpp", 1) {
+
+	//lock.tomarLock();
 	recuperar();
 	LockFile lock;
+	//lock.liberarLock();
 	lock.eliminar();
+	cout << "Fin constructor" << endl;
 }
 
 BaseDatos::~BaseDatos() {
+	//LockFile lock;
+	//lock.tomarLock();
 	persistir();
+	//lock.liberarLock();
 	semaforo.eliminar();
 }
 
@@ -96,17 +103,18 @@ void BaseDatos::recuperar() {
 	int cantidadRegistrosCargados = MAX_REG_MEM;
 	while(cantidadRegistrosCargados == MAX_REG_MEM) {
 		agregarMemoriaCompartida();
-		registros = registros.recuperar();
+		registros.recuperar();
 		semaforo.p();
 		memoria[memoria.size() - 1].escribir(registros);
 		semaforo.v();
 		cantidadRegistrosCargados = registros.getCantidadDeRegistros();
+		cout << cantidadRegistrosCargados << endl;
 	}
 }
 
 void BaseDatos::agregarMemoriaCompartida() {
 	MemoriaCompartida<BloqueDeRegistros> memoriaCompartida;
-	memoriaCompartida.crear((char *) "BaseDatos.cpp", memoria.size());
+	cout << "Resultado de mem: " << memoriaCompartida.crear((char *) "BaseDatos.cpp", memoria.size()) << endl;
 	registros = memoriaCompartida.leer();
 	registros.setNumeroBloque(memoria.size());
 	memoria.insert(memoria.end(), memoriaCompartida);

@@ -7,7 +7,7 @@
 #include "Semaforo.h"
 #include "Registro.h"
 #include "BloqueDeRegistros.h"
-
+#include "LockFile.h"
 
 class BaseDatos {
 private:
