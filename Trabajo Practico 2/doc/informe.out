@@ -1,0 +1,18 @@
+\BOOKMARK [1][-]{section.1}{Enunciado}{}
+\BOOKMARK [1][-]{section.2}{Requerimientos Funcionales}{}
+\BOOKMARK [1][-]{section.3}{Hip\363tesis}{}
+\BOOKMARK [1][-]{section.4}{Consideraciones de Dise\361o}{}
+\BOOKMARK [1][-]{section.5}{Herramientas de concurrencia utilizadas}{}
+\BOOKMARK [1][-]{section.6}{Comunicaci\363n entre procesos}{}
+\BOOKMARK [2][-]{subsection.6.1}{Protocolo utilizado}{section.6}
+\BOOKMARK [1][-]{section.7}{Casos de Uso}{}
+\BOOKMARK [2][-]{subsection.7.1}{Cliente}{section.7}
+\BOOKMARK [3][-]{subsubsection.7.1.1}{Especificaci\363n de los casos de uso del Cliente}{subsection.7.1}
+\BOOKMARK [2][-]{subsection.7.2}{Gestor}{section.7}
+\BOOKMARK [3][-]{subsubsection.7.2.1}{Especificaci\363n de los casos de uso del Gestor}{subsection.7.2}
+\BOOKMARK [1][-]{section.8}{Diagrama de clases}{}
+\BOOKMARK [2][-]{subsection.8.1}{Diagrama de clases Cliente}{section.8}
+\BOOKMARK [2][-]{subsection.8.2}{Diagrama de clases Gestor}{section.8}
+\BOOKMARK [1][-]{section.9}{Compilaci\363n}{}
+\BOOKMARK [1][-]{section.10}{Modo de Uso}{}
+\BOOKMARK [1][-]{section.11}{Conclusiones}{}
