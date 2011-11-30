@@ -1,4 +1,4 @@
-This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2010.5.17)  29 NOV 2011 23:53
+This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2010.5.17)  30 NOV 2011 01:18
 entering extended mode
 **informe.tex
 (./informe.tex
@@ -871,30 +871,77 @@ Underfull \hbox (badness 10000) in paragraph at lines 307--360
 
 File: Logo-fiuba.png Graphic file (type png)
 <use Logo-fiuba.png> [8]
-File: Logo-fiuba.png Graphic file (type png)
- <use Logo-fiuba.png> [9]
-File: Logo-fiuba.png Graphic file (type png)
- <use Logo-fiuba.png> [10]
-Underfull \hbox (badness 10000) in paragraph at lines 401--406
+! Misplaced \noalign.
+\rowcolor ->\noalign 
+                     {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
+l.365 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+                                                   \\
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+! Misplaced \noalign.
+\rowcolor ->\noalign 
+                     {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
+l.379 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+                                                   \\
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+! Misplaced \noalign.
+\rowcolor ->\noalign 
+                     {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
+l.408 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+                                                   \\
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 361--416
 
  []
 
 File: Logo-fiuba.png Graphic file (type png)
-<use Logo-fiuba.png> [11]
+<use Logo-fiuba.png> [9]
 File: Logo-fiuba.png Graphic file (type png)
- <use Logo-fiuba.png> [12] (./informe.aux) ) 
+ <use Logo-fiuba.png> [10]
+<ClasesCliente.jpg, id=213, 840.89156pt x 458.46281pt>
+File: ClasesCliente.jpg Graphic file (type jpg)
+ <use ClasesCliente.jpg>
+Overfull \hbox (9.47083pt too wide) in paragraph at lines 437--438
+ [] 
+ []
+
+<ClasesGestor.jpg, id=214, 1213.53375pt x 748.29562pt>
+File: ClasesGestor.jpg Graphic file (type jpg)
+ <use ClasesGestor.jpg>
+Overfull \hbox (9.45961pt too wide) in paragraph at lines 443--444
+ [] 
+ []
+
+File: Logo-fiuba.png Graphic file (type png)
+<use Logo-fiuba.png> [11 <./ClasesCliente.jpg>]
+File: Logo-fiuba.png Graphic file (type png)
+ <use Logo-fiuba.png> [12 <./ClasesGestor.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 464--469
+
+ []
+
+File: Logo-fiuba.png Graphic file (type png)
+<use Logo-fiuba.png> [13]
+File: Logo-fiuba.png Graphic file (type png)
+ <use Logo-fiuba.png> [14] (./informe.aux) ) 
 Here is how much of TeX's memory you used:
- 7128 strings out of 94500
- 89807 string characters out of 1176766
+ 7140 strings out of 94500
+ 90024 string characters out of 1176766
  162582 words of memory out of 1000000
- 10107 multiletter control sequences out of 10000+50000
+ 10115 multiletter control sequences out of 10000+50000
  25847 words of font info for 63 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
  41i,16n,61p,223b,1227s stack positions out of 1500i,500n,5000p,200000b,5000s
 PDF statistics:
- 220 PDF objects out of 300000
- 40 named destinations out of 131072
- 193 words of extra memory for PDF output out of 65536
+ 231 PDF objects out of 300000
+ 42 named destinations out of 131072
+ 203 words of extra memory for PDF output out of 65536
 {/usr/share/texmf/fonts/enc/dvips/p
 snfss/8r.enc}</usr/share/texmf/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/t
 exmf/fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texmf/fonts/type1/urw/bookm
@@ -905,4 +952,4 @@ texmf/fonts/type1/bluesky/cm/cmss17.pfb></usr/share/texmf/fonts/type1/bluesky/c
 m/cmmi8.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texm
 f/fonts/type1/urw/bookman/ubkd8a.pfb></usr/share/texmf/fonts/type1/urw/bookman/
 ubkl8a.pfb>
-Output written on informe.pdf (12 pages, 240922 bytes).
+Output written on informe.pdf (14 pages, 504462 bytes).
