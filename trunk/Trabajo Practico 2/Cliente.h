@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string.h>
-#include "Persona.h"
 #include "Mensaje.h"
 #include "Cola.h"
 
@@ -25,7 +24,7 @@ public:
 
 	string eliminarPersona(string nombre);
 
-	Persona consultarPersona(string nombre);
+	Registro consultarPersona(string nombre);
 };
 
 #endif /* CLIENTE_H_ */

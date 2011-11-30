@@ -2,7 +2,6 @@
 #include <unistd.h>
 #include <string>
 #include "Cliente.h"
-#include "Persona.h"
 
 using namespace std;
 
@@ -69,10 +68,12 @@ void consultarPersona(Cliente &cliente) {
 	cout << "------------------------------------------" << endl;
 	cout << "Ingrese el nombre de la persona buscada" << endl;
 	string nombre = pedirString();
-	Persona persona = cliente.consultarPersona(nombre);
-	if(persona.getNombre() != "")
-		cout << persona << endl;
-	else
+	Registro persona = cliente.consultarPersona(nombre);
+	if(strcmp(persona.nombre,"") != 0) {
+		cout << "Nombre: " << persona.nombre << endl;
+		cout << "Direccion: " << persona.direccion << endl;
+		cout << "Telefono: " << persona.telefono << endl;
+	} else
 		cout << "No se encontro la persona " << nombre << "  en la base de datos" << endl;
 }
 

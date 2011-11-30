@@ -41,10 +41,10 @@ string Cliente::eliminarPersona(string nombre) {
 	return string(enviarPeticion(peticion).respuesta);
 }
 
-Persona Cliente::consultarPersona(string nombre) {
+Registro Cliente::consultarPersona(string nombre) {
 	mensaje peticion;
 	peticion.tipo = CONSULTAR;
 	strcpy(peticion.registro.nombre, nombre.c_str());
 	mensaje respuesta = enviarPeticion(peticion);
-	return Persona(respuesta.registro.nombre, respuesta.registro.direccion, respuesta.registro.telefono);
+	return respuesta.registro;
 }
