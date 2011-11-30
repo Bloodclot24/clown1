@@ -1,10 +1,14 @@
 #include "BloqueDeRegistros.h"
 
-BloqueDeRegistros::BloqueDeRegistros() /*: lock("baseDatos")*/ {
+BloqueDeRegistros::BloqueDeRegistros() {
 	cantidadDeRegistros = 0;
 	numeroBloque = 0;
 }
 
+BloqueDeRegistros::~BloqueDeRegistros() {
+	LockFile lock;
+	lock.cerrar();
+}
 
 bool BloqueDeRegistros::agregarRegistro(Registro registro) {
 	bool agregado = false;
@@ -16,7 +20,6 @@ bool BloqueDeRegistros::agregarRegistro(Registro registro) {
 	}
 	return agregado;
 }
-
 
 bool BloqueDeRegistros::eliminarRegistro(Registro registro) {
 	bool eliminado = false;
@@ -30,7 +33,6 @@ bool BloqueDeRegistros::eliminarRegistro(Registro registro) {
 	return eliminado;
 }
 
-
 bool BloqueDeRegistros::modificarRegistro(Registro registro) {
 	bool modificado = false;
 	for(int i = 0; i < cantidadDeRegistros && !modificado; i++){
@@ -42,7 +44,6 @@ bool BloqueDeRegistros::modificarRegistro(Registro registro) {
 	}
 	return modificado;
 }
-
 
 bool BloqueDeRegistros::consultarRegistro(Registro& registro) {
 	bool encontrado = false;
@@ -56,12 +57,10 @@ bool BloqueDeRegistros::consultarRegistro(Registro& registro) {
 	return encontrado;
 }
 
-
 void BloqueDeRegistros::acomodarBloque(int posicion) {
 	for(int i = posicion; i < cantidadDeRegistros; i++)
 		registros[i] = registros[i+1];
 }
-
 
 bool BloqueDeRegistros::buscarRegistro(Registro registro) {
 	bool encontrado = false;
@@ -71,7 +70,6 @@ bool BloqueDeRegistros::buscarRegistro(Registro registro) {
 	}
 	return encontrado;
 }
-
 
 void BloqueDeRegistros::persistir() {
 	LockFile lock;
@@ -83,7 +81,6 @@ void BloqueDeRegistros::persistir() {
 	}
 	lock.liberarLock();
 }
-
 
 BloqueDeRegistros BloqueDeRegistros::recuperar() {
 	LockFile lock;
@@ -107,10 +104,3 @@ void BloqueDeRegistros::setNumeroBloque(int numero){
 int BloqueDeRegistros::getCantidadDeRegistros() {
 	return cantidadDeRegistros;
 }
-
-BloqueDeRegistros::~BloqueDeRegistros() {
-	LockFile lock;
-	lock.cerrar();
-//	lock.eliminar();
-}
-

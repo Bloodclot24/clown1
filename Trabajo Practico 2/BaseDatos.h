@@ -18,6 +18,8 @@ private:
 	void persistir();
 	void recuperar();
 	bool buscarPersona(Registro& persona);
+	void agregarRegistro(Registro persona);
+	void agregarMemoriaCompartida();
 
 public:
 	BaseDatos();
