@@ -6,21 +6,19 @@
 #include <iostream>
 #include <stdio.h>
 
+#define ARCH_LOCK "basedatos.bd"
+
 using namespace std;
 
 class LockFile {
-
 private:
-
 	struct flock fl;
 	int fd;
 	string nombre;
 	int posicion;
 
 public:
-
 	LockFile();
-	LockFile (string nombre );
 	virtual ~LockFile();
 
 	int tomarLock ();
@@ -32,8 +30,6 @@ public:
 	int leer (char* buffer,int buffsize );
 
 	void cerrar();
-
-	void abrir();
 
 	void eliminar();
 

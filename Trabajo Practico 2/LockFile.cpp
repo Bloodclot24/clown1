@@ -1,24 +1,13 @@
 #include "LockFile.h"
 
-LockFile::LockFile() {
-	this->nombre = "basedatos.bd";
+LockFile::LockFile() : nombre(ARCH_LOCK) {
 	fl.l_type = F_WRLCK;
 	fl.l_whence = SEEK_SET;
 	fl.l_start = 0;
 	fl.l_len = 0;
 	fl.l_pid = getpid();
-	abrir();
-}
-
-LockFile::LockFile(string nombre) {
-
-	this->nombre = nombre;
-	fl.l_type = F_WRLCK;
-	fl.l_whence = SEEK_SET;
-	fl.l_start = 0;
-	fl.l_len = 0;
-	fl.l_pid = getpid();
-	abrir();
+	fd = open(nombre.c_str(), O_CREAT | O_RDWR, 0777);
+	posicion = 0;
 }
 
 int LockFile::tomarLock() {
@@ -48,11 +37,6 @@ int LockFile::leer(char* buffer, int buffsize) {
 
 void LockFile::setPosicion(int nuevaPosicion) {
 	posicion = nuevaPosicion;
-}
-
-void LockFile::abrir() {
-	fd = open(nombre.c_str(), O_CREAT | O_RDWR, 0777);
-	posicion = 0;
 }
 
 void LockFile::cerrar() {

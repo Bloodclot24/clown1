@@ -82,7 +82,7 @@ void BloqueDeRegistros::persistir() {
 	lock.liberarLock();
 }
 
-BloqueDeRegistros BloqueDeRegistros::recuperar() {
+void BloqueDeRegistros::recuperar() {
 	LockFile lock;
 	lock.tomarLock();
 	int i = 0;
@@ -94,7 +94,6 @@ BloqueDeRegistros BloqueDeRegistros::recuperar() {
 		cantidadDeRegistros++;
 	}
 	lock.liberarLock();
-	return (*this);
 }
 
 void BloqueDeRegistros::setNumeroBloque(int numero){
