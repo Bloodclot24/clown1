@@ -107,13 +107,6 @@ la misma. En caso de no querer modificar alguno, debe reingresarse la informaci\
 
 \end{itemize}
 
-\section{Herramientas de concurrencia utilizadas}
-
-Cola de mensajes \\
-Memoria compartida \\
-Sem\'aforo \\
-LockFiles \\
-Se\~nales \\
 
 \section {Comunicaci\'on entre procesos}
 
@@ -176,17 +169,29 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
 \end{itemize}
 
 
+\section{Herramientas de concurrencia utilizadas}
+\begin{itemize}
+
+ \item \underline{Cola de mensajes}: utilizada para resolver la comunicaci\'on entre los procesos cliente y el gestor \\
+ \item \underline{Memoria compartida}: utilizada para almacenar la base de datos, permitir\'ia, en caso de existir mas de un gestor, que todos los gestores 
+compartan la informaci\'on all\'i almacenada.  \\
+ \item \underline{Sem\'aforo}: utilizado para obtener sincronismo en el acceso a la memoria compartida(a la base de datos). \\
+ \item \underline{LockFiles}: utilizado para la persistencia de la base de datos en un archivo(el lockfile) de forma de garantizar que solo 1 gestor pueda escribir a la vez, en caso de existir mas de uno. \\
+ \item \underline{Se\~nales}: utilizada para detener la ejecuci\'on del gestor, se utiliza la se\~nal SIGTERM en este caso para finalizar de forma correcta el gestor de base de datos. \\
+\end{itemize}
+
+
 
 \section{Casos de Uso}
 
-\subsection{Cliente}
+%\subsection{Cliente}
 
 \begin{center}
 \includegraphics[scale=0.65]{CasosUsoCliente} 
 \end{center}
 
-\subsubsection{Especificaci\'on de los casos de uso del Cliente}
-
+%\subsubsection{Especificaci\'on de los casos de uso del Cliente}
+\subsubsection{Especificaci\'on de los casos de uso}
   \begin{tabular}{|l|m{0.8\textwidth}|}
     \hline
     \multicolumn{2}{|m{0.9\textwidth}|}{{\bf Caso de uso: Agregar Persona}} \\
@@ -415,13 +420,13 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
   \newline
 
 
-\subsection{Gestor}
+%\subsection{Gestor}
 
 %\begin{center}
 %\includegraphics[scale=0.65]{CasosUsoGestor} 
 %\end{center}
 
-\subsubsection{Especificaci\'on de los casos de uso del Gestor}
+%\subsubsection{Especificaci\'on de los casos de uso del Gestor}
 
 
 
@@ -430,22 +435,27 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
 \newpage
 
 \section{Diagrama de clases}
-
+ En esta secci\'on se presentan los diagramas de clase para cada una de las aplicaciones.
 \subsection{Diagrama de clases Cliente}
-
+A continuaci\'on se observa el diagrama de clases correspondiente a la aplicaci\'on cliente. En el mismo se observa la ``clase Mensaje''. 
+Esta ``clase'' es en realidad una estructura pero se muestra en el diagrama dado que la clase Cola es de tipo template, que en este caso, es utilizada 
+con Mensajes. Es para remarcar esto que se incluye la ``clase Mensaje'' en el diagrama.
 \begin{center}
 \includegraphics[scale=0.45,width=1.02\textwidth]{ClasesCliente} 
 \end{center}
 
 
 \subsection{Diagrama de clases Gestor}
+A continuaci\'on se observa el diagrama de clases para la aplicaci\'on gestor. Se incluye la ``clase Mensaje'' por las mismas razones enunciadas anteriormente.
+Para simplificar la apreciaci\'on del diagrama se decidi\'o no mostrar en el mismo los m\'etodos y atributos privados de las clases en cuest\'on.
+
 \begin{center}
 \includegraphics[scale=0.45, height=0.93\textheight,width=1.02\textwidth]{ClasesGestor} 
 \end{center}
 
 \newpage
 \section{Compilaci\'on}
-Con el fin de facilitar la compilaci\'on de las aplicaciones se provee un archivo de {\bf Makefile}; el mismo se encuentra ubicado en 
+Con el fin de facilitar la compilaci\'on de las aplicaciones se provee un script bajo el nombre {\bf compilar.sh}; el mismo se encuentra ubicado en 
 el directorio en el cu\'al se encuentra el c\'odigo fuente. \\
 El mismo se utiliza de la siguiente forma:
 \begin{itemize}
@@ -453,8 +463,8 @@ El mismo se utiliza de la siguiente forma:
 comando desde un ambiente Unix\/Linux:\\
 \$~:cd Directorio\_del\_trabajo\_practico
 \item Ejecutar el siguiente comando: \\
-\$~:make all
-\subitem * Se debe contar con el comando {\bf make} instalado en el sistema para poder compilar la aplicaci\'on de este modo.
+\$~:compilar.sh
+\subitem * El script {\bf compilar.sh} debe contar con permisos de ejecuci\'on para poder realizar la compilaci\'on.
 \item Una vez finalizada la compilaci\'on del paso anterior, se observar\'an, en dicho directorio, dos archivos ejecutables: \textit{cliente} y \textit{gestor}. 
 Estos archivos representan respectivamente a las aplicaciones cliente( para ejecutar los clientes debe utilizarse {\bf ./cliente}) y gestor({\bf ./gestor}). 
 \end{itemize}
