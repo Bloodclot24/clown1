@@ -8,12 +8,12 @@
 \contentsline {subsection}{\numberline {6.1}Protocolo utilizado}{5}{subsection.6.1}
 \contentsline {section}{\numberline {7}Casos de Uso}{6}{section.7}
 \contentsline {subsection}{\numberline {7.1}Cliente}{6}{subsection.7.1}
-\contentsline {subsubsection}{\numberline {7.1.1}Especificaci\'on de los casos de uso del Cliente}{6}{subsubsection.7.1.1}
-\contentsline {subsection}{\numberline {7.2}Gestor}{6}{subsection.7.2}
-\contentsline {subsubsection}{\numberline {7.2.1}Especificaci\'on de los casos de uso del Gestor}{6}{subsubsection.7.2.1}
-\contentsline {section}{\numberline {8}Diagrama de clases}{7}{section.8}
-\contentsline {subsection}{\numberline {8.1}Diagrama de clases Cliente}{7}{subsection.8.1}
-\contentsline {subsection}{\numberline {8.2}Diagrama de clases Gestor}{7}{subsection.8.2}
-\contentsline {section}{\numberline {9}Compilaci\'on}{8}{section.9}
-\contentsline {section}{\numberline {10}Modo de Uso}{8}{section.10}
-\contentsline {section}{\numberline {11}Conclusiones}{9}{section.11}
+\contentsline {subsubsection}{\numberline {7.1.1}Especificaci\'on de los casos de uso del Cliente}{7}{subsubsection.7.1.1}
+\contentsline {subsection}{\numberline {7.2}Gestor}{9}{subsection.7.2}
+\contentsline {subsubsection}{\numberline {7.2.1}Especificaci\'on de los casos de uso del Gestor}{9}{subsubsection.7.2.1}
+\contentsline {section}{\numberline {8}Diagrama de clases}{10}{section.8}
+\contentsline {subsection}{\numberline {8.1}Diagrama de clases Cliente}{10}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Diagrama de clases Gestor}{10}{subsection.8.2}
+\contentsline {section}{\numberline {9}Compilaci\'on}{11}{section.9}
+\contentsline {section}{\numberline {10}Modo de Uso}{11}{section.10}
+\contentsline {section}{\numberline {11}Conclusiones}{12}{section.11}
