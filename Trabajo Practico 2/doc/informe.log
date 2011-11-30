@@ -1,4 +1,4 @@
-This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2010.5.17)  29 NOV 2011 18:58
+This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2010.5.17)  29 NOV 2011 23:53
 entering extended mode
 **informe.tex
 (./informe.tex
@@ -772,46 +772,137 @@ LaTeX Font Info:    Font shape `T1/pbk/bx/n' in size <12> not available
 (Font)              Font shape `T1/pbk/b/n' tried instead on input line 154.
 LaTeX Font Info:    Font shape `T1/pbk/b/n' in size <12> not available
 (Font)              Font shape `T1/pbk/db/n' tried instead on input line 154.
-
-<CasosUsoCliente.jpg, id=173, 662.475pt x 521.69907pt>
+File: Logo-fiuba.png Graphic file (type png)
+ <use Logo-fiuba.png> [5]
+<CasosUsoCliente.jpg, id=191, 662.475pt x 521.69907pt>
 File: CasosUsoCliente.jpg Graphic file (type jpg)
 
 <use CasosUsoCliente.jpg>
+! Misplaced \noalign.
+\rowcolor ->\noalign 
+                     {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
+l.194 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+                                                   \\
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+! Misplaced \noalign.
+\rowcolor ->\noalign 
+                     {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
+l.208 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+                                                   \\
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+! Misplaced \noalign.
+\rowcolor ->\noalign 
+                     {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
+l.239 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+                                                   \\
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 190--248
+
+ []
+
 File: Logo-fiuba.png Graphic file (type png)
- <use Logo-fiuba.png> [5]
+<use Logo-fiuba.png> [6 <./CasosUsoCliente.jpg>]
+! Misplaced \noalign.
+\rowcolor ->\noalign 
+                     {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
+l.253 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+                                                   \\
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+! Misplaced \noalign.
+\rowcolor ->\noalign 
+                     {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
+l.267 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+                                                   \\
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+! Misplaced \noalign.
+\rowcolor ->\noalign 
+                     {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
+l.298 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+                                                   \\
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 249--306
+
+ []
+
 File: Logo-fiuba.png Graphic file (type png)
- <use Logo-fiuba.png>
-[6 <./CasosUsoCliente.jpg>]
-File: Logo-fiuba.png Graphic file (type png)
- <use Logo-fiuba.png> [7]
-Underfull \hbox (badness 10000) in paragraph at lines 208--213
+<use Logo-fiuba.png> [7]
+! Misplaced \noalign.
+\rowcolor ->\noalign 
+                     {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
+l.311 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+                                                   \\
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+! Misplaced \noalign.
+\rowcolor ->\noalign 
+                     {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
+l.325 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+                                                   \\
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+! Misplaced \noalign.
+\rowcolor ->\noalign 
+                     {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
+l.352 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+                                                   \\
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 307--360
 
  []
 
 File: Logo-fiuba.png Graphic file (type png)
 <use Logo-fiuba.png> [8]
 File: Logo-fiuba.png Graphic file (type png)
- <use Logo-fiuba.png> [9] (./informe.aux) ) 
+ <use Logo-fiuba.png> [9]
+File: Logo-fiuba.png Graphic file (type png)
+ <use Logo-fiuba.png> [10]
+Underfull \hbox (badness 10000) in paragraph at lines 401--406
+
+ []
+
+File: Logo-fiuba.png Graphic file (type png)
+<use Logo-fiuba.png> [11]
+File: Logo-fiuba.png Graphic file (type png)
+ <use Logo-fiuba.png> [12] (./informe.aux) ) 
 Here is how much of TeX's memory you used:
- 7125 strings out of 94500
- 89786 string characters out of 1176766
+ 7128 strings out of 94500
+ 89807 string characters out of 1176766
  162582 words of memory out of 1000000
  10107 multiletter control sequences out of 10000+50000
  25847 words of font info for 63 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
- 41i,15n,61p,223b,1227s stack positions out of 1500i,500n,5000p,200000b,5000s
+ 41i,16n,61p,223b,1227s stack positions out of 1500i,500n,5000p,200000b,5000s
 PDF statistics:
- 208 PDF objects out of 300000
- 37 named destinations out of 131072
+ 220 PDF objects out of 300000
+ 40 named destinations out of 131072
  193 words of extra memory for PDF output out of 65536
-{/usr/share/texmf/fonts/enc/dvips/ps
-nfss/8r.enc}</usr/share/texmf/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/te
-xmf/fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texmf/fonts/type1/urw/bookma
-n/ubkli8a.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmtt10.pfb></usr/share/t
-exmf/fonts/type1/bluesky/cm/cmss10.pfb></usr/share/texmf/fonts/type1/bluesky/cm
-/cmssbx10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmss12.pfb></usr/share/t
-exmf/fonts/type1/bluesky/cm/cmss17.pfb></usr/share/texmf/fonts/type1/bluesky/cm
-/cmmi8.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf
-/fonts/type1/urw/bookman/ubkd8a.pfb></usr/share/texmf/fonts/type1/urw/bookman/u
-bkl8a.pfb>
-Output written on informe.pdf (9 pages, 232093 bytes).
+{/usr/share/texmf/fonts/enc/dvips/p
+snfss/8r.enc}</usr/share/texmf/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/t
+exmf/fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texmf/fonts/type1/urw/bookm
+an/ubkli8a.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmtt10.pfb></usr/share/
+texmf/fonts/type1/bluesky/cm/cmss10.pfb></usr/share/texmf/fonts/type1/bluesky/c
+m/cmssbx10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmss12.pfb></usr/share/
+texmf/fonts/type1/bluesky/cm/cmss17.pfb></usr/share/texmf/fonts/type1/bluesky/c
+m/cmmi8.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texm
+f/fonts/type1/urw/bookman/ubkd8a.pfb></usr/share/texmf/fonts/type1/urw/bookman/
+ubkl8a.pfb>
+Output written on informe.pdf (12 pages, 240922 bytes).

@@ -72,7 +72,7 @@
 \begin{center}
 % Orden del trim = izq abajo derecha arriba
 \includegraphics[trim = 25mm 30mm 10mm 35mm, clip,height=0.93\textheight,width=1.04\textwidth]{SegundoProyecto.pdf}
-\includegraphics[trim = 25mm 20mm 10mm 40mm, clip,height=0.95\textheight,width=1.04\textwidth,page={2}]{SegundoProyecto.pdf}
+\includegraphics[trim = 25mm 20mm 10mm 30mm, clip,height=0.95\textheight,width=1.04\textwidth,page={2}]{SegundoProyecto.pdf}
 \end{center}
 
 \newpage
@@ -99,17 +99,21 @@ personas se llaman de igual forma, son la misma persona.
 nombre de las personas, entre otras cosas.
 \item Para el acceso a la memoria compartida se utiliz\'o un sem\'aforo de forma tal de lograr un sincronismo en el mismo. Este sem\'aforo es \'unico 
 para la base de datos en su totalidad.
-\item La persistencia de la base de datos
+\item La persistencia de la base de datos {\bf TODO}
+\item Al modificar una persona desde la aplicaci\'on cliente se le solicita al usuario que ingrese primero el nombre de la misma tal cual figura en la base de datos, 
+y luego se le solicita que ingrese la nueva direcci\'on y tel\'efono. Siendo estos datos los almacenados a partir de dicho momento 
+en la base de datos para la persona en cuesti\'on. Es decir, al modificar un registro de una persona se deben modificar los campos direcci\'on y tel\'efono de 
+la misma. En caso de no querer modificar alguno, debe reingresarse la informaci\'on ya existente para dicho campo.
 
 \end{itemize}
 
 \section{Herramientas de concurrencia utilizadas}
 
-Cola de mensajes
-Memoria compartida
-Sem\'aforo
-LockFiles
-Se\~nales
+Cola de mensajes \\
+Memoria compartida \\
+Sem\'aforo \\
+LockFiles \\
+Se\~nales \\
 
 \section {Comunicaci\'on entre procesos}
 
@@ -120,7 +124,7 @@ Esto produce que no sea necesario sincronizar la escritura en la misma por mas q
 de dicha estructura antes de finalizar, es decir, no puede darse el caso de que por cambiar el ipc el uso de cpu a otro proceso escriba uno la mitad de su estructura 
 en la cola y el otro comience desde alli.
 A su ves, la utilizaci\'on de colas de mensajes simplifica el protocolo de comunicaci\'on entre los procesos dado que es posible utilizar los campos de la estructura 
-como por ejemplo, el dato long obligatorio para identificar a que proceso pertenece cada uno de los mensajes.
+como por ejemplo, el dato long obligatorio para identificar que proceso es destinatario de cada uno de los mensajes.
 
 La estructura utilizada para transmitir los mensajes a trav\'es de la cola es la siguiente:
 
@@ -136,7 +140,7 @@ La estructura utilizada para transmitir los mensajes a trav\'es de la cola es la
 
 A continuaci\'on se presenta una descripci\'on de el significado y la utilizaci\'on de cada uno de los campos que conforman dicha estructura.
 \begin{itemize}
- \item mtype:
+\item mtype: es un long obligatorio que se utiliza adem\'as para indicar quien es el destinatario del mensaje.
 \item id: es el n\'umero de proceso de quien env\'ia el mensaje.
 \item tipo: es un enumerado que representa de que tipo de petici\'on proviene el mensaje en cuesti\'on. 
 Los valores posibles para este campo son los siguientes: ``AGREGAR, ELIMINAR, CONSULTAR, MODIFICAR''
@@ -149,7 +153,27 @@ trav\'es de estos el resultado de la operaci\'on realizada.
 
 \subsection{Protocolo utilizado}
 
-En cuanto al protocolo de comunicaci\'on utilizado, el mismo se desprende de observar la estructura anterior. 
+En cuanto al protocolo de comunicaci\'on utilizado, el mismo se desprende de observar la estructura anterior. A continuaci\'on se describe el formato 
+de los mensajes que se transmiten mediante la cola de forma tal de aclarar el formato de cada uno de los tipos de mensajes utilizados para establecer la 
+comunicaci\'on entre los procesos. \\
+Para los mensajes que parten desde los clientes hacia el gestor se conforman de la siguiente manera:
+\begin{itemize}
+ \item mtype = PETICION
+ \item id = pid\_del\_proceso\_que\_envia
+ \item tipo = AGREGAR \'o ELIMINAR \'o CONSULTAR \'o MODIFICAR
+ \item registro = Datos\_de\_la\_persona\_de\_la\_operacion
+ \item respuesta = `` ''
+\end{itemize}
+
+
+Para los mensajes que parten desde el gestor hacia los clientes se conforman de la siguiente manera:
+\begin{itemize}
+ \item mtype = pid\_del\_cliente\_que\_debe\_recibirlo
+ \item id = `` ''
+ \item tipo = `` ''
+ \item registro = `` ''
+ \item respuesta = mensaje\_informando\_\'exito\_o\_error\_al\_realizar\_la\_operaci\'on
+\end{itemize}
 
 
 
@@ -162,6 +186,67 @@ En cuanto al protocolo de comunicaci\'on utilizado, el mismo se desprende de obs
 \end{center}
 
 \subsubsection{Especificaci\'on de los casos de uso del Cliente}
+
+  \begin{tabular}{|l|m{0.8\textwidth}|}
+    \hline
+    \multicolumn{2}{|m{0.9\textwidth}|}{{\bf Caso de uso: Agregar Persona}} \\
+    \hline
+    \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
+    \hline
+  
+    \multicolumn{2}{|p{0.9\textwidth}|}{{\bf Descripción:} Alta de los datos de una 
+    persona en la base de datos } \\
+  
+    \hline
+    \multicolumn{2}{|l|}{Actores participantes: Cliente} \\
+    \hline
+  
+    \multicolumn{2}{|l|}{Pre-condiciones: Se deben haber ejecutado las aplicaciones cliente 
+    y gestor} \\
+  
+    \hline
+    \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
+    \hline
+    \multicolumn{2}{|l|}{Flujo Principal} \\
+    \hline
+    1 & El actor cliente ingresa a la aplicaci\'on. \\
+    \hline
+    2 &  El actor indica la acción a realizar \newline
+    Si la acción es el alta de una nueva persona entonces ejecutar subflujo Alta de persona (S1)\newline
+   \\
+    
+    \hline
+    \multicolumn{2}{|l|}{Flujos Alternativos} \\
+    \hline
+  
+    S1 &  Alta de persona: \\ \hline
+    S1.1 & El sistema solicita el ingreso del nombre de la persona a dar de alta.\\ \hline
+    S1.2 & El cliente ingresa el nombre de la persona\\ \hline
+    S1.3 & El sistema valida que el nombre de dicha persona no exista ya en la base de datos (E1) \\ \hline
+    S1.4 & El sistema solicita el ingreso de la direcci\'on de dicha persona\\ \hline
+    S1.5 & El cliente ingresa la direcci\'on de la persona\\ \hline
+    S1.6 & El sistema solicita el ingreso del tel\'efono de dicha persona\\ \hline
+    S1.7 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
+    S1.8 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
+    
+    \multicolumn{2}{|l|}{Flujos de Excepción} \\
+    \hline
+  
+    E1 & Ya existe una persona con dicho nombre, se le informa al cliente y se vuelve al men\'u anterior. 
+    El caso de uso finaliza.\\
+  
+    \hline
+    \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
+    \hline
+  
+    \multicolumn{2}{|m{0.9\textwidth}|}{Post-condiciones: Se agregaron los datos de la nueva persona a la base de datos
+    y desde este momento est\'a disponible dicha informaci\'on para el resto de los clientes} \\
+  
+    \hline
+  \end{tabular}
+  \newline
+
+
 
 \subsection{Gestor}
 
@@ -201,7 +286,11 @@ Estos archivos representan respectivamente a las aplicaciones cliente( para ejec
 
 
 \section{Modo de Uso}
-
+Para utilizar la aplicaci\'on {\bf gestor} debe considerarse que la misma finaliza al presionar la tecla \textit{'s'} en la consola en la cu\'al esta corriendo; 
+esto es informado en la misma mediante un mensaje. \\ \\
+Para utilizar la aplicaci\'on {\bf cliente} se debe respetar la interfaz por consola que la misma presenta. \\
+Al momento de querer \underline{modificar} una persona desde la aplicaci\'on se debe ingresar el nombre de la misma tal cu\'al figura en la base de datos, dado que el mismo 
+es la clave primaria.
 
 
 \newpage
