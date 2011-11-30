@@ -337,7 +337,7 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
     \hline
   
     S1 &  Baja de persona: \\ \hline
-    S1.1 & El sistema solicita el ingreso del nombre de la persona a dar de alta.\\ \hline
+    S1.1 & El sistema solicita el ingreso del nombre de la persona a dar de baja.\\ \hline
     S1.2 & El cliente ingresa el nombre de la persona\\ \hline
     S1.3 & El sistema valida que el nombre de dicha persona exista en la base de datos (E1) \\ \hline
     S1.4 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
@@ -358,6 +358,61 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
   \end{tabular}
   \newline
 
+\begin{tabular}{|l|m{0.8\textwidth}|}
+    \hline
+    \multicolumn{2}{|m{0.9\textwidth}|}{{\bf Caso de uso: Consultar Persona}} \\
+    \hline
+    \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
+    \hline
+  
+    \multicolumn{2}{|p{0.9\textwidth}|}{{\bf Descripción:} Consulta de los datos de una 
+    persona en la base de datos } \\
+  
+    \hline
+    \multicolumn{2}{|l|}{Actores participantes: Cliente} \\
+    \hline
+  
+    \multicolumn{2}{|l|}{Pre-condiciones: Se deben haber ejecutado las aplicaciones cliente 
+    y gestor} \\
+  
+    \hline
+    \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
+    \hline
+    \multicolumn{2}{|l|}{Flujo Principal} \\
+    \hline
+    1 & El actor cliente ingresa a la aplicaci\'on. \\
+    \hline
+    2 &  El actor indica la acción a realizar \newline
+    Si la acción es la consulta de los datos de una persona entonces ejecutar subflujo Consulta de persona (S1)\newline
+   \\
+    
+    \hline
+    \multicolumn{2}{|l|}{Flujos Alternativos} \\
+    \hline
+  
+    S1 &  Consulta de persona: \\ \hline
+    S1.1 & El sistema solicita el ingreso del nombre de la persona a consultar.\\ \hline
+    S1.2 & El cliente ingresa el nombre de la persona\\ \hline
+    S1.3 & El sistema valida que el nombre de dicha persona exista en la base de datos (E1) \\ \hline
+    S1.4 & El sistema procesa la petici\'on\\ \hline
+    S1.5 & El sistema informa nombre, direcci\'on y tel\'efono de la persona consultada\\ \hline
+    S1.6 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
+    
+    \multicolumn{2}{|l|}{Flujos de Excepción} \\
+    \hline
+  
+    E1 & No existe una persona con dicho nombre, se le informa al cliente y se vuelve al men\'u anterior. 
+    El caso de uso finaliza.\\
+  
+    \hline
+    \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
+    \hline
+  
+    \multicolumn{2}{|m{0.9\textwidth}|}{Post-condiciones: Se obtuvieron los datos de la persona consultada de la base de datos} \\
+  
+    \hline
+  \end{tabular}
+  \newline
 
 
 \subsection{Gestor}
@@ -378,7 +433,15 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
 
 \subsection{Diagrama de clases Cliente}
 
+\begin{center}
+\includegraphics[scale=0.45,width=1.02\textwidth]{ClasesCliente} 
+\end{center}
+
+
 \subsection{Diagrama de clases Gestor}
+\begin{center}
+\includegraphics[scale=0.45, height=0.93\textheight,width=1.02\textwidth]{ClasesGestor} 
+\end{center}
 
 \newpage
 \section{Compilaci\'on}
