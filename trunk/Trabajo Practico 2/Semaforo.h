@@ -6,7 +6,6 @@
 #include <sys/types.h>
 
 class Semaforo {
-
 private:
 	int id;
 	int valorInicial;

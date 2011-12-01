@@ -1,20 +1,13 @@
 #include "BaseDatos.h"
 
 BaseDatos::BaseDatos(): semaforo("BaseDatos.cpp", 1) {
-
-	//lock.tomarLock();
 	recuperar();
 	LockFile lock;
-	//lock.liberarLock();
 	lock.eliminar();
-	cout << "Fin constructor" << endl;
 }
 
 BaseDatos::~BaseDatos() {
-	//LockFile lock;
-	//lock.tomarLock();
 	persistir();
-	//lock.liberarLock();
 	semaforo.eliminar();
 }
 
@@ -26,11 +19,12 @@ bool BaseDatos::consultarPersona(Registro& persona) {
 }
 
 bool BaseDatos::buscarPersona(Registro& persona) {
-	vector<MemoriaCompartida<BloqueDeRegistros> >::iterator it;
 	bool encontrado = false;
+	//recorre todos los bloques de las memorias compartidas
+	vector<MemoriaCompartida<BloqueDeRegistros> >::iterator it;
 	for(it = memoria.begin(); it != memoria.end() && !encontrado; it++) {
 		registros = (*it).leer();
-		if(registros.consultarRegistro(persona))
+		if(registros.consultarRegistro(persona)) //carga los datos de la persona si la encuentra
 			encontrado = true;
 	}
 	return encontrado;
@@ -41,8 +35,8 @@ bool BaseDatos::agregarPersona(Registro persona) {
 	bool resultado;
 	if(buscarPersona(persona))
 		resultado = false;
-	else {
-		agregarRegistro(persona);
+	else { //la persona no esta en la base de datos
+		agregarRegistro(persona); //agrega al final el registro
 		resultado = true;
 	}
 	semaforo.v();
@@ -51,9 +45,9 @@ bool BaseDatos::agregarPersona(Registro persona) {
 
 void BaseDatos::agregarRegistro(Registro persona) {
 	registros = memoria[memoria.size() - 1].leer();
-	if(!registros.agregarRegistro(persona)) {
+	if(!registros.agregarRegistro(persona)) { //si no hay lugar en el ultimo bloque, agrega otro
 		agregarMemoriaCompartida();
-		registros.agregarRegistro(persona);
+		registros.agregarRegistro(persona); //agrega el registro en el nuevo bloque
 	}
 	memoria[memoria.size() - 1].escribir(registros);
 }
@@ -61,10 +55,11 @@ void BaseDatos::agregarRegistro(Registro persona) {
 bool BaseDatos::modificarPersona(Registro persona) {
 	semaforo.p();
 	bool modificado = false;
+	//recorre todos los bloques de las memorias compartidas
 	vector<MemoriaCompartida<BloqueDeRegistros> >::iterator it;
 	for(it = memoria.begin(); it != memoria.end() && !modificado; it++) {
 		registros = (*it).leer();
-		if(registros.modificarRegistro(persona)) {
+		if(registros.modificarRegistro(persona)) {//retorna false si no encuentra el registro
 			(*it).escribir(registros);
 			modificado = true;
 		}
@@ -76,10 +71,11 @@ bool BaseDatos::modificarPersona(Registro persona) {
 bool BaseDatos::eliminarPersona(Registro persona) {
 	semaforo.p();
 	bool eliminado = false;
+	//recorre todos los bloques de las memorias compartidas
 	vector<MemoriaCompartida<BloqueDeRegistros> >::iterator it;
 	for(it = memoria.begin(); it != memoria.end() && !eliminado; it++) {
 		registros = (*it).leer();
-		if(registros.eliminarRegistro(persona)) {
+		if(registros.eliminarRegistro(persona)) {//retorna false si no encuentra el registro
 			(*it).escribir(registros);
 			eliminado = true;
 		}
@@ -90,6 +86,7 @@ bool BaseDatos::eliminarPersona(Registro persona) {
 
 void BaseDatos::persistir() {
 	semaforo.p();
+	//recorre todos los bloques de las memorias compartidas
 	vector<MemoriaCompartida<BloqueDeRegistros> >::iterator it;
 	for(it = memoria.begin(); it != memoria.end(); it++) {
 		registros = (*it).leer();
@@ -100,21 +97,21 @@ void BaseDatos::persistir() {
 }
 
 void BaseDatos::recuperar() {
+	//carga en las memorias compartidas los registros del archivo de base de datos
 	int cantidadRegistrosCargados = MAX_REG_MEM;
-	while(cantidadRegistrosCargados == MAX_REG_MEM) {
+	while(cantidadRegistrosCargados == MAX_REG_MEM) { //si el bloque anterior esta completo, sigue cargando mas bloques
 		agregarMemoriaCompartida();
 		registros.recuperar();
 		semaforo.p();
 		memoria[memoria.size() - 1].escribir(registros);
 		semaforo.v();
 		cantidadRegistrosCargados = registros.getCantidadDeRegistros();
-		cout << cantidadRegistrosCargados << endl;
 	}
 }
 
 void BaseDatos::agregarMemoriaCompartida() {
 	MemoriaCompartida<BloqueDeRegistros> memoriaCompartida;
-	cout << "Resultado de mem: " << memoriaCompartida.crear((char *) "BaseDatos.cpp", memoria.size()) << endl;
+	memoriaCompartida.crear((char *) "BaseDatos.cpp", memoria.size());
 	registros = memoriaCompartida.leer();
 	registros.setNumeroBloque(memoria.size());
 	memoria.insert(memoria.end(), memoriaCompartida);

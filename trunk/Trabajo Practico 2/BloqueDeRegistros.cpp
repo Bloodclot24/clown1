@@ -58,6 +58,7 @@ bool BloqueDeRegistros::consultarRegistro(Registro& registro) {
 }
 
 void BloqueDeRegistros::acomodarBloque(int posicion) {
+	//realiza la baja fisica del registro, adelantando una posicion los registros siguientes
 	for(int i = posicion; i < cantidadDeRegistros; i++)
 		registros[i] = registros[i+1];
 }

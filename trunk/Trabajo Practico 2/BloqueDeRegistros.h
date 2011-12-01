@@ -6,7 +6,7 @@
 #include "Registro.h"
 #include "LockFile.h"
 
-#define MAX_REG_MEM 1
+#define MAX_REG_MEM 100
 
 class BloqueDeRegistros {
 private:
