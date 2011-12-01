@@ -106,7 +106,21 @@ para la base de datos en su totalidad.
 \item Al modificar una persona desde la aplicaci\'on cliente se le solicita al usuario que ingrese primero el nombre de la misma tal cual figura en la base de datos, 
 y luego se le solicita que ingrese la nueva direcci\'on y tel\'efono. 
 \item Antes de realizar alguna modificación en la base de datos, se pide la confirmación del usuario, para evitar registrar datos erróneos.
+\item Se tom\'o como convenci\'on utilizar 100 registros por bloque de memoria. Dicho n\'umero puede alterarse modificando el valor de la constante 
+MAX\_REG\_MEM en el archivo BloqueDeRegistros.h.
 \end{itemize}
+
+\section{Descripci\'on de la divisi\'on en procesos}
+
+Para desarrollar las aplicaciones se decidi\'o dividirlas de la siguiente forma:
+\begin{itemize}
+ \item Para el caso de los clientes:
+  \subitem - Cada cliente es un proceso.
+  \item Para el caso del gestor:
+  \subitem - Se dividi\'o el mismo en dos procesos diferentes; uno de ellos espera la se\~nal para finalizar el gestor mientras que el otro proceso es el 
+que recibe, procesa y responde las consultas de los clientes.
+\end{itemize}
+
 
 
 \section {Comunicaci\'on entre procesos}
@@ -234,15 +248,20 @@ gestor acceda a este recurso a la vez, en caso de existir mas de uno. \\
     S1.4 & El sistema solicita el ingreso de la direcci\'on de dicha persona\\ \hline
     S1.5 & El cliente ingresa la direcci\'on de la persona\\ \hline
     S1.6 & El sistema solicita el ingreso del tel\'efono de dicha persona\\ \hline
-    S1.7 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
-    S1.8 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
+    S1.7 & El cliente ingresa el tel\'efono de la persona.\\ \hline
+    S1.8 & El sistema solicita que el usuario confirme que desea agregar esa persona.\\ \hline
+    S1.9 & El cliente confirma su deseo de agregar dicha persona (E2).\\ \hline
+    S1.10 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
+    S1.11 & El sistema da de alta la persona en la base de datos.\\ \hline
+    S1.12 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
     
     \multicolumn{2}{|l|}{Flujos de Excepción} \\
     \hline
   
     E1 & Ya existe una persona con dicho nombre, se le informa al cliente y se vuelve al men\'u anterior. 
     El caso de uso finaliza.\\
-  
+    E2 & El cliente no confirma su deseo de agregar a la persona, se vuelve al men\'u anterior. 
+    El caso de uso finaliza.\\
     \hline
     \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
     \hline
@@ -293,15 +312,21 @@ gestor acceda a este recurso a la vez, en caso de existir mas de uno. \\
     S1.4 & El sistema solicita el ingreso de la direcci\'on de dicha persona\\ \hline
     S1.5 & El cliente ingresa la direcci\'on de la persona\\ \hline
     S1.6 & El sistema solicita el ingreso del tel\'efono de dicha persona\\ \hline
-    S1.7 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
-    S1.8 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
+    S1.7 & El cliente ingresa el tel\'efono de la persona.\\ \hline
+    S1.8 & El sistema solicita que el usuario confirme que desea modificar los datos de esa persona.\\ \hline
+    S1.9 & El cliente confirma su deseo de modificar los datos dicha persona (E2).\\ \hline
+    S1.10 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
+    S1.11 & El sistema modifica los datos de la persona en la base de datos.\\ \hline
+    S1.12 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
     
     \multicolumn{2}{|l|}{Flujos de Excepción} \\
     \hline
   
     E1 & Si no existe una persona con dicho nombre, se le informa al cliente y se vuelve al men\'u anterior. 
     El caso de uso finaliza.\\
-  
+    E2 & El cliente no confirma su deseo de modificar los datos de la persona, se vuelve al men\'u anterior. 
+    El caso de uso finaliza.\\
+    
     \hline
     \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
     \hline
@@ -348,14 +373,20 @@ gestor acceda a este recurso a la vez, en caso de existir mas de uno. \\
     S1.1 & El sistema solicita el ingreso del nombre de la persona a dar de baja.\\ \hline
     S1.2 & El cliente ingresa el nombre de la persona\\ \hline
     S1.3 & El sistema valida que el nombre de dicha persona exista en la base de datos (E1) \\ \hline
-    S1.4 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
+    S1.4 & El sistema solicita que el usuario confirme que desea eliminar los datos de esa persona.\\ \hline
+    S1.5 & El cliente confirma su deseo de modificar los datos dicha persona (E2).\\ \hline
+    S1.6 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
+    S1.7 & El sistema elimina los datos de la persona en la base de datos.\\ \hline
+    S1.8 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
     
     \multicolumn{2}{|l|}{Flujos de Excepción} \\
     \hline
   
     E1 & No existe una persona con dicho nombre, se le informa al cliente y se vuelve al men\'u anterior. 
     El caso de uso finaliza.\\
-  
+    E2 & El cliente no confirma su deseo de modificar los datos de la persona, se vuelve al men\'u anterior. 
+    El caso de uso finaliza.\\
+    
     \hline
     \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
     \hline
@@ -402,7 +433,8 @@ gestor acceda a este recurso a la vez, en caso de existir mas de uno. \\
     S1.1 & El sistema solicita el ingreso del nombre de la persona a consultar.\\ \hline
     S1.2 & El cliente ingresa el nombre de la persona\\ \hline
     S1.3 & El sistema valida que el nombre de dicha persona exista en la base de datos (E1) \\ \hline
-    S1.4 & El sistema procesa la petici\'on\\ \hline
+    S1.6 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
+    S1.7 & El sistema consulta sobre los datos de la persona en la base de datos.\\ \hline
     S1.5 & El sistema informa nombre, direcci\'on y tel\'efono de la persona consultada\\ \hline
     S1.6 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
     
@@ -450,10 +482,10 @@ con dicha estructura.
 
 \subsection{Diagrama de clases Gestor}
 A continuaci\'on se observa el diagrama de clases para la aplicaci\'on gestor. Se incluye la clase Mensaje por las mismas razones enunciadas anteriormente.
-Para simplificar la apreciaci\'on del diagrama se decidi\'o no mostrar en el mismo los m\'etodos y atributos privados de las clases en cuest\'on.
+Para simplificar la apreciaci\'on del diagrama se decidi\'o no mostrar en el mismo los m\'etodos y atributos privados de las clases en cuesti\'on.
 
 \begin{center}
-\includegraphics[scale=0.45, height=0.93\textheight,width=1.02\textwidth]{ClasesGestor} 
+\includegraphics[scale=0.5, height=0.8\textheight,width=1.02\textwidth]{ClasesGestor} 
 \end{center}
 
 \newpage
@@ -476,11 +508,6 @@ Estos archivos representan respectivamente a las aplicaciones cliente y gestor, 
 Para utilizar la aplicaci\'on {\bf gestor} debe considerarse que la misma finaliza al presionar la tecla \textit{'s'} en la consola en la cu\'al esta corriendo; 
 esto es informado en la misma mediante un mensaje. \\ \\
 Para utilizar la aplicaci\'on {\bf cliente} se debe respetar la interfaz por consola que la misma presenta. \\
-
-\newpage
-
-
-\section{Conclusiones}
 
 
 
