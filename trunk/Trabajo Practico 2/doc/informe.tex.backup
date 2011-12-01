@@ -80,51 +80,57 @@
 
 \section{Requerimientos Funcionales}
 
-El sistema desarrollado permite realizar el alta, baja y modificaci\'on de los datos de una persona sobre la base de datos.
-El mismo cuenta de dos aplicaciones diferentes, una aplicaci\'on cliente y una aplicaci\'on gestor.
+El sistema desarrollado permite realizar el alta, baja y modificaci\'on de los datos de una persona en la base de datos.
+El mismo cuenta con dos aplicaciones diferentes; una corresponde al cliente y otra al gestor de la base de datos.
 
 
 \section{Hip\'otesis}
 \begin{itemize}
- \item Se utiliz\'o como clave primaria de la base de datos el campo Nombre de cada registro. Es por este motivo, que se supone que si dos 
+ \item Se utiliz\'o como clave primaria de la base de datos el campo nombre de cada registro. Es por este motivo, que se supone que si dos 
 personas se llaman de igual forma, son la misma persona.
-
+ \item Se supone que el gestor siempre va a tener lugar disponible en la cola de mensajes, para enviar la respuesta a una petición de algún cliente;
+ya que en esta versión solo se ejecutan simultáneamente dos clientes.
 \end{itemize}
-
+\item 
 
 \section{Consideraciones de Dise\~no}
 
 \begin{itemize}
+\item Se decidió desarrollar las aplicaciones en lenguaje C++, para utilizar el encapsulamiento de las clases.
+\item Cada cliente se ejecuta en una consola distinta, al igual que el gestor.
 \item Los campos permiten el ingreso de cadenas separadas por espacios, de forma tal de considerar los nombres compuestos, el ingreso de apellido y 
 nombre de las personas, entre otras cosas.
-\item Para el acceso a la memoria compartida se utiliz\'o un sem\'aforo de forma tal de lograr un sincronismo en el mismo. Este sem\'aforo es \'unico 
+\item Para el acceso a la memoria compartida se utiliz\'o un sem\'aforo, de forma tal de lograr sincronizar el mismo. Este sem\'aforo es \'unico 
 para la base de datos en su totalidad.
-\item La persistencia de la base de datos {\bf TODO}
+\item Para acceder al archivo utilizado en la persistencia de la base de datos se utiliza un lockfile 
 \item Al modificar una persona desde la aplicaci\'on cliente se le solicita al usuario que ingrese primero el nombre de la misma tal cual figura en la base de datos, 
-y luego se le solicita que ingrese la nueva direcci\'on y tel\'efono. Siendo estos datos los almacenados a partir de dicho momento 
-en la base de datos para la persona en cuesti\'on. Es decir, al modificar un registro de una persona se deben modificar los campos direcci\'on y tel\'efono de 
-la misma. En caso de no querer modificar alguno, debe reingresarse la informaci\'on ya existente para dicho campo.
-
+y luego se le solicita que ingrese la nueva direcci\'on y tel\'efono. 
+\item Antes de realizar alguna modificación en la base de datos, se pide la confirmación del usuario, para evitar registrar datos erróneos.
 \end{itemize}
 
-\section{Herramientas de concurrencia utilizadas}
+\section{Descripci\'on de la divisi\'on en procesos}
 
-Cola de mensajes \\
-Memoria compartida \\
-Sem\'aforo \\
-LockFiles \\
-Se\~nales \\
+Para desarrollar las aplicaciones se decidi\'o dividirlas de la siguiente forma:
+\begin{itemize}
+ \item Para el caso de los clientes:
+  \subitem - Cada cliente es un proceso.
+  \item Para el caso del gestor:
+  \subitem - Se dividi\'o el mismo en dos procesos diferentes; uno de ellos espera la se\~nal para finalizar el gestor mientras que el otro proceso es el 
+que recibe, procesa y responde las consultas de los clientes.
+\end{itemize}
+
+
 
 \section {Comunicaci\'on entre procesos}
 
-Para realizar la comunicaci\'on entre los procesos gestor y cliente se utiliz\'o una \textit{Cola de Mensajes} dado que la misma permite comunicarlos 
-aunque los mismos no posean relaci\'on entre ellos, como por ejemplo, en este caso, siendo dos aplicaciones diferentes. La ventaja que posee la 
+Para realizar la comunicaci\'on entre los procesos gestor y cliente se utiliz\'o una \textit{Cola de Mensajes}, dado que la misma permite comunicarlos 
+aunque no posean relaci\'on entre ellos, siendo en este caso dos aplicaciones diferentes. La ventaja que posee la 
 cola de mensajes es que la misma permite enviar estructuras de datos completas a trav\'es de ella; en lugar de bytes como en los fifos.
-Esto produce que no sea necesario sincronizar la escritura en la misma por mas que un proceso escriba en ella dado que no puede suspenderse la escritura 
-de dicha estructura antes de finalizar, es decir, no puede darse el caso de que por cambiar el ipc el uso de cpu a otro proceso escriba uno la mitad de su estructura 
-en la cola y el otro comience desde alli.
-A su ves, la utilizaci\'on de colas de mensajes simplifica el protocolo de comunicaci\'on entre los procesos dado que es posible utilizar los campos de la estructura 
-como por ejemplo, el dato long obligatorio para identificar que proceso es destinatario de cada uno de los mensajes.
+Esto implica que no sea necesario sincronizar la escritura de varios procesos en la misma, dado que no puede suspenderse la escritura 
+de dicha estructura antes de finalizar la misma. Es decir, no puede darse el caso de que por cambiar el ipc, el uso de cpu a otro proceso escriba uno la mitad de su estructura 
+en la cola y el otro comience desde allí.
+Al mismo tiempo, la utilizaci\'on de colas de mensajes simplifica el protocolo de comunicaci\'on entre los procesos, dado que es posible utilizar los campos de la estructura 
+como por ejemplo, el dato long obligatorio para identificar que proceso es destinatario de cada uno de los mensajes. Esto último posibilita que la cola de mensajes sea bidireccional.
 
 La estructura utilizada para transmitir los mensajes a trav\'es de la cola es la siguiente:
 
@@ -138,30 +144,29 @@ La estructura utilizada para transmitir los mensajes a trav\'es de la cola es la
 } mensaje;
 \end{lstlisting}
 
-A continuaci\'on se presenta una descripci\'on de el significado y la utilizaci\'on de cada uno de los campos que conforman dicha estructura.
+A continuaci\'on se presenta una descripci\'on de cada uno de los campos que conforman dicha estructura.
 \begin{itemize}
-\item mtype: es un long obligatorio que se utiliza adem\'as para indicar quien es el destinatario del mensaje.
+\item mtype: es un long obligatorio que se utiliza para indicar el destinatario del mensaje.
 \item id: es el n\'umero de proceso de quien env\'ia el mensaje.
-\item tipo: es un enumerado que representa de que tipo de petici\'on proviene el mensaje en cuesti\'on. 
+\item tipo: es un enumerado que representa el tipo de petici\'on del mensaje en cuesti\'on. 
 Los valores posibles para este campo son los siguientes: ``AGREGAR, ELIMINAR, CONSULTAR, MODIFICAR''
 \item registro: es una estructura que contiene las cadenas de caracteres con los datos de la persona que se desea agregar, modificar, eliminar o sobre la que 
 se desea consultar.
-\item respuesta: es una cadena de caracteres que se utiliza para enviar mensajes de error o \'exito desde el gestor hacia los clientes, informandoles a 
-trav\'es de estos el resultado de la operaci\'on realizada.
+\item respuesta: es una cadena de caracteres que se utiliza para enviar mensajes desde el gestor hacia los clientes, 
+informandoles el resultado de la operaci\'on realizada.
 \end{itemize}
 
 
 \subsection{Protocolo utilizado}
-
-En cuanto al protocolo de comunicaci\'on utilizado, el mismo se desprende de observar la estructura anterior. A continuaci\'on se describe el formato 
-de los mensajes que se transmiten mediante la cola de forma tal de aclarar el formato de cada uno de los tipos de mensajes utilizados para establecer la 
+El protocolo de comunicaci\'on utilizado se desprende de observar la estructura anterior. A continuaci\'on se describe el formato 
+de los mensajes que se transmiten mediante la cola, de forma tal de aclarar cada uno de los tipos de mensajes utilizados para establecer la 
 comunicaci\'on entre los procesos. \\
 Para los mensajes que parten desde los clientes hacia el gestor se conforman de la siguiente manera:
 \begin{itemize}
  \item mtype = PETICION
  \item id = pid\_del\_proceso\_que\_envia
  \item tipo = AGREGAR \'o ELIMINAR \'o CONSULTAR \'o MODIFICAR
- \item registro = Datos\_de\_la\_persona\_de\_la\_operacion
+ \item registro = Datos\_de\_la\_persona\_requeridos\_por\_la\_operacion
  \item respuesta = `` ''
 \end{itemize}
 
@@ -171,22 +176,37 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
  \item mtype = pid\_del\_cliente\_que\_debe\_recibirlo
  \item id = `` ''
  \item tipo = `` ''
- \item registro = `` ''
- \item respuesta = mensaje\_informando\_\'exito\_o\_error\_al\_realizar\_la\_operaci\'on
+ \item registro = Datos\_consultados\_de\_la\_persona
+ \item respuesta = mensaje\_informando\_el\_resultado\_de\_la\_operaci\'on
+\end{itemize}
+
+El gestor lee los mensajes que tengan como mtype el valor PETICION y los clientes leen los mensajes cuyo mtype corresponda al id de su proceso.
+De esta manera la cola de mensajes es bidireccional y cada cliente va a obtener la respuesta que le corresponda, ya que el pid es único para cada proceso.
+
+\section{Herramientas de concurrencia utilizadas}
+\begin{itemize}
+
+ \item \underline{Cola de mensajes}: utilizada para resolver la comunicaci\'on entre los procesos cliente y gestor. \\
+ \item \underline{Memoria compartida}: utilizada para almacenar la base de datos. Permitir\'ia, en caso de existir mas de un gestor, que todos los gestores 
+compartan la informaci\'on all\'i almacenada.  \\
+ \item \underline{Sem\'aforo}: utilizado para obtener sincronismo en el acceso a la memoria compartida que contiene la base de datos. \\
+ \item \underline{LockFiles}: utilizado para sincronizar la persistencia de la base de datos en un archivo, de forma tal de garantizar que solo un
+gestor acceda a este recurso a la vez, en caso de existir mas de uno. \\
+ \item \underline{Se\~nales}: utilizada para detener la ejecuci\'on del proceso gestor que esta esperando una petición. Se utiliza la se\~nal SIGINT en este caso para finalizar de forma correcta el gestor de base de datos. \\
 \end{itemize}
 
 
 
 \section{Casos de Uso}
 
-\subsection{Cliente}
+%\subsection{Cliente}
 
 \begin{center}
 \includegraphics[scale=0.65]{CasosUsoCliente} 
 \end{center}
 
-\subsubsection{Especificaci\'on de los casos de uso del Cliente}
-
+%\subsubsection{Especificaci\'on de los casos de uso del Cliente}
+\subsubsection{Especificaci\'on de los casos de uso}
   \begin{tabular}{|l|m{0.8\textwidth}|}
     \hline
     \multicolumn{2}{|m{0.9\textwidth}|}{{\bf Caso de uso: Agregar Persona}} \\
@@ -226,15 +246,20 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
     S1.4 & El sistema solicita el ingreso de la direcci\'on de dicha persona\\ \hline
     S1.5 & El cliente ingresa la direcci\'on de la persona\\ \hline
     S1.6 & El sistema solicita el ingreso del tel\'efono de dicha persona\\ \hline
-    S1.7 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
-    S1.8 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
+    S1.7 & El cliente ingresa el tel\'efono de la persona.\\ \hline
+    S1.8 & El sistema solicita que el usuario confirme que desea agregar esa persona.\\ \hline
+    S1.9 & El cliente confirma su deseo de agregar dicha persona (E2).\\ \hline
+    S1.10 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
+    S1.11 & El sistema da de alta la persona en la base de datos.\\ \hline
+    S1.12 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
     
     \multicolumn{2}{|l|}{Flujos de Excepción} \\
     \hline
   
     E1 & Ya existe una persona con dicho nombre, se le informa al cliente y se vuelve al men\'u anterior. 
     El caso de uso finaliza.\\
-  
+    E2 & El cliente no confirma su deseo de agregar a la persona, se vuelve al men\'u anterior. 
+    El caso de uso finaliza.\\
     \hline
     \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
     \hline
@@ -285,15 +310,21 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
     S1.4 & El sistema solicita el ingreso de la direcci\'on de dicha persona\\ \hline
     S1.5 & El cliente ingresa la direcci\'on de la persona\\ \hline
     S1.6 & El sistema solicita el ingreso del tel\'efono de dicha persona\\ \hline
-    S1.7 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
-    S1.8 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
+    S1.7 & El cliente ingresa el tel\'efono de la persona.\\ \hline
+    S1.8 & El sistema solicita que el usuario confirme que desea modificar los datos de esa persona.\\ \hline
+    S1.9 & El cliente confirma su deseo de modificar los datos dicha persona (E2).\\ \hline
+    S1.10 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
+    S1.11 & El sistema modifica los datos de la persona en la base de datos.\\ \hline
+    S1.12 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
     
     \multicolumn{2}{|l|}{Flujos de Excepción} \\
     \hline
   
     E1 & Si no existe una persona con dicho nombre, se le informa al cliente y se vuelve al men\'u anterior. 
     El caso de uso finaliza.\\
-  
+    E2 & El cliente no confirma su deseo de modificar los datos de la persona, se vuelve al men\'u anterior. 
+    El caso de uso finaliza.\\
+    
     \hline
     \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
     \hline
@@ -340,14 +371,20 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
     S1.1 & El sistema solicita el ingreso del nombre de la persona a dar de baja.\\ \hline
     S1.2 & El cliente ingresa el nombre de la persona\\ \hline
     S1.3 & El sistema valida que el nombre de dicha persona exista en la base de datos (E1) \\ \hline
-    S1.4 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
+    S1.4 & El sistema solicita que el usuario confirme que desea eliminar los datos de esa persona.\\ \hline
+    S1.5 & El cliente confirma su deseo de modificar los datos dicha persona (E2).\\ \hline
+    S1.6 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
+    S1.7 & El sistema elimina los datos de la persona en la base de datos.\\ \hline
+    S1.8 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
     
     \multicolumn{2}{|l|}{Flujos de Excepción} \\
     \hline
   
     E1 & No existe una persona con dicho nombre, se le informa al cliente y se vuelve al men\'u anterior. 
     El caso de uso finaliza.\\
-  
+    E2 & El cliente no confirma su deseo de modificar los datos de la persona, se vuelve al men\'u anterior. 
+    El caso de uso finaliza.\\
+    
     \hline
     \multicolumn{2}{|l|}{\rowcolor[gray]{.5}} \\
     \hline
@@ -394,7 +431,8 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
     S1.1 & El sistema solicita el ingreso del nombre de la persona a consultar.\\ \hline
     S1.2 & El cliente ingresa el nombre de la persona\\ \hline
     S1.3 & El sistema valida que el nombre de dicha persona exista en la base de datos (E1) \\ \hline
-    S1.4 & El sistema procesa la petici\'on\\ \hline
+    S1.6 & El sistema procesa el registro, arma la petici\'on y se la env\'ia al gestor.\\ \hline
+    S1.7 & El sistema consulta sobre los datos de la persona en la base de datos.\\ \hline
     S1.5 & El sistema informa nombre, direcci\'on y tel\'efono de la persona consultada\\ \hline
     S1.6 & El caso de uso comienza nuevamente desde el paso 2.\\ \hline
     
@@ -415,13 +453,13 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
   \newline
 
 
-\subsection{Gestor}
+%\subsection{Gestor}
 
 %\begin{center}
 %\includegraphics[scale=0.65]{CasosUsoGestor} 
 %\end{center}
 
-\subsubsection{Especificaci\'on de los casos de uso del Gestor}
+%\subsubsection{Especificaci\'on de los casos de uso del Gestor}
 
 
 
@@ -430,33 +468,37 @@ Para los mensajes que parten desde el gestor hacia los clientes se conforman de 
 \newpage
 
 \section{Diagrama de clases}
-
+ En esta secci\'on se presentan los diagramas de clase para cada una de las aplicaciones.
 \subsection{Diagrama de clases Cliente}
-
+A continuaci\'on se observa el diagrama de clases correspondiente a la aplicaci\'on cliente. Es importante aclarar que se incluye la clase Mensaje, 
+siendo en realidad una estructura. Esta última se muestra en el diagrama dado que la clase Cola es de tipo template, y en este caso, es utilizada 
+con dicha estructura. 
 \begin{center}
 \includegraphics[scale=0.45,width=1.02\textwidth]{ClasesCliente} 
 \end{center}
 
 
 \subsection{Diagrama de clases Gestor}
+A continuaci\'on se observa el diagrama de clases para la aplicaci\'on gestor. Se incluye la clase Mensaje por las mismas razones enunciadas anteriormente.
+Para simplificar la apreciaci\'on del diagrama se decidi\'o no mostrar en el mismo los m\'etodos y atributos privados de las clases en cuest\'on.
+
 \begin{center}
 \includegraphics[scale=0.45, height=0.93\textheight,width=1.02\textwidth]{ClasesGestor} 
 \end{center}
 
 \newpage
 \section{Compilaci\'on}
-Con el fin de facilitar la compilaci\'on de las aplicaciones se provee un archivo de {\bf Makefile}; el mismo se encuentra ubicado en 
-el directorio en el cu\'al se encuentra el c\'odigo fuente. \\
-El mismo se utiliza de la siguiente forma:
+Con el fin de facilitar la compilaci\'on de las aplicaciones se provee un script bajo el nombre {\bf compilar.sh}. El mismo se encuentra ubicado en 
+el directorio en el cu\'al se encuentra el c\'odigo fuente, y se utiliza de la siguiente forma:
 \begin{itemize}
  \item Ubicarse en el directorio en el cu\'al se encuentra el c\'odigo fuente de las aplicaciones. Para ello puede utilizarse el siguiente 
 comando desde un ambiente Unix\/Linux:\\
 \$~:cd Directorio\_del\_trabajo\_practico
 \item Ejecutar el siguiente comando: \\
-\$~:make all
-\subitem * Se debe contar con el comando {\bf make} instalado en el sistema para poder compilar la aplicaci\'on de este modo.
+\$~:./compilar.sh
+\subitem * El script {\bf compilar.sh} debe contar con permisos de ejecuci\'on para poder realizar la compilaci\'on.
 \item Una vez finalizada la compilaci\'on del paso anterior, se observar\'an, en dicho directorio, dos archivos ejecutables: \textit{cliente} y \textit{gestor}. 
-Estos archivos representan respectivamente a las aplicaciones cliente( para ejecutar los clientes debe utilizarse {\bf ./cliente}) y gestor({\bf ./gestor}). 
+Estos archivos representan respectivamente a las aplicaciones cliente y gestor, y para ejecutarlos debe utilizarse {\bf ./cliente} y {\bf ./gestor}. 
 \end{itemize}
 
 
@@ -464,9 +506,6 @@ Estos archivos representan respectivamente a las aplicaciones cliente( para ejec
 Para utilizar la aplicaci\'on {\bf gestor} debe considerarse que la misma finaliza al presionar la tecla \textit{'s'} en la consola en la cu\'al esta corriendo; 
 esto es informado en la misma mediante un mensaje. \\ \\
 Para utilizar la aplicaci\'on {\bf cliente} se debe respetar la interfaz por consola que la misma presenta. \\
-Al momento de querer \underline{modificar} una persona desde la aplicaci\'on se debe ingresar el nombre de la misma tal cu\'al figura en la base de datos, dado que el mismo 
-es la clave primaria.
-
 
 \newpage
 

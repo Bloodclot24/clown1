@@ -1,4 +1,4 @@
-This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2010.5.17)  30 NOV 2011 02:28
+This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2010.5.17)  30 NOV 2011 17:29
 entering extended mode
 **informe.tex
 (./informe.tex
@@ -742,8 +742,27 @@ File: Logo-fiuba.png Graphic file (type png)
 <use Logo-fiuba.png> [2 <./SegundoProyecto.pdf>]
 File: Logo-fiuba.png Graphic file (type png)
  <use Logo-fiuba.png> [3 <./SegundoProyecto.pdf>]
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.95 
+     
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 10000) detected at line 95
+[][]
+ []
+
+File: Logo-fiuba.png Graphic file (type png)
+<use Logo-fiuba.png> [4]
 LaTeX Font Info:    Font shape `T1/pbk/m/it' in size <10.95> not available
-(Font)              Font shape `T1/pbk/l/it' tried instead on input line 113.
+(Font)              Font shape `T1/pbk/l/it' tried instead on input line 128.
  (/usr/share/texmf/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2004/09/05 1.3 listings language file
 )
@@ -751,65 +770,62 @@ File: lstlang1.sty 2004/09/05 1.3 listings language file
 File: lstmisc.sty 2004/09/07 1.3 (Carsten Heinz)
 )
 LaTeX Font Info:    Font shape `T1/pbk/m/n' in size <10> not available
-(Font)              Font shape `T1/pbk/l/n' tried instead on input line 124.
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 124.
+(Font)              Font shape `T1/pbk/l/n' tried instead on input line 139.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 139.
 
 (/usr/share/texmf/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
-File: Logo-fiuba.png Graphic file (type png)
- <use Logo-fiuba.png> [4]
 LaTeX Font Info:    Font shape `T1/pbk/m/n' in size <6> not available
-(Font)              Font shape `T1/pbk/l/n' tried instead on input line 125.
+(Font)              Font shape `T1/pbk/l/n' tried instead on input line 140.
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 125.
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 140.
 LaTeX Font Info:    Font shape `T1/pbk/m/n' in size <12> not available
-(Font)              Font shape `T1/pbk/l/n' tried instead on input line 147.
+(Font)              Font shape `T1/pbk/l/n' tried instead on input line 162.
 LaTeX Font Info:    Font shape `T1/pbk/bx/n' in size <12> not available
-(Font)              Font shape `T1/pbk/b/n' tried instead on input line 147.
+(Font)              Font shape `T1/pbk/b/n' tried instead on input line 162.
 LaTeX Font Info:    Font shape `T1/pbk/b/n' in size <12> not available
-(Font)              Font shape `T1/pbk/db/n' tried instead on input line 147.
+(Font)              Font shape `T1/pbk/db/n' tried instead on input line 162.
 File: Logo-fiuba.png Graphic file (type png)
-
-<use Logo-fiuba.png> [5]
-Underfull \hbox (badness 10000) in paragraph at lines 175--176
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 176--178
+ <use Logo-fiuba.png> [5]
+Underfull \hbox (badness 10000) in paragraph at lines 191--192
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 178--179
+Underfull \hbox (badness 10000) in paragraph at lines 192--194
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 179--180
+Underfull \hbox (badness 10000) in paragraph at lines 194--195
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 180--181
+Underfull \hbox (badness 10000) in paragraph at lines 195--197
 
  []
 
-<CasosUsoCliente.jpg, id=177, 662.475pt x 521.69907pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 197--198
+
+ []
+
+File: Logo-fiuba.png Graphic file (type png)
+<use Logo-fiuba.png> [6]
+<CasosUsoCliente.jpg, id=180, 662.475pt x 521.69907pt>
 File: CasosUsoCliente.jpg Graphic file (type jpg)
 
 <use CasosUsoCliente.jpg>
-File: Logo-fiuba.png Graphic file (type png)
- <use Logo-fiuba.png> [6]
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 194.
+(hyperref)                than one, level fixed on input line 211.
 
 ! Misplaced \noalign.
 \rowcolor ->\noalign 
                      {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
-l.199 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+l.216 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
                                                    \\
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
@@ -817,7 +833,7 @@ an alignment. Proceed, and I'll ignore this case.
 ! Misplaced \noalign.
 \rowcolor ->\noalign 
                      {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
-l.213 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+l.230 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
                                                    \\
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
@@ -825,13 +841,13 @@ an alignment. Proceed, and I'll ignore this case.
 ! Misplaced \noalign.
 \rowcolor ->\noalign 
                      {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
-l.244 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+l.266 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
                                                    \\
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 195--253
+Underfull \hbox (badness 10000) in paragraph at lines 212--275
 
  []
 
@@ -840,7 +856,7 @@ File: Logo-fiuba.png Graphic file (type png)
 ! Misplaced \noalign.
 \rowcolor ->\noalign 
                      {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
-l.258 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+l.280 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
                                                    \\
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
@@ -848,7 +864,7 @@ an alignment. Proceed, and I'll ignore this case.
 ! Misplaced \noalign.
 \rowcolor ->\noalign 
                      {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
-l.272 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+l.294 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
                                                    \\
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
@@ -856,13 +872,13 @@ an alignment. Proceed, and I'll ignore this case.
 ! Misplaced \noalign.
 \rowcolor ->\noalign 
                      {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
-l.303 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+l.331 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
                                                    \\
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 254--311
+Underfull \hbox (badness 10000) in paragraph at lines 276--339
 
  []
 
@@ -871,7 +887,7 @@ File: Logo-fiuba.png Graphic file (type png)
 ! Misplaced \noalign.
 \rowcolor ->\noalign 
                      {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
-l.316 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+l.344 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
                                                    \\
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
@@ -879,7 +895,7 @@ an alignment. Proceed, and I'll ignore this case.
 ! Misplaced \noalign.
 \rowcolor ->\noalign 
                      {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
-l.330 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+l.358 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
                                                    \\
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
@@ -887,13 +903,13 @@ an alignment. Proceed, and I'll ignore this case.
 ! Misplaced \noalign.
 \rowcolor ->\noalign 
                      {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
-l.357 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+l.391 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
                                                    \\
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 312--365
+Underfull \hbox (badness 10000) in paragraph at lines 340--399
 
  []
 
@@ -902,7 +918,7 @@ File: Logo-fiuba.png Graphic file (type png)
 ! Misplaced \noalign.
 \rowcolor ->\noalign 
                      {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
-l.370 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+l.404 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
                                                    \\
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
@@ -910,7 +926,7 @@ an alignment. Proceed, and I'll ignore this case.
 ! Misplaced \noalign.
 \rowcolor ->\noalign 
                      {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
-l.384 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+l.418 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
                                                    \\
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
@@ -918,13 +934,13 @@ an alignment. Proceed, and I'll ignore this case.
 ! Misplaced \noalign.
 \rowcolor ->\noalign 
                      {\ifnum 0=`}\fi \global \let \CT@do@color \CT@@do@color...
-l.413 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
+l.448 ...\multicolumn{2}{|l|}{\rowcolor[gray]{.5}}
                                                    \\
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 366--421
+Underfull \hbox (badness 10000) in paragraph at lines 400--456
 
  []
 
@@ -932,17 +948,17 @@ File: Logo-fiuba.png Graphic file (type png)
 <use Logo-fiuba.png> [10]
 File: Logo-fiuba.png Graphic file (type png)
  <use Logo-fiuba.png> [11]
-<ClasesCliente.jpg, id=203, 840.89156pt x 458.46281pt>
+<ClasesCliente.jpg, id=202, 840.89156pt x 548.0475pt>
 File: ClasesCliente.jpg Graphic file (type jpg)
  <use ClasesCliente.jpg>
-Overfull \hbox (9.47083pt too wide) in paragraph at lines 444--445
+Overfull \hbox (9.47083pt too wide) in paragraph at lines 479--480
  [] 
  []
 
-<ClasesGestor.jpg, id=204, 1213.53375pt x 748.29562pt>
+<ClasesGestor.jpg, id=203, 1057.70157pt x 805.50937pt>
 File: ClasesGestor.jpg Graphic file (type jpg)
  <use ClasesGestor.jpg>
-Overfull \hbox (9.45961pt too wide) in paragraph at lines 453--454
+Overfull \hbox (9.4416pt too wide) in paragraph at lines 488--489
  [] 
  []
 
@@ -950,37 +966,37 @@ File: Logo-fiuba.png Graphic file (type png)
 <use Logo-fiuba.png> [12 <./ClasesCliente.jpg>]
 File: Logo-fiuba.png Graphic file (type png)
  <use Logo-fiuba.png> [13 <./ClasesGestor.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 474--479
+Underfull \hbox (badness 10000) in paragraph at lines 508--511
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 508--511
 
  []
 
 File: Logo-fiuba.png Graphic file (type png)
-<use Logo-fiuba.png> [14]
-File: Logo-fiuba.png Graphic file (type png)
- <use Logo-fiuba.png> [15] (./informe.aux) ) 
+<use Logo-fiuba.png> [14] (./informe.aux) ) 
 Here is how much of TeX's memory you used:
- 7136 strings out of 94500
- 89945 string characters out of 1176766
+ 7134 strings out of 94500
+ 89924 string characters out of 1176766
  162576 words of memory out of 1000000
  10112 multiletter control sequences out of 10000+50000
  25847 words of font info for 63 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
- 41i,16n,61p,227b,1227s stack positions out of 1500i,500n,5000p,200000b,5000s
+ 41i,16n,61p,248b,1227s stack positions out of 1500i,500n,5000p,200000b,5000s
 PDF statistics:
- 221 PDF objects out of 300000
- 41 named destinations out of 131072
+ 216 PDF objects out of 300000
+ 39 named destinations out of 131072
  179 words of extra memory for PDF output out of 65536
-
-! pdfTeX warning (dest): name{subsection.6.1} has been referenced but does not 
-exist, replaced by a fixed one
-
-{/usr/share/texmf/fonts/enc/dvips/psnfss/8r.enc}</usr/share/texmf/fonts/type1/u
-rw/courier/ucrr8a.pfb></usr/share/texmf/fonts/type1/urw/courier/ucrb8a.pfb></us
-r/share/texmf/fonts/type1/urw/bookman/ubkli8a.pfb></usr/share/texmf/fonts/type1
-/bluesky/cm/cmtt10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmss10.pfb></us
-r/share/texmf/fonts/type1/bluesky/cm/cmssbx10.pfb></usr/share/texmf/fonts/type1
-/bluesky/cm/cmss12.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmss17.pfb></us
-r/share/texmf/fonts/type1/bluesky/cm/cmmi8.pfb></usr/share/texmf/fonts/type1/bl
-uesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/urw/bookman/ubkd8a.pfb></usr/s
-hare/texmf/fonts/type1/urw/bookman/ubkl8a.pfb>
-Output written on informe.pdf (15 pages, 504805 bytes).
+{/usr/share/texmf/fonts/enc/dvips/ps
+nfss/8r.enc}</usr/share/texmf/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/te
+xmf/fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texmf/fonts/type1/urw/bookma
+n/ubkli8a.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmtt10.pfb></usr/share/t
+exmf/fonts/type1/bluesky/cm/cmss10.pfb></usr/share/texmf/fonts/type1/bluesky/cm
+/cmssbx10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmss12.pfb></usr/share/t
+exmf/fonts/type1/bluesky/cm/cmss17.pfb></usr/share/texmf/fonts/type1/bluesky/cm
+/cmmi8.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf
+/fonts/type1/urw/bookman/ubkd8a.pfb></usr/share/texmf/fonts/type1/urw/bookman/u
+bkl8a.pfb>
+Output written on informe.pdf (14 pages, 541580 bytes).
